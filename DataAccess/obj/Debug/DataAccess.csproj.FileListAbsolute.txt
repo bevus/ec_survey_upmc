@@ -1,0 +1,14 @@
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\MySite\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\DataAccess\obj\Debug\DataAccess.pdb

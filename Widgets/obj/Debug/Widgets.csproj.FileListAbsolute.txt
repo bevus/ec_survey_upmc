@@ -1,0 +1,14 @@
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\bin\Debug\Widgets.dll
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\bin\Debug\Widgets.pdb
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\bin\Debug\SurveyModel.dll
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\bin\Debug\SurveyModel.pdb
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\obj\Debug\Widgets.csprojResolveAssemblyReference.cache
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\obj\Debug\Widgets.dll
+c:\users\hacene\documents\visual studio 2015\Projects\pisqlproject\Widgets\obj\Debug\Widgets.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\bin\Debug\Widgets.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\bin\Debug\Widgets.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\obj\Debug\Widgets.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\obj\Debug\Widgets.dll
+C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\obj\Debug\Widgets.pdb

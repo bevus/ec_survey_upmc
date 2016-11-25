@@ -1,0 +1,52 @@
+USE [meta_survey]
+GO
+/****** Object:  StoredProcedure [dbo].[sel_choices]    Script Date: 23/11/2016 16:59:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[sel_choices]
+	@question_id int
+as
+select * from dbo.POLL_CHOICE where CHO_id_question = @question_id
+
+
+USE [meta_survey]
+GO
+/****** Object:  StoredProcedure [dbo].[SEL_empty_survey]    Script Date: 23/11/2016 17:00:40 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+/********************************************************************************/
+USE [meta_survey]
+GO
+/****** Object:  StoredProcedure [dbo].[sel_poll]    Script Date: 23/11/2016 17:01:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[sel_poll] 
+    @poll_id int
+AS    
+    SELECT * 
+    FROM dbo.POLL  
+    WHERE POL_id_poll = @poll_id;  
+/************************************************************************************/
+USE [meta_survey]
+GO
+/****** Object:  StoredProcedure [dbo].[sel_questions]    Script Date: 23/11/2016 17:01:18 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[sel_questions]
+	@poll_id int
+as
+select dbo.POLL_QUESTION.*, dbo.POLL_QUESTION_TYPE.QUET_question_type, dbo.POLL_CHOICE_TYPE.CHOT_choice_type,
+dbo.POLL_CHOICE_TYPE.CHOT_prefix from dbo.POLL_QUESTION, dbo.POLL_QUESTION_TYPE, dbo.POLL_CHOICE_TYPE 
+where dbo.POLL_QUESTION.QUE_id_choice_type = dbo.POLL_QUESTION_TYPE.QUET_id 
+and dbo.POLL_QUESTION.QUE_id_choice_type = dbo.POLL_CHOICE_TYPE.CHOT_id
+and QUE_id_poll = @poll_id
+
+

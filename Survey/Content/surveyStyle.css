@@ -1,0 +1,28 @@
+﻿body {
+}
+
+.question {
+    padding: 5px 0 5px 0;
+    margin: 20px 0 0 0;
+    /*box-shadow: 0 0 2px 0*/ 
+}
+.question-number {
+    margin-right: 10px;
+}
+.question-text {
+    
+}
+
+.question-number, .question-text {
+    font-size: 1.3em;
+    color: #99cf16;
+}
+
+.question input {
+    margin: 0 5px 0 10px;
+}
+
+.question-block{
+}
+.question-block .question-block-title{
+}

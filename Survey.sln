@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey", "Survey\Survey.csproj", "{E6C22D8F-30A4-42EB-8921-60E2151A25E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{2D95C973-2805-4484-90D7-06CD490ADEE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyModel", "SurveyModel\SurveyModel.csproj", "{00B2EEE1-70CD-464D-8716-7AEDCA736D17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyFormGenerator", "Widgets\SurveyFormGenerator.csproj", "{2F18B714-5F01-46B2-AAC4-F3B9095C8A0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyDashboardGenerator", "SurveyDashboardGenerator\SurveyDashboardGenerator.csproj", "{2EF4AEA3-C67E-440C-A82F-FA95D5F51226}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyDataExtraction", "SurveyDataExtraction\SurveyDataExtraction.csproj", "{DC866598-A99C-43CE-BE65-38FD2E60EC9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6C22D8F-30A4-42EB-8921-60E2151A25E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6C22D8F-30A4-42EB-8921-60E2151A25E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6C22D8F-30A4-42EB-8921-60E2151A25E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6C22D8F-30A4-42EB-8921-60E2151A25E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D95C973-2805-4484-90D7-06CD490ADEE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D95C973-2805-4484-90D7-06CD490ADEE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D95C973-2805-4484-90D7-06CD490ADEE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D95C973-2805-4484-90D7-06CD490ADEE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00B2EEE1-70CD-464D-8716-7AEDCA736D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00B2EEE1-70CD-464D-8716-7AEDCA736D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00B2EEE1-70CD-464D-8716-7AEDCA736D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00B2EEE1-70CD-464D-8716-7AEDCA736D17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F18B714-5F01-46B2-AAC4-F3B9095C8A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F18B714-5F01-46B2-AAC4-F3B9095C8A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F18B714-5F01-46B2-AAC4-F3B9095C8A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F18B714-5F01-46B2-AAC4-F3B9095C8A0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF4AEA3-C67E-440C-A82F-FA95D5F51226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF4AEA3-C67E-440C-A82F-FA95D5F51226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF4AEA3-C67E-440C-A82F-FA95D5F51226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF4AEA3-C67E-440C-A82F-FA95D5F51226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC866598-A99C-43CE-BE65-38FD2E60EC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC866598-A99C-43CE-BE65-38FD2E60EC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC866598-A99C-43CE-BE65-38FD2E60EC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC866598-A99C-43CE-BE65-38FD2E60EC9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
