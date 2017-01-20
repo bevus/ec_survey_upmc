@@ -79,7 +79,7 @@
                             <label class="control-label" for="">Authentification Type</label>
                             <asp:DropDownList ID="authType" CssClass="form-control" runat="server">
                                 <asp:ListItem value='<% = (int)AuthentificationType.IdInUrl %>'> id in url </asp:ListItem>
-                                <asp:ListItem value='<% = (int)AuthentificationType.HashedIdinUrl %>'> hased id in url </asp:ListItem>
+                                <asp:ListItem value='<% = (int)AuthentificationType.HashedIdinUrl %>'> hashed id in url </asp:ListItem>
                                 <asp:ListItem value='<% = (int)AuthentificationType.IdInSession %>'> id in session </asp:ListItem>
                             </asp:DropDownList>
                             <asp:Label ID="_authType" runat="server" Visible="false" CssClass="has-error"></asp:Label>

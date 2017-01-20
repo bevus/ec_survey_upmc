@@ -8,7 +8,7 @@ using Widgets;
 
 namespace Survey.surveys
 {
-    public partial class Survey_12BB1374A9E04977AB04C99E2BC1DA59 : Page
+    public partial class Survey_id_in_url : Page
     {
         private List<QuestionWebControl> _questionControls;
         private const int PollId = 1;
@@ -17,7 +17,7 @@ namespace Survey.surveys
         private const string ExternalId = "12BB1374A9E04977AB04C99E2BC1DA59";
         private readonly FormGenerationSettings settings = new FormGenerationSettings
         {
-            UserSurveyFileName = "Survey_12BB1374A9E04977AB04C99E2BC1DA59",
+            UserSurveyFileName = "Survey_id_in_url",
             UserDashboardFileName = "Dashboard_12BB1374A9E04977AB04C99E2BC1DA59",
             UserAuthType = AuthentificationType.IdInUrl,
             UserPage404 = "Page404.aspx",
@@ -25,26 +25,26 @@ namespace Survey.surveys
             UserTextQuestionErrorMessage = "Please write some text",
             UserDateTimeQuestionErrorMessage = "Please choose a value",
             UserAnswerLengthErrorMessage = "Answer too long",
-            UserSurveyFormSubmitButtonText = "Submit !",
-            UserSurveyFormSaveButtonText = "save !",
+            UserSurveyFormSubmitButtonText = "Submit",
+            UserSurveyFormSaveButtonText = "Save",
             UserDisableDataExtraction = false,
             UserNotGenerateDashboard = false
         };
         private Button saveButton = new Button
         {
-            Text = "save !",
+            Text = "Save",
             CssClass = "saveButton btn btn-success",
         };
         private Button submitButton = new Button
         {
-            Text = "Submit !",
+            Text = "Submit",
             CssClass = "saveButton btn btn-primary",
         };
         protected override void OnInit(EventArgs e)
         {
             try
             {
-                _personId = int.Parse(Request.QueryString["hash"]);
+                _personId = int.Parse(Request.QueryString["id"]);
                 if (!Manager.ExistPerson(_personId))
                 {
                     Response.Redirect("Page404.aspx");

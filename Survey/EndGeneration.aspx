@@ -15,7 +15,6 @@
                 break;
             case AuthentificationType.IdInSession:
                 Session[Request.QueryString["argName"]] = personId.Text;
-                var id = Session[Request.QueryString["argName"]];
                 break;
             default:
                 return;
@@ -25,6 +24,14 @@
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!string.IsNullOrEmpty(Request.QueryString["dUrl"]))
+        {
+            dashboardLink.NavigateUrl = Request.QueryString["dUrl"];
+        }
+        else
+        {
+            dashboardLink.Visible = false;
+        }
         switch ((AuthentificationType)int.Parse(Request.QueryString["authMod"]))
         {
             case AuthentificationType.IdInUrl:
@@ -50,7 +57,7 @@
 <asp:Content runat="server" ID="SurveyForm" ContentPlaceHolderID="surveyFormPlaceHolder">
     <h1 class="page-header">Generation completed</h1>
     <h3>Poll "<%= Request.QueryString["pollName"] %>" is generated</h3>
-    <h4><a href='<%= Request.QueryString["dUrl"] %>'>view dashboard</a></h4>
+    <h4><asp:HyperLink runat="server" ID="dashboardLink">view dashboard</asp:HyperLink></h4>
     <form runat="server" class="container">
         <div class="form-group">
             <asp:Label runat="server" ID="idLabel"></asp:Label>
@@ -59,3 +66,4 @@
         </div>
     </form>
 </asp:Content>
+

@@ -30,7 +30,7 @@ namespace survey
                     var dashboardGenerator = new DashboardGenerator(Page.MapPath("~" + FormGenerationSettings.SurveyPath), poll,settings.UserDashboardFileName,
                         true);
                     var sUrl = formGenerator.GenerateWebForm();
-                    var dUrl = dashboardGenerator.GenerateDashboard();
+                    var dUrl = (!settings.UserNotGenerateDashboard)? dashboardGenerator.GenerateDashboard() : "";
                     sUrl = FormGenerationSettings.SurveyPath + sUrl;
                     dUrl = FormGenerationSettings.SurveyPath + dUrl;
                     if (settings.UserAuthType == AuthentificationType.IdInUrl ||
