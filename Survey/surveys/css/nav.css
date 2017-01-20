@@ -1,10 +1,14 @@
-.jumbotron {    background: #abaaa5 !important;}
-
+.jumbotron {     background: #abaaa5 !important;}
+html, body {
+  width:  100%;
+  height: 100%;
+  margin: 0px;
+}
 .navbar .navbar-fixed-top{
        background: #99cf16; /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
 
 }
-.container-fluid{
+#navdiv{
     background: #99cf16;
     padding: 0px;    
 }
@@ -28,7 +32,7 @@
     background: white;
 }
 #dashboard-container {
-padding-top: 50px;
+padding-top: 20px;
 
 }
 table {

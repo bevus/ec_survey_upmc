@@ -40,28 +40,7 @@ var $chartOptions_Donut = {
 var $optionsChart = {
     width: 'auto',
     height: 'auto',
-    backgroundColor: 'transparent',
-    //colors: [$blue, $red, $teal, $green, $orange, $yellow],
-    tooltip: {
-        textStyle: {
-            color: '#666666',
-            fontSize: 11
-        },
-        showColorCode: true
-    },
-    legend: {
-        position: 'bottom left',
-        textStyle: {
-            color: 'black',
-            fontSize: 12
-        }
-    },
-    chartArea: {
-        left: 0,
-        top: 10,
-        width: "100%",
-        height: "100%"
-    }
+    backgroundColor: 'transparent'
 };
 
 // Vertical Chart Variables
@@ -110,23 +89,21 @@ var $chartOptions_VC = {
 
 var barsVisualization;
 var data;
-var $listQ;
+var $respQ = new Object();
 
-// request Ajax
 function ajaxCallBack(returV) {
     $listQ = returV;
+    drawQuestionsContener($listQ, '#questions');
+    drawQuestionsVisualisation($listQ, '#questions');
 }
-
-function sendAjaxRequest($Poll) {
+function sendAjaxRequest($Poll,$extrId) {
     $.ajax({
         type: "POST",
-        url: "/surveys/Dashboard.aspx/getQuestions",
+        url: "/surveys/Dashboard_" + $extrId + ".aspx/getQuestions",
         data: JSON.stringify({ "idPoll": $Poll }),
         dataType: "json",
-        async: false, // <- this turns it into synchronous
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-
             $("#questions").html("");
             ajaxCallBack(result.d);
         },
@@ -135,33 +112,121 @@ function sendAjaxRequest($Poll) {
 }
 
 
-function sendDataQAjaxRequest($idQuestion) {
+function sendDataQAjaxRequest($idQuestion, $ExternalId) {
     $.ajax({
         type: "POST",
-        url: "/surveys/Dashboard_12BB1374A9E04977AB04C99E2BC1DA59/getGnrlQuestionData",
+        url: "/surveys/Dashboard_"+$ExternalId+".aspx/GetGnrlQuestionData",
         data: JSON.stringify({ "idQuestion": $idQuestion }),
         dataType: "json",
-        async: false,
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            drawChart(result.d, $idQuestion);
+            $respQ[$idQuestion] = result.d;
+            if (result.d["ctr"] == "RadioButtonList") {
+                drawChart(result.d["rep"], $idQuestion);
+            }else if (result.d["ctr"] == "DropDownList") {
+                drawChart(result.d["rep"], $idQuestion);
+            } else if (result.d["ctr"] == "CheckBoxList") {
+                drawVerticalvisChart(result.d["rep"], $idQuestion);
+            }else{}
         },
         error: function (result) { }
     });
 }
 
-
-
-
 $(window).resize(function () {
-    drawQuestionsVisualisation($listQ, "#questions");
-
+    if ($listQ != null) {
+        drawQuestionsVisualisation($listQ, "#questions");
+    }
+   /* foreach(var i in $respQ.values )
+    if (["ctr"] == "RadioButtonList") {
+        drawChart(result.d["rep"], $idQuestion);
+    } else if (result.d["ctr"] == "DropDownList") {
+        drawChart(result.d["rep"], $idQuestion);
+    } else if (result.d["ctr"] == "CheckBoxList") {
+        drawVerticalvisChart(result.d["rep"], $idQuestion);
+    } else { }*/
 });
+
+//dessine les contenneur de visualisation
+function drawQuestionsContener(data, idElement) {
+
+    for (var i = 0 ; i < data.length; i++) {
+        if (data[i]["qCategory"] == "General") {
+            if (data[i]["type"] == "RadioButtonList" || data[i]["type"] == "DropDownList") {
+                $(idElement).append(getPieContener(data[i]["ques"], data[i]["idq"]));
+            } else if (data[i]["type"] == "CheckBoxList") {
+                $(idElement).append(getCheckBoxContener(data[i]["ques"], data[i]["idq"]));
+            }
+        }
+        else if (data[i]["qCategory"] == "Workshop") {
+            str = getWSQContener(data[i]["ques"], data[i]["rep"]);
+            //$("#accordion").html("");
+            $("#accordion").append(str);
+        } else if (data[i]["qCategory"] == "Activity") {
+            str = getSSQContener(data[i]["ques"], data[i]["rep"]);
+            //$("#accordion").html("");
+            $("#accordion").append(str);
+
+        } else if (data[i]["qCategory"] == "Meeting") {
+            var dataMet = data[i]["rep"];
+            for (var j = 0; j < dataMet.length; j++) {
+
+                if (dataMet[j]["contrl"] == "RadioButtonList" || dataMet[j]["contrl"] == "DropDownList") {
+                    $(idElement).append(getPieContener(dataMet[j]["sq"], "m"+dataMet[j]["sqid"]));
+                } else if (data[i]["type"] == "CheckBoxList") {
+                    $(idElement).append(getCheckBoxContener(dataMet[j]["sq"], "m" + dataMet[j]["sqid"]));
+                }
+            }
+        }
+    }
+}
+function drawQuestionsVisualisation(data, idElement) {
+
+    for (var i = 0 ; i < data.length; i++) {
+        if (data[i]["qCategory"] == "General") {
+            if (data[i]["type"] == "RadioButtonList" || data[i]["type"] == "DropDownList") {
+                drawChart(data[i]["rep"], data[i]["idq"]);
+            } else if (data[i]["type"] == "CheckBoxList") {
+                drawVerticalvisChart(data[i]["rep"], data[i]["idq"]);
+            }
+        }
+        else if (data[i]["qCategory"] == "Workshop") {
+            for (var k = 0; k < data[i]["rep"].length; k++) {
+                if (data[i]["rep"][k]["wsrep"].length != 0) {
+
+                    for (var kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"]);
+                    }
+                }
+            }
+        } else if (data[i]["qCategory"] == "Activity") {
+            for (var k = 0; k < data[i]["rep"].length; k++) {
+                if (data[i]["rep"][k]["wsrep"].length != 0) {
+
+                    for (var kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"]);
+                    }
+                }
+            }
+        } else if (data[i]["qCategory"] == "Meeting") {
+            for (var k = 0; k < data[i]["rep"].length; k++) {
+                if (data[i]["rep"][k]["contrl"] == "RadioButtonList" || data[i]["rep"][k]["contrl"] == "DropDownList") {
+                    if (data[i]["rep"][k]["wsrep"]["rep"].length != 0) {
+                        console.log("m" + data[i]["rep"][k]["sqid"]);
+                        drawChart(data[i]["rep"][k]["wsrep"]["rep"], "m" + data[i]["rep"][k]["sqid"]);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 
 // contener of data
 function getPieContener($titre, $idContenerChart) {
 
-        return "<div class=' col-lg-6 col-sm-12 '>" +
+        return "<div class=' col-md-6 col-sm-12 '>" +
                     "<div class='widget'>" +
                         "<div class='widget-header'>" +
                             "<div >" + $titre + "<a id=q" + $idContenerChart + "></a></div>" +
@@ -221,18 +286,38 @@ function getWSQContener($ques, $rep) {
            $str += "</div></div></div>";
     return $str;
 }
+function getSSQContener($ques, $rep) {
 
+    var $str = "<div class='row'>" +
+                    "<div class='widget'>" +
+                        "<div class='widget-header'>" +
+                            "<div >" + $ques + "</div>" +
+                        "</div><div class='row'>";
+
+    for (var j = 0 ; j < $rep.length; j++) {
+        if ($rep[j]["wsrep"].length != 0) {
+            for (var kk = 0; kk < $rep[j]["wsrep"].length; kk++) {
+                if ($rep[j]["wsrep"] != null) {
+                    $str += "<div class='col-md-3 nopadding'><div class='widget-body' id=ss" + $rep[j]["wsrep"][kk]["idevent"] + "></div></div>";
+                }
+            }
+        }
+    }
+
+    $str += "</div></div></div>";
+    return $str;
+}
 //populate Data
 function drawChart(data, idElement) {
     var data = google.visualization.arrayToDataTable(data);
     
     var chart = new google.visualization.PieChart(document.getElementById(idElement));
-    chart.draw(data, $optionsChart);
+    chart.draw(data,null);
 }
 function drawDonutChart(data, idElement) {
     var data = google.visualization.arrayToDataTable(data);
     var $optionsDonut = {
-       // title: 'Test',
+        /*title: 'Test',*/
         pieHole: 0.8,
         legend: { position: 'bottom', maxLines: 2 }
     };
@@ -240,7 +325,7 @@ function drawDonutChart(data, idElement) {
     chart.draw(data, $optionsDonut);
 
 }
-function  drawVerticalChart($donneeVC, $idq){
+function drawVerticalChart($donneeVC, $idq){
     
     for (var j = 0 ; j < $donneeVC.length; j++) {
         $donneeVC[j]["data"][1] = parseInt($donneeVC[j]["data"][1]);
@@ -267,49 +352,6 @@ function drawVerticalvisChart(dataV, idq) {
     google.visualization.events.addListener(barsVisualization, 'onmouseout', barMouseOut);
 }
 
-//dessine les contenneur de visualisation
-function drawQuestionsContener(data,idElement) {
-           
-            for (var i = 0 ; i < data.length; i++) {
-                if (data[i]["qCategory"] == "General") {
-                    if (data[i]["type"] == "RadioButtonList" || data[i]["type"] == "DropDownList") {
-                        $(idElement).append(getPieContener(data[i]["ques"], data[i]["idq"]));
-                    } else if (data[i]["type"] == "CheckBoxList") {
-                        $(idElement).append(getCheckBoxContener(data[i]["ques"], data[i]["idq"]));                 
-                    }
-                }
-                else if (data[i]["qCategory"] == "Workshop") {
-                    str = getWSQContener(data[i]["ques"], data[i]["rep"]);
-                    $("#accordion").html("");
-                    $("#accordion").append(str);
-                }
-            }
-}
-function drawQuestionsVisualisation(data, idElement) {
-
-    for (var i = 0 ; i < data.length; i++) {
-        if (data[i]["qCategory"] == "General") {
-            if (data[i]["type"] == "RadioButtonList" || data[i]["type"] == "DropDownList") {
-                 drawChart(data[i]["rep"], data[i]["idq"]);
-            } else if (data[i]["type"] == "CheckBoxList") {
-                drawVerticalvisChart(data[i]["rep"], data[i]["idq"]);
-            }
-        }
-        else if (data[i]["qCategory"] == "Workshop") {
-            for (var k = 0; k < data[i]["rep"].length; k++) {
-
-                
-                if (data[i]["rep"][k]["wsrep"].length != 0) {
-                    
-                    for (var kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"]);
-                    }
-                }
-            }
-        }
-    }
-}
-
 //bareMouseHover
 function drawMouseoverVisualization(dataV) {
     var data = new google.visualization.DataTable();
@@ -326,9 +368,10 @@ function drawMouseoverVisualization(dataV) {
     barsVisualization.draw(data, null);
 
     // Add our over/out handlers.
-    google.visualization.events.addListener(barsVisualization, 'onmouseover', barMouseOver);
-    google.visualization.events.addListener(barsVisualization, 'onmouseout', barMouseOut);
+    //google.visualization.events.addListener(barsVisualization, 'onmouseover', barMouseOver);
+    //google.visualization.events.addListener(barsVisualization, 'onmouseout', barMouseOut);
 }
+
 function barMouseOver(e) {
     //barsVisualization.setSelection([e]);
 }

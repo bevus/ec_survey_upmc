@@ -1,0 +1,42 @@
+.jumbotron {    background: #abaaa5 !important;}
+
+.navbar .navbar-fixed-top{
+       background: #99cf16; /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+
+}
+.container-fluid{
+    background: #99cf16;
+    padding: 0px;    
+}
+
+.btn {
+    padding: 16px;
+    border-radius: 0px;
+    border: none;
+     background: #99cf16;
+   
+}
+
+.nav>li>a:hover {
+     background:#99cf16;
+}
+.navbar-toggle {
+    border-color: white;
+     background: #99cf16;
+}
+.icon-bar {
+    background: white;
+}
+#dashboard-container {
+padding-top: 50px;
+
+}
+table {
+    font: initial;
+    top: 0px;
+    right: 1px;
+    opacity: 10.0;
+}
+tbody {
+    opacity:2000;
+}

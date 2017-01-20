@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -24,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,8 +73,8 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -92,6 +94,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.DataVisualization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -110,14 +113,261 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\nav.css" />
+    <Content Include="Dashboard.aspx" />
     <Content Include="EndGeneration.aspx" />
+    <Content Include="Main.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="scripts\bluemoon\404.html" />
+    <Content Include="scripts\bluemoon\500.html" />
+    <Content Include="scripts\bluemoon\blog-full-page.html" />
+    <Content Include="scripts\bluemoon\blog.html" />
+    <Content Include="scripts\bluemoon\calendar.html" />
+    <Content Include="scripts\bluemoon\css\alertify.core.css" />
+    <Content Include="scripts\bluemoon\css\barIndicator.css" />
+    <Content Include="scripts\bluemoon\css\blog.css" />
+    <Content Include="scripts\bluemoon\css\bootstrap.css" />
+    <Content Include="scripts\bluemoon\css\bootstrap.min.css" />
+    <Content Include="scripts\bluemoon\css\charts-graphs.css" />
+    <Content Include="scripts\bluemoon\css\color-picker\jquery.minicolors.css" />
+    <Content Include="scripts\bluemoon\css\color-picker\jquery.minicolors.png" />
+    <Content Include="scripts\bluemoon\css\datepicker.css" />
+    <Content Include="scripts\bluemoon\css\fullcalendar.css" />
+    <Content Include="scripts\bluemoon\css\images\animated-overlay.gif" />
+    <Content Include="scripts\bluemoon\css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-bg_flat_55_fbf9ee_40x100.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-bg_flat_65_ffffff_40x100.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-bg_flat_75_f2ede0_40x100.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-bg_flat_75_f4f2ee_40x100.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-icons_454545_256x240.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-icons_888888_256x240.png" />
+    <Content Include="scripts\bluemoon\css\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="scripts\bluemoon\css\new.css" />
+    <Content Include="scripts\bluemoon\css\nvd3\nv.d3.css" />
+    <Content Include="scripts\bluemoon\css\nvd3\nv.d3.min.css" />
+    <Content Include="scripts\bluemoon\css\pricing.css" />
+    <Content Include="scripts\bluemoon\css\theme.css" />
+    <Content Include="scripts\bluemoon\css\timepicker.css" />
+    <Content Include="scripts\bluemoon\css\wysi\bootstrap-wysihtml5.css" />
+    <Content Include="scripts\bluemoon\default.html" />
+    <Content Include="scripts\bluemoon\edit-profile.html" />
+    <Content Include="scripts\bluemoon\flot.html" />
+    <Content Include="scripts\bluemoon\fonts\font-awesome.css" />
+    <Content Include="scripts\bluemoon\fonts\font-awesome.min.css" />
+    <Content Include="scripts\bluemoon\fonts\fontawesome-webfont.svg" />
+    <Content Include="scripts\bluemoon\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="scripts\bluemoon\forms.html" />
+    <Content Include="scripts\bluemoon\graphs.html" />
+    <Content Include="scripts\bluemoon\help.html" />
+    <Content Include="scripts\bluemoon\icons.html" />
+    <Content Include="scripts\bluemoon\img\1.jpg" />
+    <Content Include="scripts\bluemoon\img\2.jpg" />
+    <Content Include="scripts\bluemoon\img\3.jpg" />
+    <Content Include="scripts\bluemoon\img\4.jpg" />
+    <Content Include="scripts\bluemoon\img\admin1.png" />
+    <Content Include="scripts\bluemoon\img\admin2.png" />
+    <Content Include="scripts\bluemoon\img\admin3.png" />
+    <Content Include="scripts\bluemoon\img\admin4.png" />
+    <Content Include="scripts\bluemoon\img\alpha.png" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog1.jpg" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog2.jpg" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog3.jpg" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog4.jpg" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog5.jpg" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog6.jpg" />
+    <Content Include="scripts\bluemoon\img\bluemoon-blog7.jpg" />
+    <Content Include="scripts\bluemoon\img\cd-icon-small-arrow.svg" />
+    <Content Include="scripts\bluemoon\img\clear.png" />
+    <Content Include="scripts\bluemoon\img\documentation.png" />
+    <Content Include="scripts\bluemoon\img\favicon.ico" />
+    <Content Include="scripts\bluemoon\img\glyphicons-halflings-white.png" />
+    <Content Include="scripts\bluemoon\img\glyphicons-halflings.png" />
+    <Content Include="scripts\bluemoon\img\hue.png" />
+    <Content Include="scripts\bluemoon\img\loading-black.gif" />
+    <Content Include="scripts\bluemoon\img\loading-blue.gif" />
+    <Content Include="scripts\bluemoon\img\loading-green.gif" />
+    <Content Include="scripts\bluemoon\img\loading-orange.gif" />
+    <Content Include="scripts\bluemoon\img\loading-red.gif" />
+    <Content Include="scripts\bluemoon\img\loading.gif" />
+    <Content Include="scripts\bluemoon\img\logo copy.png" />
+    <Content Include="scripts\bluemoon\img\logo-grey.png" />
+    <Content Include="scripts\bluemoon\img\logo.png" />
+    <Content Include="scripts\bluemoon\img\logo1.png" />
+    <Content Include="scripts\bluemoon\img\logo2.png" />
+    <Content Include="scripts\bluemoon\img\profile.jpg" />
+    <Content Include="scripts\bluemoon\img\profile.png" />
+    <Content Include="scripts\bluemoon\img\profile1.png" />
+    <Content Include="scripts\bluemoon\img\saturation.png" />
+    <Content Include="scripts\bluemoon\img\select2.png" />
+    <Content Include="scripts\bluemoon\img\social_icons.png" />
+    <Content Include="scripts\bluemoon\img\sorting.png" />
+    <Content Include="scripts\bluemoon\img\sorting_asc.png" />
+    <Content Include="scripts\bluemoon\img\sorting_desc.png" />
+    <Content Include="scripts\bluemoon\img\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="scripts\bluemoon\img\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="scripts\bluemoon\img\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="scripts\bluemoon\img\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="scripts\bluemoon\img\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="scripts\bluemoon\img\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="scripts\bluemoon\img\ui-icons_3d80b3_256x240.png" />
+    <Content Include="scripts\bluemoon\img\user10.jpg" />
+    <Content Include="scripts\bluemoon\img\user2.jpg" />
+    <Content Include="scripts\bluemoon\img\user3.jpg" />
+    <Content Include="scripts\bluemoon\img\user4.jpg" />
+    <Content Include="scripts\bluemoon\img\user4.png" />
+    <Content Include="scripts\bluemoon\img\user5.jpg" />
+    <Content Include="scripts\bluemoon\img\user5.png" />
+    <Content Include="scripts\bluemoon\img\user6.jpg" />
+    <Content Include="scripts\bluemoon\img\user7.jpg" />
+    <Content Include="scripts\bluemoon\img\user8.jpg" />
+    <Content Include="scripts\bluemoon\img\user9.jpg" />
+    <Content Include="scripts\bluemoon\index.html" />
+    <Content Include="scripts\bluemoon\index2.html" />
+    <Content Include="scripts\bluemoon\index3.html" />
+    <Content Include="scripts\bluemoon\index4.html" />
+    <Content Include="scripts\bluemoon\invoice.html" />
+    <Content Include="scripts\bluemoon\js\alertify.min.js" />
+    <Content Include="scripts\bluemoon\js\bootstrap.js" />
+    <Content Include="scripts\bluemoon\js\bootstrap.min.js" />
+    <Content Include="scripts\bluemoon\js\color-picker\jquery.minicolors.js" />
+    <Content Include="scripts\bluemoon\js\color-picker\jquery.minicolors.min.js" />
+    <Content Include="scripts\bluemoon\js\custom-barIndicator.js" />
+    <Content Include="scripts\bluemoon\js\custom-google.js" />
+    <Content Include="scripts\bluemoon\js\custom-index2.js" />
+    <Content Include="scripts\bluemoon\js\custom-index3.js" />
+    <Content Include="scripts\bluemoon\js\custom-index4.js" />
+    <Content Include="scripts\bluemoon\js\custom-maps.js" />
+    <Content Include="scripts\customJs\custom.js" />
+    <Content Include="scripts\pdf\canvg.js" />
+    <Content Include="scripts\pdf\canvg.min.js" />
+    <Content Include="surveys\EndSurvey.aspx" />
+    <Content Include="surveys\js\customJs\custom.min.js" />
+    <Content Include="scripts\customJs\customPdf.js" />
+    <Content Include="scripts\customJs\verticalChart.js" />
+    <Content Include="scripts\bluemoon\js\d3.v3.min.js" />
+    <Content Include="scripts\bluemoon\js\date-picker\date.js" />
+    <Content Include="scripts\bluemoon\js\date-picker\daterangepicker.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\area.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\donut.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\horizontal-index.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\horizontal.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\index3-area.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\index3-pie.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\index3-scatter.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\line.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\pie.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\realtime-index.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\realtime.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\rectangular-pie.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\scatter.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\stacked-area.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\stacked-horizontal.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\stacked-vertical.js" />
+    <Content Include="scripts\bluemoon\js\flot\custom\vertical.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.min.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.orderBar.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.orderBar.min.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.pie.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.pie.min.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.resize.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.resize.min.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.stack.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.stack.min.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.tooltip.js" />
+    <Content Include="scripts\bluemoon\js\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="scripts\bluemoon\js\fullcalendar\fullcalendar.js" />
+    <Content Include="scripts\bluemoon\js\fullcalendar\fullcalendar.min.js" />
+    <Content Include="scripts\bluemoon\js\fullcalendar\jquery-ui.custom.min.js" />
+    <Content Include="scripts\bluemoon\js\google-api.js" />
+    <Content Include="scripts\bluemoon\js\html5shiv.js" />
+    <Content Include="scripts\bluemoon\js\jquery-barIndicator.js" />
+    <Content Include="scripts\bluemoon\js\jquery-ui-1.8.23.custom.min.js" />
+    <Content Include="scripts\bluemoon\js\jquery-ui-v1.10.3.js" />
+    <Content Include="scripts\bluemoon\js\jquery.datatables.js" />
+    <Content Include="scripts\bluemoon\js\jquery.easing.1.3.js" />
+    <Content Include="scripts\bluemoon\js\jquery.easy-pie-chart.js" />
+    <Content Include="scripts\bluemoon\js\jquery.js" />
+    <Content Include="scripts\bluemoon\js\jquery.scrollUp.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\data\jquery.vmap.sampledata.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\jquery.vmap.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\jquery.vmap.min.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\jquery.vmap.packed.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\jqvmap.css" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\jquery.vmap.africa.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\jquery.vmap.asia.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\jquery.vmap.australia.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\jquery.vmap.europe.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\jquery.vmap.north-america.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\jquery.vmap.south-america.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\continents\readme.txt" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\jquery.vmap.europe.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\jquery.vmap.france.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\jquery.vmap.germany.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\jquery.vmap.russia.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\jquery.vmap.usa.js" />
+    <Content Include="scripts\bluemoon\js\jqvmap\maps\jquery.vmap.world.js" />
+    <Content Include="scripts\bluemoon\js\justgage\justgage.js" />
+    <Content Include="scripts\bluemoon\js\justgage\raphael.2.1.0.min.js" />
+    <Content Include="scripts\bluemoon\js\menu.js" />
+    <Content Include="scripts\bluemoon\js\modernizr.js" />
+    <Content Include="scripts\bluemoon\js\moment.js" />
+    <Content Include="scripts\bluemoon\js\nvd3\nv.d3.custom.boxPlotChart.js" />
+    <Content Include="scripts\bluemoon\js\nvd3\nv.d3.custom.stackedAreaChart.js" />
+    <Content Include="scripts\bluemoon\js\nvd3\nv.d3.custom.stackedBarChart.js" />
+    <Content Include="scripts\bluemoon\js\nvd3\nv.d3.js" />
+    <Content Include="scripts\bluemoon\js\nvd3\nv.d3.min.js" />
+    <Content Include="scripts\bluemoon\js\pricing.js" />
+    <Content Include="scripts\bluemoon\js\sparkline.js" />
+    <Content Include="scripts\bluemoon\js\tiny-scrollbar.js" />
+    <Content Include="scripts\bluemoon\js\wizard\bwizard.js" />
+    <Content Include="scripts\bluemoon\js\wysi\bootstrap3-wysihtml5.js" />
+    <Content Include="scripts\bluemoon\js\wysi\wysihtml5-0.3.0.js" />
+    <Content Include="scripts\bluemoon\js\wysi\wysihtml5-0.3.0.min.js" />
+    <Content Include="scripts\bluemoon\login.html" />
+    <Content Include="scripts\bluemoon\media.html" />
+    <Content Include="scripts\bluemoon\notifications.html" />
+    <Content Include="scripts\bluemoon\panels.html" />
+    <Content Include="scripts\pdf\google-api.js" />
+    <Content Include="scripts\pdf\html2canvas.js" />
+    <Content Include="scripts\pdf\html2canvas.min.js" />
+    <Content Include="scripts\pdf\html2canvas.svg.js" />
+    <Content Include="scripts\pdf\jspdf.debug.js" />
+    <Content Include="scripts\pdf\jspdf.min.js" />
+    <Content Include="scripts\bluemoon\pricing.html" />
+    <Content Include="scripts\bluemoon\tables.html" />
+    <Content Include="scripts\bluemoon\timeline.html" />
+    <Content Include="scripts\bluemoon\typography.html" />
+    <Content Include="scripts\bluemoon\ui-elements.html" />
+    <Content Include="scripts\bluemoon\vector-maps.html" />
+    <Content Include="scripts\bluemoon\wizards.html" />
     <Content Include="scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="scripts\jquery-3.1.1.min.map" />
-    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\20a0694b810ae7750b8306a9a8efe8013632125d\new.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\35c657039c0c3f58cff5ff5d08eaaec7563f979d\new.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\428854df3d9c57739b02b28a85d774b239ce208d\new.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\70a6c84393f77ea5c7ed0be96e95712aa78d72a5\new.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\7af8cfb6b462240c99bfffc0fa8f713fab37b202\main.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\8982107563a5f9e3d4074094d5203ea9a5fcf49b\new.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\a5105d4793763f09ca4c64e35ed68787ee39a6ad\new.scssc" />
+    <Content Include="scripts\bluemoon\css\.sass-cache\a5c7de67173636f566763408774e4c1e457d8086\new.scssc" />
+    <Content Include="scripts\bluemoon\css\new.css.map" />
+    <Content Include="scripts\bluemoon\css\new.scss" />
+    <Content Include="scripts\bluemoon\fonts\fontawesome-webfont.eot" />
+    <Content Include="scripts\bluemoon\fonts\fontawesome-webfont.ttf" />
+    <Content Include="scripts\bluemoon\fonts\fontawesome-webfont.woff" />
+    <Content Include="scripts\bluemoon\fonts\fontawesome-webfont.woff2" />
+    <Content Include="scripts\bluemoon\fonts\FontAwesome.otf" />
+    <Content Include="scripts\bluemoon\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="scripts\bluemoon\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="scripts\bluemoon\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="scripts\bluemoon\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="SurveyMasterPage.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -134,7 +384,7 @@
     <Content Include="Content\surveyStyle.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Main.aspx" />
+    <Content Include="Mainv0.aspx" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -147,19 +397,75 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery-3.1.1.js" />
+    <Content Include="scripts\jquery-3.1.1.min.js" />
     <Content Include="scripts\jquery-3.1.1.slim.js" />
     <Content Include="scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="surveys\EndSurvey.aspx" />
+    <Content Include="scripts\modernizr-2.5.3.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\respond.js" />
+    <Content Include="scripts\WebForms\DetailsView.js" />
+    <Content Include="scripts\WebForms\Focus.js" />
+    <Content Include="scripts\WebForms\GridView.js" />
+    <Content Include="scripts\WebForms\Menu.js" />
+    <Content Include="scripts\WebForms\MenuStandards.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjax.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
+    <Content Include="scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
+    <Content Include="scripts\WebForms\SmartNav.js" />
+    <Content Include="scripts\WebForms\TreeView.js" />
+    <Content Include="scripts\WebForms\WebForms.js" />
+    <Content Include="scripts\WebForms\WebParts.js" />
+    <Content Include="scripts\WebForms\WebUIValidation.js" />
+    <Content Include="surveys\css\bootstrap.css" />
+    <Content Include="surveys\css\nav.css" />
+    <Content Include="surveys\css\new.css" />
+    <Content Include="surveys\Dashboard_DFF183EFD77E46868537F45923EAD693.aspx" />
+    <Content Include="surveys\js\bootstrap.min.js" />
+    <Content Include="surveys\js\customJs\custom.js" />
+    <Content Include="surveys\js\customJs\customPdf.js" />
+    <Content Include="surveys\js\customJs\verticalChart.js" />
+    <Content Include="surveys\js\google-api.js" />
+    <Content Include="surveys\js\jquery.js" />
+    <Content Include="surveys\js\customJs\custmPdf.js" />
+    <Content Include="surveys\js\pdf\canvg.js" />
+    <Content Include="surveys\js\pdf\canvg.min.js" />
+    <Content Include="surveys\js\pdf\customPdf.js" />
+    <Content Include="surveys\js\pdf\html2canvas.js" />
+    <Content Include="surveys\js\pdf\html2canvas.min.js" />
+    <Content Include="surveys\js\pdf\html2canvas.svg.js" />
+    <Content Include="surveys\js\pdf\html2canvas.svg.min.js" />
+    <Content Include="surveys\js\pdf\imagesloaded.js" />
+    <Content Include="surveys\js\pdf\imagesloaded.pkgd.min.js" />
+    <Content Include="surveys\js\pdf\jquery-3.1.1.min.js" />
+    <Content Include="surveys\js\pdf\jspdf.debug.js" />
+    <Content Include="surveys\js\pdf\jspdf.min.js" />
+    <Content Include="surveys\js\pdf\mypdf.js" />
+    <Content Include="surveys\js\pdf\pdfGen.js" />
+    <Content Include="surveys\js\pdf\rgbcolor.js" />
+    <Content Include="surveys\js\pdf\script.js" />
+    <Content Include="surveys\js\pdf\StackBlur.js" />
     <Content Include="surveys\Page404.aspx" />
     <Content Include="surveys\saved.aspx" />
-    <Content Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlFinder.cs" />
+    <Compile Include="Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,13 +476,25 @@
     <Compile Include="Main.aspx.designer.cs">
       <DependentUpon>Main.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx.cs">
-      <DependentUpon>Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx</DependentUpon>
+    <Compile Include="Mainv0.aspx.cs">
+      <DependentUpon>Mainv0.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx.designer.cs">
-      <DependentUpon>Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx</DependentUpon>
+    <Compile Include="Mainv0.aspx.designer.cs">
+      <DependentUpon>Mainv0.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="surveys\Dashboard_DFF183EFD77E46868537F45923EAD693.aspx.cs">
+      <DependentUpon>Dashboard_DFF183EFD77E46868537F45923EAD693.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="surveys\Dashboard_DFF183EFD77E46868537F45923EAD693.aspx.designer.cs">
+      <DependentUpon>Dashboard_DFF183EFD77E46868537F45923EAD693.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -189,11 +507,11 @@
       <Name>DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\SurveyDashboardGenerator\SurveyDashboardGenerator.csproj">
-      <Project>{b6c64e8b-1b2b-4799-bb6d-d59b31178189}</Project>
+      <Project>{2ef4aea3-c67e-440c-a82f-fa95d5f51226}</Project>
       <Name>SurveyDashboardGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\SurveyDataExtraction\SurveyDataExtraction.csproj">
-      <Project>{DC866598-A99C-43CE-BE65-38FD2E60EC9F}</Project>
+      <Project>{dc866598-a99c-43ce-be65-38fd2e60ec9f}</Project>
       <Name>SurveyDataExtraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\SurveyModel\SurveyModel.csproj">
@@ -205,11 +523,21 @@
       <Name>SurveyFormGenerator</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
@@ -234,8 +562,8 @@
     <PropertyGroup>
       <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

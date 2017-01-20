@@ -19,3 +19,10 @@ C:\Users\Hacene\Source\Repos\EC_Survey_upmc\DataAccess\bin\Debug\SurveyModel.pdb
 C:\Users\Hacene\Source\Repos\EC_Survey_upmc\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\Hacene\Source\Repos\EC_Survey_upmc\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\Hacene\Source\Repos\EC_Survey_upmc\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\bin\Debug\SurveyModel.dll
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\bin\Debug\SurveyModel.pdb
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\acer\Desktop\pistl\Survey\DataAccess\obj\Debug\DataAccess.pdb

@@ -4,7 +4,6 @@ using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 using SurveyDashboardGenerator;
-using SurveyDataExtraction;
 using SurveyFormGenerator;
 using SurveyModel;
 using Widgets;
@@ -28,9 +27,12 @@ namespace survey
                     var poll = manager.getPoll(int.Parse(pollId.Value));
                     var formGenerator = new FormGenerator(Page.MapPath("~" + FormGenerationSettings.SurveyPath), poll,
                         settings);
+                    var dashboardGenerator = new DashboardGenerator(Page.MapPath("~" + FormGenerationSettings.SurveyPath), poll,settings.UserDashboardFileName,
+                        true);
                     var sUrl = formGenerator.GenerateWebForm();
-                    var dUrl = FormGenerationSettings.SurveyPath + dashboardFileName + "aspx";
+                    var dUrl = dashboardGenerator.GenerateDashboard();
                     sUrl = FormGenerationSettings.SurveyPath + sUrl;
+                    dUrl = FormGenerationSettings.SurveyPath + dUrl;
                     if (settings.UserAuthType == AuthentificationType.IdInUrl ||
                         settings.UserAuthType == AuthentificationType.HashedIdinUrl)
                     {
@@ -48,42 +50,6 @@ namespace survey
         protected void Repeater1_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
 
-        }
-
-        public void generateForm(object sender, EventArgs e)
-        {
-            var pollId = -1;
-            try
-            {
-                pollId = int.Parse((sender as Button).CommandArgument);
-            }
-            catch (Exception) { }
-            if (pollId == -1)
-            {
-                return;
-            }
-            //var manager = new Manager();
-            //var formGenerator = new FormGenerator(Page.MapPath("~/surveys/"), manager.getPoll(1));
-            //var url = "/surveys/" + formGenerator.GenerateWebForm() + "?id=1077";
-            //Response.Redirect(url);
-        }
-
-        public void generateDashboard(object sender, EventArgs e)
-        {
-            var pollId = -1;
-            try
-            {
-                pollId = int.Parse((sender as Button).CommandArgument);
-            }
-            catch (Exception) { }
-            if (pollId == -1)
-            {
-                return;
-            }
-            var manager = new Manager();
-            var dashbordGenerator = new DashboardGenerator(Page.MapPath("~/surveys/"), manager.getPoll(pollId));
-            var url = dashbordGenerator.GenerateDashboard();
-            Response.Redirect(url);
         }
 
         protected bool isValid()
