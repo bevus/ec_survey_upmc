@@ -8,3 +8,8 @@ C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\SurveyModel\bin\Deb
 C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\SurveyModel\obj\Debug\SurveyModel.csprojResolveAssemblyReference.cache
 C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\SurveyModel\obj\Debug\SurveyModel.dll
 C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\SurveyModel\obj\Debug\SurveyModel.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyModel\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyModel\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyModel\obj\Debug\SurveyModel.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyModel\obj\Debug\SurveyModel.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyModel\obj\Debug\SurveyModel.csprojResolveAssemblyReference.cache

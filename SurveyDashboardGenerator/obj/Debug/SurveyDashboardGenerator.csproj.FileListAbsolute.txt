@@ -1,0 +1,9 @@
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\bin\Debug\SurveyDashboardGenerator.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\bin\Debug\SurveyDashboardGenerator.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\bin\Debug\DataAccess.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\bin\Debug\DataAccess.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\obj\Debug\SurveyDashboardGenerator.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\obj\Debug\SurveyDashboardGenerator.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\SurveyDashboardGenerator\obj\Debug\SurveyDashboardGenerator.pdb

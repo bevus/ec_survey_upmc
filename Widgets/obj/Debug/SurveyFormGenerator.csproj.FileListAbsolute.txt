@@ -15,3 +15,21 @@ C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\bin\Debug\f
 C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\obj\Debug\SurveyFormGenerator.csprojResolveAssemblyReference.cache
 C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\obj\Debug\Widgets.dll
 C:\Users\Hacene\Documents\Visual Studio 2015\Projects\Survey\Widgets\obj\Debug\Widgets.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Widgets.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Widgets.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\DataAccess.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Microsoft.SqlServer.ConnectionInfo.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Microsoft.SqlServer.Management.Sdk.Sfc.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Microsoft.SqlServer.Smo.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Microsoft.SqlServer.SqlEnum.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Microsoft.SqlServer.Dmf.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Microsoft.SqlServer.ServiceBrokerEnum.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\DataAccess.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\fr\Microsoft.SqlServer.Management.Sdk.Sfc.resources.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\fr\Microsoft.SqlServer.Dmf.resources.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\obj\Debug\SurveyFormGenerator.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\obj\Debug\Widgets.dll
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\obj\Debug\Widgets.pdb
+C:\Users\Hacene\Source\Repos\EC_Survey_upmc\Widgets\bin\Debug\Widgets.dll.config

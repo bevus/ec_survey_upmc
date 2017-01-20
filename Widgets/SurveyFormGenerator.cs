@@ -2,295 +2,48 @@
 using Microsoft.SqlServer.Management.Smo;
 using SurveyModel;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Widgets;
 
 namespace SurveyFormGenerator
 {
     public class FormGenerator
     {
-        private const string FORM_NAME = "form1";
+        private readonly string aspxFileName;
+        private readonly string aspxcsFileName;
+        private readonly string aspxdesinercsFileName;
+        private readonly string storedProceduresFileName;
+        private readonly FormGenerationSettings settings;
+
         public string SurveysDirectory {get; set;}
         public Poll Poll { get; set; }
-        public FormGenerator(string surveysDirectory, Poll Poll)
+        public FormGenerator(string surveysDirectory, Poll poll, FormGenerationSettings settings)
         {
-            this.SurveysDirectory = surveysDirectory;
-            this.Poll = Poll;
+            if(poll == null) { throw new Exception("poll is null");}
+            SurveysDirectory = surveysDirectory;
+            Poll = poll;
+            this.settings = settings;
+            aspxFileName = settings.UserSurveyFileName + ".aspx";
+            aspxcsFileName = settings.UserSurveyFileName + ".aspx.cs";
+            aspxdesinercsFileName = settings.UserSurveyFileName + ".aspx.designer.cs";
+            storedProceduresFileName = settings.UserSurveyFileName + ".sql";
         }
         public string GenerateWebForm()
         {
-            var aspxFileName = "Survey_" + Poll.ExternalId + ".aspx";
-            var aspxcsFileName = "Survey_" + Poll.ExternalId + ".aspx.cs";
-            var aspxdesinercsFileName = "Survey_" + Poll.ExternalId + ".aspx.designer.cs";
-            var widgetFactory = new WidgetFactory();
-            var aspxCode = new StringBuilder();
-            aspxCode.Append(
-$@"<%@ Page Language=""C#"" AutoEventWireup=""true"" CodeBehind=""{aspxcsFileName}"" Inherits=""{aspxcsFileName.Replace(".aspx.cs", "")}.{aspxcsFileName.Replace(".aspx.cs", "")}"" %>
-<!DOCTYPE html> 
-<html xmlns=""http://www.w3.org/1999/xhtml"">
-    <head runat=""server"" > 
-        <meta http-equiv = ""Content-Type"" content=""text/html; charset=utf-8""/>
-        <title></title>
-        <link href=""../Content/bootstrap.min.css"" rel=""stylesheet""/>
-        <link href=""../Content/surveyStyle.css"" rel=""stylesheet""/>
-        <script src = ""../scripts/jquery-3.1.1.min.js""></script>
-        <script src = ""../scripts/bootstrap.min.js""></script>
-    </head>
-    <body>
-        <form id=""{FORM_NAME}"" runat=""server"">
-            <div class=""container"">{new Func<string>(() => {
-    var blocksCode = new Dictionary<int, string>();
-    foreach (var i in Poll.Blocks.Keys)
-        blocksCode.Add(i, $@"
-                <div class=""question-block"" id=""block-{i}"">
-                    <h3 class=""question-block-title"">{Poll.Blocks[i]}</h3>
-                    <div class=""question-block-questions"">");
-    blocksCode.Add(-1, $@"
-                    <div class=""question-block"">
-                        <div class=""question-block-questions"">");
-    foreach (var q in Poll.Questions)
-        switch (q.ControlType)
-        {
-            case "TextBox":
-                blocksCode[q.BlockNumber] += widgetFactory.CreateTextBox(q, "");
-                break;
-            case "DropDownList":
-                blocksCode[q.BlockNumber] += widgetFactory.CreateDropDownList(q, "");
-                break;
-            case "RadioButtonList":
-                blocksCode[q.BlockNumber] += widgetFactory.CreateRadioButtonList(q, "");
-                break;
-            case "CommentsBox":
-                blocksCode[q.BlockNumber] += widgetFactory.CreateCommentsBox(q, "");
-                break;
-            case "CheckBoxList":
-                blocksCode[q.BlockNumber] += widgetFactory.CreateCheckBoxList(q, "");
-                break;
-            case "DateTime":
-                blocksCode[q.BlockNumber] += widgetFactory.CreateDateTime(q, "");
-                break;
+            if (Poll.Questions.Count == 0)
+                throw new Exception("Empty poll");
+            System.IO.File.WriteAllText(SurveysDirectory + aspxcsFileName, generateAspxCsCode(), Encoding.UTF8);
+            System.IO.File.WriteAllText(SurveysDirectory + aspxdesinercsFileName, generateAspxDesignerCsCode(), Encoding.UTF8);
+            System.IO.File.WriteAllText(SurveysDirectory + aspxFileName, generateAspxCode(), Encoding.UTF8);
+            System.IO.File.WriteAllText(SurveysDirectory + storedProceduresFileName, generateStoredProcedure(), Encoding.UTF8);
+            ExecuteStoredProcedure(SurveysDirectory + storedProceduresFileName);
+            System.IO.File.Delete(SurveysDirectory + storedProceduresFileName);
+            return aspxFileName;
         }
-    var code = "";
-    foreach (var i in blocksCode.Keys)
-    {
-        code += blocksCode[i] + $@"
-                        </div>
-                    </div>";
-    }
-    return code;
-})()}
-                <hr/>
-                <asp:Button  CausesValidation=""true"" ID=""confirm"" Text=""valider"" runat=""server"" CssClass=""btn btn-primary""/>
-            </div>
-        </form>
-</body>
-</html>
-");
-            var aspxdesignercsCode =
-$@"
-
-namespace {aspxcsFileName.Replace(".aspx.cs", "")}
-{{
-    public partial class {aspxcsFileName.Replace(".aspx.cs", "")}
-    {{
-            protected global::System.Web.UI.HtmlControls.HtmlForm {FORM_NAME};
-            {new Func<String>(() => {
-    var code = "";
-    foreach (var q in Poll.Questions)
-    {
-        code += "\t\tprotected global::";
-        switch (q.ControlType)
+        private void ExecuteStoredProcedure(string fileName)
         {
-            case "TextBox":
-                code += "System.Web.UI.WebControls.TextBox ";
-                break;
-            case "DropDownList":
-                code += "System.Web.UI.WebControls.DropDownList ";
-                break;
-            case "RadioButtonList":
-                code += "System.Web.UI.WebControls.RadioButtonList ";
-                break;
-            case "CommentsBox":
-                code += "System.Web.UI.WebControls.TextBox ";
-                break;
-            case "CheckBoxList":
-                code += "System.Web.UI.WebControls.CheckBoxList ";
-                break;
-            case "DateTime":
-                code += "System.Web.UI.WebControls.TextBox ";
-                break;
-        }
-        code += q.ControlId + ";\n";
-    }
-    return code;
-})()}
-    }}
-}}
-";
-            var aspxcsCode =
-$@"using System;
-using System.Data.SqlClient;
-using System.Text;
-using System.Linq;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-
-namespace {aspxcsFileName.Replace(".aspx.cs", "")}
-{{
-    public partial class {aspxcsFileName.Replace(".aspx.cs", "")} : Page
-    {{
-        
-        protected void Page_Load(object sender, EventArgs e)
-        {{
-            if (IsPostBack)
-            {{
-                Page.Validate();
-                if (Page.IsValid)
-                {{
-                    var dataBaseConnection = ConnexionClasse.getConnexion();
-                    dataBaseConnection.Open();
-                    SqlCommand saveAnswers = new SqlCommand(""I{Poll.ExternalId}"", dataBaseConnection);
-                    saveAnswers.CommandType = CommandType.StoredProcedure;
-                    saveAnswers.Parameters.AddWithValue(""@person_id"", {Poll.Id});
-                    {
-                new Func<string>(() => {
-                    var code = "";
-                    foreach (var q in Poll.Questions)
-                    {
-                        string property = "";
-                        switch (q.ControlType)
-                        {
-                            case "TextBox":
-                            case "DateTime":
-                            case "CommentsBox":
-                                property = "Text";
-                                break;
-                            case "DropDownList":
-                            case "RadioButtonList":
-                            case "CheckBoxList":
-                                property = "SelectedValue";
-                                break;
-                        }
-                        code += $"saveAnswers.Parameters.AddWithValue(\"@{q.Column}\", {q.ControlId}.{property});\n";
-                    }
-                    return code;
-                })()}
-                    saveAnswers.ExecuteReader();
-                    dataBaseConnection.Close();
-                }}
-            }}
-
-        }}
-    }}
-}}";
-            System.IO.File.WriteAllText(SurveysDirectory + aspxcsFileName, aspxcsCode, Encoding.UTF8);
-            System.IO.File.WriteAllText(SurveysDirectory + aspxdesinercsFileName, aspxdesignercsCode, Encoding.UTF8);
-            System.IO.File.WriteAllText(SurveysDirectory + aspxFileName, aspxCode.ToString(), Encoding.UTF8);
-            GenerateProcedureStocke();
-            return SurveysDirectory + aspxcsFileName;
-        }
-
-        private void GenerateProcedureStocke()
-        {
-            var procedureStocke = "Survey_" + Poll.ExternalId + ".sql";
-
-            var content = new StringBuilder();
-            content.Append(
-$@"CREATE PROCEDURE [dbo].[sel{Poll.ExternalId}]
-(
-	@person_id int
-)
-AS
-	SELECT * 
- 	FROM Poll_SURVEY_{Poll.ExternalId}
- 	WHERE id_person=@person_id 
-GO
-
-CREATE PROCEDURE [dbo].[I{Poll.ExternalId}]
-(
-	@person_id int,
-");
-            var paramsProcedure = "";
-            foreach (var q in Poll.Questions)
-            {
-
-                if (q.MaxSize == 0)
-                {
-                    paramsProcedure += $"\t@{q.Column}  nvarchar(255),\n";
-                }
-                else
-                {
-                    paramsProcedure += $"\t@{q.Column}  nvarchar({q.MaxSize}),\n";
-                }
-            }
-            if(paramsProcedure.Length > 2)
-                paramsProcedure = paramsProcedure.Substring(0, paramsProcedure.Length - 2);
-            content.Append(paramsProcedure).
-                    Append(
-                    $@"
-)
-AS
-if not exists(SELECT id_person FROM Poll_SURVEY_{Poll.ExternalId}	WHERE id_person = @person_id )
-BEGIN
-	INSERT INTO Poll_SURVEY_{Poll.ExternalId} (id_person) VALUES(@person_id)
-end
-	UPDATE  [dbo].[Poll_SURVEY_{Poll.ExternalId}]
-SET
-");
-            var tableEnry = "";
-            foreach (var q in Poll.Questions)
-            {
-                tableEnry += $@"	[{q.Column}] = @{q.Column},
-";
-            }
-            tableEnry = tableEnry.Substring(0, tableEnry.Length - 2);
-            content.Append(tableEnry);
-            content.Append(@"
-WHERE id_person = @person_id 
-GO
-");
-            content.Append(
-$@"
-CREATE PROCEDURE [dbo].[IS{Poll.ExternalId}]
-(
-	@person_id int,
-	@clicked BIT,
-	@clicked_date DATETIME,
-	@saved BIT,
-	@saved_date DATETIME,
-	@comment VARCHAR(4000),
-	@modified_date DATETIME,
-	@page VARCHAR(4000)
-)
-AS
-    if not exists(SELECT SUR_id_person FROM Poll_SURVEY WHERE SUR_id_person = @person_id )
-BEGIN
-	INSERT INTO Poll_SURVEY(SUR_id_person) VALUES(@person_id)
-end
-	UPDATE  [dbo].[Poll_SURVEY]
-    SET
-        [SUR_clicked] =  @clicked,
-        [SUR_clicked_date] =  @clicked_date, 
-        [SUR_saved] = @saved, 
-        [SUR_saved_date] = @saved_date,
-        [SUR_comments] = @comment,
-        [SUR_date_mod] = @modified_date,
-        [SUR_page] = @page
-    WHERE SUR_id_person = @person_id 
-GO
-");
-            System.IO.File.WriteAllText(SurveysDirectory + procedureStocke, content.ToString());
-            ExecuteProcedureStock(procedureStocke);
-
-        }
-
-        private void ExecuteProcedureStock(String fileName)
-        {
-            string script = System.IO.File.ReadAllText(SurveysDirectory + fileName);
+            string script = System.IO.File.ReadAllText(fileName);
             SqlConnection connexion = ConnexionClasse.getConnexion();
             connexion.Open();
             try
@@ -303,6 +56,375 @@ GO
 
             }
             connexion.Close();
+        }
+
+        public string generateAspxCode()
+        {
+            return
+$@"<%@ Page Language=""C#"" AutoEventWireup=""true"" 
+CodeFile=""{aspxcsFileName}"" Inherits=""Survey.surveys.{settings.UserSurveyFileName}""
+MasterPageFile=""../SurveyMasterPage.master""%>
+    <asp:Content runat=""server"" contentplaceholderid=""scripts"">
+        <script src=""..\scripts\jquery-3.1.1.js""></script>
+        <script src=""..\scripts\jquery.validate.min.js""></script>
+        <script src=""..\scripts\bootstrap.js""></script>
+    </asp:Content>
+    <asp:Content runat=""server"" contentplaceholderid=""surveyFormPlaceHolder"">
+        <h1 class=""page-header"">{Poll.Name}</h1>
+        <form id=""{FormGenerationSettings.SurveyFormId}"" runat=""server"">
+            <div id=""{FormGenerationSettings.QuestionContainerId}"" runat=""server"">
+            </div>
+        </form>
+    </asp:Content>
+";
+        }
+
+        public string generateAspxCsCode()
+        {
+            var getPersonId = "_personId = ";
+            switch (settings.UserAuthType)
+            {
+                case AuthentificationType.IdInUrl:
+                    getPersonId += $@"int.Parse(Request.QueryString[""{settings.UserPersonIdArg}""]);";
+                    break;
+                case AuthentificationType.HashedIdinUrl:
+                    getPersonId += $@"Manager.GetHashedId(Request.QueryString[""{settings.UserPersonIdArg}""], PollId);";
+                    break;
+                case AuthentificationType.IdInSession:
+                    getPersonId += $@"Convert.ToInt32(Session[""{settings.UserPersonIdArg}""]);";
+                    break;
+            }
+            return
+$@"using System;
+using System.Collections.Generic;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using DataAccess;
+using SurveyModel;
+using Widgets;
+
+namespace Survey.surveys
+{{
+    public partial class {settings.UserSurveyFileName} : Page
+    {{
+        private List<QuestionWebControl> _questionControls;
+        private const int PollId = {Poll.Id};
+        private Poll _poll;
+        private int _personId;
+        private const string ExternalId = ""{Poll.ExternalId}"";
+        private readonly FormGenerationSettings settings = new FormGenerationSettings
+        {{
+            UserSurveyFileName = ""{settings.UserSurveyFileName}"",
+            UserDashboardFileName = ""{settings.UserDashboardFileName}"",
+            UserAuthType = AuthentificationType.{settings.UserAuthType},
+            UserPage404 = ""{settings.UserPage404}"",
+            UserOptionQuestionErrorMessage = ""{settings.UserOptionQuestionErrorMessage}"",
+            UserTextQuestionErrorMessage = ""{settings.UserTextQuestionErrorMessage}"",
+            UserDateTimeQuestionErrorMessage = ""{settings.UserDateTimeQuestionErrorMessage}"",
+            UserAnswerLengthErrorMessage = ""{settings.UserAnswerLengthErrorMessage}"",
+            UserSurveyFormSubmitButtonText = ""{settings.UserSurveyFormSubmitButtonText}"",
+            UserSurveyFormSaveButtonText = ""{settings.UserSurveyFormSaveButtonText}"",
+            UserDisableDataExtraction = {settings.UserDisableDataExtraction.ToString().ToLower()},
+            UserNotGenerateDashboard = {settings.UserNotGenerateDashboard.ToString().ToLower()}
+        }};
+        private Button saveButton = new Button
+        {{
+            Text = ""{settings.UserSurveyFormSaveButtonText}"",
+            CssClass = ""saveButton btn btn-success"",
+        }};
+        private Button submitButton = new Button
+        {{
+            Text = ""{settings.UserSurveyFormSubmitButtonText}"",
+            CssClass = ""saveButton btn btn-primary"",
+        }};
+        protected override void OnInit(EventArgs e)
+        {{
+            try
+            {{
+                {getPersonId}
+                if (!Manager.ExistPerson(_personId))
+                {{
+                    Response.Redirect(""{settings.UserPage404}"");
+                    return;
+                }}
+
+                if (Manager.AlreadyAnswerd(PollId, _personId))
+                {{
+                    Response.Redirect(""{FormGenerationSettings.EndSurveyPage}"");
+                    return;
+                }}
+            }}
+            catch (Exception)
+            {{
+                Response.Redirect(""{settings.UserPage404}"");
+            }}
+            var manager = new Manager();
+            _poll = manager.getPoll(PollId, _personId);
+            _questionControls = SurveyUtils.RenderForm(_poll, {FormGenerationSettings.QuestionContainerId}, settings);
+
+            submitButton.Click += submitAnswers;
+            surveyForm.Controls.Add(submitButton);
+
+            saveButton.Attributes.Add(""formnovalidate"", ""true"");
+            saveButton.Click += saveAnswers;
+            surveyForm.Controls.Add(saveButton);
+        }} 
+
+        protected void Page_Load(object sender, EventArgs e)
+        {{
+            
+        }}
+        protected void saveAnswers(object sender, EventArgs e)
+        {{
+            var time = DateTime.Now;
+            Manager.SaveAnswer(SurveyUtils.QuestionsWebControlToQuestions(_questionControls), _poll, ExternalId, _personId, time);
+            Response.Redirect(""{FormGenerationSettings.SavedPage}"");
+        }}
+        protected void submitAnswers(object sender, EventArgs e)
+		{{
+		    if (!SurveyUtils.Valid(_questionControls, settings)) return;
+            var time = DateTime.Now;
+            Manager.SaveAnswer(SurveyUtils.QuestionsWebControlToQuestions(_questionControls), _poll, ExternalId, _personId, time);
+            Manager.SaveInPollSurvey(PollId, _personId, time);
+            Response.Redirect(""{FormGenerationSettings.EndSurveyPage}"");
+		}}
+    }}
+}}
+";
+        }
+
+        public string generateAspxDesignerCsCode()
+        {
+            return 
+$@"
+namespace Survey.surveys {{
+    public partial class {settings.UserSurveyFileName} {{
+        protected global::System.Web.UI.HtmlControls.HtmlForm surveyForm;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl questions;
+    }}
+}}
+";
+        }
+
+        public string generateStoredProcedure()
+        {
+            var listParamSession = "";
+            var listColumnSession = "";
+            var listParamMeeting = "";
+            var listColumnMeeting = "";
+            var listParamWs = "";
+            var listColumnWs = "";
+            var listParamGeneral = "";
+            var listColumnGeneral = "";
+            var sessionCount = 0;
+            var meetingCount = 0;
+            var wsCount = 0;
+            var qCount = 0;    
+
+            foreach (var q in Poll.Questions)
+            {
+                if (q.Category == QuestionType.Session)
+                foreach (var sq in q.SubQuestions)
+                {
+                    sessionCount++;
+                    listParamSession += "\t@" + sq.Column + " nvarchar(" + sq.MaxSize + "),\n";
+                    listColumnSession += "\tSUB_" + sq.Column + " = @" + sq.Column + ",\n";
+                }
+                if (q.Category == QuestionType.Meeting)
+                foreach (var sq in q.SubQuestions)
+                {
+                    meetingCount++;
+                    listParamMeeting += "\t@" + sq.Column + " nvarchar(" + sq.MaxSize + "),\n";
+                    listColumnMeeting += "\tSUM_" + sq.Column + " = @" + sq.Column + ",\n";
+                }
+                if (q.Category == QuestionType.Workshop)
+                foreach (var sq in q.SubQuestions)
+                {
+                    wsCount++;
+                    listParamWs += "\t@" + sq.Column + " nvarchar(" + sq.MaxSize + "),\n";
+                    listColumnWs += "\tSUB_" + sq.Column + " = @" + sq.Column + ",\n";
+                }
+                if (q.Category == QuestionType.General)
+                {
+                    qCount++;
+                    listParamGeneral += "\t@" + q.Column + " nvarchar(" + q.MaxSize + "),\n";
+                    listColumnGeneral += "\t" + q.Column + " = @" + q.Column + ",\n";
+                }
+            }
+            if (listParamSession.Length > 0)
+            {
+                listParamSession = listParamSession.Remove(listParamSession.Length - 2, 1);
+                listColumnSession = listColumnSession.Remove(listColumnSession.Length - 2, 1);
+            }
+            if (listParamMeeting.Length > 0)
+            {
+                listParamMeeting = listParamMeeting.Remove(listParamMeeting.Length - 2, 1);
+                listColumnMeeting = listColumnMeeting.Remove(listColumnMeeting.Length - 2, 1);
+            }
+            if (listParamWs.Length > 0)
+            {
+                listParamWs = listParamWs.Remove(listParamWs.Length - 2, 1);
+                listColumnWs = listColumnWs.Remove(listColumnWs.Length - 2, 1);
+            }
+            if (listParamGeneral.Length > 0)
+            {
+                listParamGeneral = listParamGeneral.Remove(listParamGeneral.Length - 2, 1);
+                listColumnGeneral = listColumnGeneral.Remove(listColumnGeneral.Length - 2, 1);
+            }
+            
+            var i_general = $@"
+CREATE PROCEDURE I{Poll.ExternalId}
+(
+    @person_id int,
+{listParamGeneral}
+)
+AS
+if not exists(SELECT id_person FROM Poll_SURVEY_{Poll.ExternalId} WHERE id_person = @person_id )
+BEGIN
+    INSERT INTO Poll_SURVEY_{Poll.ExternalId} (id_person) VALUES(@person_id)
+end
+    UPDATE  Poll_SURVEY_{Poll.ExternalId}
+SET
+{listColumnGeneral}
+WHERE id_person = @person_id
+";
+
+            var i_session = $@"
+CREATE PROCEDURE I_SESSION_{Poll.ExternalId}
+(
+	@id_survey int,
+	@id_poll int,
+	@id_person int,
+	@id_atelier int,
+	@date_mod datetime,
+{listParamSession}
+)
+AS
+SET IDENTITY_INSERT POLL_SURVEY_SESSION_{Poll.ExternalId} ON;
+if not exists(SELECT SUB_id_person FROM POLL_SURVEY_SESSION_{Poll.ExternalId} WHERE
+	SUB_id_survey  = @id_survey 	and 
+	SUB_id_poll    = @id_poll   	and
+	SUB_id_person  = @id_person 	and
+	SUB_id_atelier = @id_atelier)
+BEGIN
+	INSERT INTO POLL_SURVEY_SESSION_{Poll.ExternalId} (
+		SUB_id_survey,
+		SUB_id_poll,
+		SUB_id_person,
+		SUB_id_atelier
+	) 
+	VALUES(
+		@id_survey, 
+		@id_poll,
+		@id_person,
+		@id_atelier
+	)
+end
+	UPDATE  POLL_SURVEY_SESSION_{Poll.ExternalId}
+SET
+	SUB_date_mod = @date_mod,
+    SUB_attended = 1,
+{listColumnSession}
+WHERE 
+	SUB_id_survey  = @id_survey 	and 
+	SUB_id_poll    = @id_poll   	and
+	SUB_id_person  = @id_person 	and
+	SUB_id_atelier = @id_atelier
+";
+            var i_meeting = $@"
+CREATE PROCEDURE I_MEETING_{Poll.ExternalId}
+(
+    @id_survey int,
+    @id_poll int,
+    @id_meeting int,
+    @id_person int,
+    @id_company int,
+    @date_mod datetime,
+{listParamMeeting}
+)
+AS
+SET IDENTITY_INSERT POLL_SURVEY_MEETING_{Poll.ExternalId} ON;
+if not exists(SELECT SUM_id_person FROM POLL_SURVEY_MEETING_{Poll.ExternalId} WHERE
+    SUM_id_survey  = @id_survey     and 
+    SUM_id_poll    = @id_poll       and
+    SUM_id_meeting = @id_meeting    and
+    SUM_id_person  = @id_person     and
+    SUM_id_company = @id_company)
+BEGIN
+    INSERT INTO POLL_SURVEY_MEETING_{Poll.ExternalId} (
+        SUM_id_survey,
+        SUM_id_poll,
+        SUM_id_meeting,
+        SUM_id_person, 
+        SUM_id_company
+    ) 
+    VALUES(
+        @id_survey, 
+        @id_poll,  
+        @id_meeting, 
+        @id_person, 
+        @id_company
+    )
+end
+    UPDATE  POLL_SURVEY_MEETING_{Poll.ExternalId}
+SET
+    SUM_date_mod = @date_mod,
+{listColumnMeeting}
+WHERE 
+    SUM_id_survey  = @id_survey     and 
+    SUM_id_poll    = @id_poll       and
+    SUM_id_person  = @id_person     and
+    SUM_id_company = @id_company;
+";
+
+            var i_ws = $@"
+CREATE PROCEDURE I_WS_{Poll.ExternalId}
+(
+    @id_survey int,
+    @id_poll int,
+    @id_person int,
+    @id_atelier int,
+    @date_mod datetime,
+{listParamWs}
+)
+AS
+SET IDENTITY_INSERT POLL_SURVEY_WS_{Poll.ExternalId} ON;
+if not exists(SELECT SUB_id_person FROM POLL_SURVEY_WS_{Poll.ExternalId} WHERE
+    SUB_id_survey  = @id_survey     and 
+    SUB_id_poll    = @id_poll       and
+    SUB_id_person  = @id_person     and
+    SUB_id_atelier = @id_atelier)
+
+BEGIN
+    INSERT INTO POLL_SURVEY_WS_{Poll.ExternalId} (
+        SUB_id_survey,
+        SUB_id_poll,
+        SUB_id_person,
+        SUB_id_atelier
+    ) 
+    VALUES(
+        @id_survey, 
+        @id_poll,
+        @id_person, 
+        @id_atelier
+    )
+end
+    UPDATE  POLL_SURVEY_WS_{Poll.ExternalId}
+SET
+    SUB_date_mod = @date_mod,
+    SUB_attended = 1,
+{listColumnWs}
+WHERE 
+    SUB_id_survey  = @id_survey     and 
+    SUB_id_poll    = @id_poll       and
+    SUB_id_person  = @id_person     and
+    SUB_id_atelier = @id_atelier
+";
+            if (qCount == 0) i_general = "";
+            if (meetingCount == 0) i_meeting = "";
+            if (sessionCount == 0) i_session = "";
+            if (wsCount == 0) i_ws = "";
+            return i_general + "\nGO\n" + i_meeting + "\nGO\n" + i_session + "\nGO\n" + i_ws + "\nGo";
         }
     }
 }

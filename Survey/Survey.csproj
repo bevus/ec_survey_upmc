@@ -110,12 +110,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EndGeneration.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="scripts\jquery-3.1.1.min.map" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="SurveyMasterPage.master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -144,16 +147,19 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
-    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery-3.1.1.js" />
-    <Content Include="scripts\jquery-3.1.1.min.js" />
     <Content Include="scripts\jquery-3.1.1.slim.js" />
     <Content Include="scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="surveys\Survey_D464FBD08AEB4A28BE7C24D474D8544B.aspx" />
-    <Content Include="surveys\Survey_D464FBD08AEB4A28BE7C24D474D8544B.sql" />
-    <Content Include="Web.config" />
+    <Content Include="surveys\EndSurvey.aspx" />
+    <Content Include="surveys\Page404.aspx" />
+    <Content Include="surveys\saved.aspx" />
+    <Content Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlFinder.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -165,12 +171,12 @@
       <DependentUpon>Main.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="surveys\Survey_D464FBD08AEB4A28BE7C24D474D8544B.aspx.cs">
-      <DependentUpon>Survey_D464FBD08AEB4A28BE7C24D474D8544B.aspx</DependentUpon>
+    <Compile Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx.cs">
+      <DependentUpon>Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="surveys\Survey_D464FBD08AEB4A28BE7C24D474D8544B.aspx.designer.cs">
-      <DependentUpon>Survey_D464FBD08AEB4A28BE7C24D474D8544B.aspx</DependentUpon>
+    <Compile Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx.designer.cs">
+      <DependentUpon>Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,14 @@
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{2d95c973-2805-4484-90d7-06cd490adee6}</Project>
       <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SurveyDashboardGenerator\SurveyDashboardGenerator.csproj">
+      <Project>{b6c64e8b-1b2b-4799-bb6d-d59b31178189}</Project>
+      <Name>SurveyDashboardGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SurveyDataExtraction\SurveyDataExtraction.csproj">
+      <Project>{DC866598-A99C-43CE-BE65-38FD2E60EC9F}</Project>
+      <Name>SurveyDataExtraction</Name>
     </ProjectReference>
     <ProjectReference Include="..\SurveyModel\SurveyModel.csproj">
       <Project>{00b2eee1-70cd-464d-8716-7aedca736d17}</Project>

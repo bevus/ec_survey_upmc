@@ -1,14 +1,13 @@
 ﻿using DataAccess;
-using Microsoft.SqlServer.Management.Common;
-using Microsoft.SqlServer.Management.Smo;
-using SurveyModel;
 using System;
-using System.Data.SqlClient;
-using System.Text;
-using System.Linq;
+using System.Security.Policy;
+using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
-using System.Collections.Generic;
+using SurveyDashboardGenerator;
+using SurveyDataExtraction;
 using SurveyFormGenerator;
+using SurveyModel;
+using Widgets;
 
 namespace survey
 {
@@ -16,9 +15,169 @@ namespace survey
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (IsPostBack)
+            {
+                if (!isValid())
+                {
+                    showModal.Value = "true";
+                }
+                else
+                {
+                    var settings = GetSettings();
+                    var manager = new Manager();
+                    var poll = manager.getPoll(int.Parse(pollId.Value));
+                    var formGenerator = new FormGenerator(Page.MapPath("~" + FormGenerationSettings.SurveyPath), poll,
+                        settings);
+                    var sUrl = formGenerator.GenerateWebForm();
+                    var dUrl = FormGenerationSettings.SurveyPath + dashboardFileName + "aspx";
+                    sUrl = FormGenerationSettings.SurveyPath + sUrl;
+                    if (settings.UserAuthType == AuthentificationType.IdInUrl ||
+                        settings.UserAuthType == AuthentificationType.HashedIdinUrl)
+                    {
+                        sUrl += "?" + settings.UserPersonIdArg + "=";
+                    }
+                    Response.Redirect($@"/EndGeneration.aspx?pollName={poll.Name}&dUrl={dUrl}&sUrl={sUrl}&authMod={(int)settings.UserAuthType}&argName={settings.UserPersonIdArg}");
+                }
+            }
+            else
+            {
+                initConfigurationForm();
+            }
+        }
+
+        protected void Repeater1_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+
+        }
+
+        public void generateForm(object sender, EventArgs e)
+        {
+            var pollId = -1;
+            try
+            {
+                pollId = int.Parse((sender as Button).CommandArgument);
+            }
+            catch (Exception) { }
+            if (pollId == -1)
+            {
+                return;
+            }
+            //var manager = new Manager();
+            //var formGenerator = new FormGenerator(Page.MapPath("~/surveys/"), manager.getPoll(1));
+            //var url = "/surveys/" + formGenerator.GenerateWebForm() + "?id=1077";
+            //Response.Redirect(url);
+        }
+
+        public void generateDashboard(object sender, EventArgs e)
+        {
+            var pollId = -1;
+            try
+            {
+                pollId = int.Parse((sender as Button).CommandArgument);
+            }
+            catch (Exception) { }
+            if (pollId == -1)
+            {
+                return;
+            }
             var manager = new Manager();
-            var formGenerator = new FormGenerator(Page.MapPath("~/surveys/"), manager.getPoll(0));
-            surveyLink.Target = formGenerator.GenerateWebForm();
+            var dashbordGenerator = new DashboardGenerator(Page.MapPath("~/surveys/"), manager.getPoll(pollId));
+            var url = dashbordGenerator.GenerateDashboard();
+            Response.Redirect(url);
+        }
+
+        protected bool isValid()
+        {
+            var identifierErrorText = "invalide file name : must contain only alphabetic characters or digits, must start with an alphabetic character and less than 50 characters";
+            var valid = true;
+            if (!Regex.IsMatch(surveyFileName.Text, "^[_a-zA-Z][_a-zA-Z0-9]{0,50}$"))
+            {
+                _surveyFileName.Text = identifierErrorText;
+                _surveyFileName.Visible = true;
+                valid = false;
+            }
+            else
+            {
+                _surveyFileName.Visible = false;
+            }
+            if (!Regex.IsMatch(dashboardFileName.Text, @"^[_a-zA-Z][_a-zA-Z0-9]{0,50}$"))
+            {
+                _dashboardFileName.Text = identifierErrorText;
+                _dashboardFileName.Visible = true;
+                valid = false;
+            }
+            else
+            {
+                _dashboardFileName.Visible = false;
+            }
+            if (authType.SelectedIndex < 0 || authType.SelectedIndex > 2)
+            {
+                _authType.Text = "invalide authentification type";
+                _authType.Visible = true;
+                valid = false;
+            }
+            else
+            {
+                _authType.Visible = false;
+            }
+            if (!Regex.IsMatch(personIdArg.Text, @"^[_a-zA-Z][_a-zA-Z0-9]{0,20}$"))
+            {
+                _personIdArg.Text = identifierErrorText;
+                _personIdArg.Visible = true;
+                valid = false;
+            }
+            else
+            {
+                _personIdArg.Visible = false;
+            }
+            try
+            {
+                int.Parse(pollId.Value);
+                _pollId.Visible = false;
+            }
+            catch (Exception)
+            {
+                _pollId.Text = "no poll selected";
+                _pollId.Visible = true;
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        public void initConfigurationForm()
+        {
+            surveyFileName.Text = "Survey_XXX";
+            dashboardFileName.Text = "Dashboard_XXX";
+            authType.SelectedIndex = (int)FormGenerationSettings.DefaultAuthType;
+            page404.Text = FormGenerationSettings.Page404;
+            optoinQuestionErrorMessage.Text = FormGenerationSettings.OptionQuestionErrorMessage;
+            textQuestionErrorMessage.Text = FormGenerationSettings.TextQuestionErrorMessage;
+            dateTimeQuestionErrorMessage.Text = FormGenerationSettings.DateTimeQuestionErrorMessage;
+            answerLengthErrorMessage.Text = FormGenerationSettings.AnswerLengthErrorMessage;
+            submissionButtonText.Text = FormGenerationSettings.SurveyFormSubmitButtonText;
+            saveButtonText.Text = FormGenerationSettings.SurveyFormSaveButtonText;
+            personIdArg.Text = FormGenerationSettings.PersonIdArg;
+        }
+
+        public FormGenerationSettings GetSettings()
+        {
+            return new FormGenerationSettings
+            {
+                UserSurveyFileName = surveyFileName.Text,
+                UserDashboardFileName = dashboardFileName.Text,
+                UserAuthType = (AuthentificationType)authType.SelectedIndex,
+                UserPage404 = page404.Text,
+                UserOptionQuestionErrorMessage = optoinQuestionErrorMessage.Text,
+                UserTextQuestionErrorMessage = textQuestionErrorMessage.Text,
+                UserDateTimeQuestionErrorMessage = dateTimeQuestionErrorMessage.Text,
+                UserAnswerLengthErrorMessage = answerLengthErrorMessage.Text,
+                UserSurveyFormSubmitButtonText = submissionButtonText.Text,
+                UserSurveyFormSaveButtonText = saveButtonText.Text,
+                UserDisableDataExtraction = noDataExtarction.Checked,
+                UserNotGenerateDashboard = noDashboard.Checked,
+                UserPersonIdArg = personIdArg.Text
+            };
         }
     }
 }

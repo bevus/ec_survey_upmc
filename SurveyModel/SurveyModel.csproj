@@ -40,10 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthentificationType.cs" />
     <Compile Include="Choice.cs" />
+    <Compile Include="EventActivity.cs" />
+    <Compile Include="Meeting.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Poll.cs" />
     <Compile Include="Question.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestionType.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="SubQuestion.cs" />
+    <Compile Include="Workshop.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
