@@ -4,7 +4,7 @@
                 <head runat="server" >
                     <meta charset="UTF-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                    <link href='css/bootstrap.css'  rel='stylesheet' />
+                    <link href='css/bootstrap.min.css'  rel='stylesheet' />
                     <link href='css/new.css'  rel='stylesheet' />
                     <link href='css/nav.css'  rel='stylesheet' />
                     <title> Dashboard </title>
@@ -23,12 +23,16 @@
                         <ul class='nav navbar-nav navbar-left'>
                             <li>
                                 <div class='btn-group' id='btn-group'>
-                                    <button type = 'button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>
-                                        Simple Survey 
-                                       
-                                   </button>
-                                    <button type = 'button' class='btn btn-primary'>Excel</button>
-                                    <button id = 'toPdf' type='button' class='btn btn-primary'>Pdf</button>
+                                    <form id="form" runat="server">
+                                        <button type = 'button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>
+                                            Simple Survey 
+                                       </button>
+                                        <button id = 'refresh' type='button' class='btn btn-primary'>Refresh</button>
+                                        
+                                        <asp:Button ID = "button1" runat="server" class='btn btn-primary' OnClick="ExtractDataWithDetails" Text="Excel" />
+                                        <asp:Button ID = "button2" runat="server" class='btn btn-primary' OnClick="ExtractDataWithStatistics" Text="ExcelStat" />
+                                        <button id = 'toPdf' type='button' class='btn btn-primary'>Pdf</button>
+                                    </form>                             
                                 </div>
                             </li>
                         </ul>
@@ -39,32 +43,36 @@
                    <!-- contenue de Question -->
                    <div class="container">
                        <div class="row" id="questions">
-                        <div><h3>Général Question's</h3></div>
                        </div>
                    </div>
                    <!-- Row Start workshop Questions -->
                    <div class="container">
-                       <div class="col-lg-12 col-md-12" id="accordion">
+                       <div class="col-lg-12 col-md-12" id="workshop">
                        </div>
                    </div>
                 </div> 
                                 </div>
-                                 <!--Google Visualization JS --> 
-<script src ="js/google-api.js" ></script>
-<script src ="js/jquery.js" ></script>
-<script src ="js/bootstrap.min.js" ></script>
+                                 
+<script src = "js/jquery-3.1.1.min.js"></script>
+<script src = "js/bootstrap.min.js" ></script> 
+<script src = "js/google-api.js" ></script>      
+<script src = "js/jspdf.min.js" ></script>     
+<script src = "js/rgbcolor.js" ></script>      
+<script src = "js/StackBlur.js" ></script>       
+<script src = "js/html2canvas.svg.min.js" ></script>        
+<script src = "js/canvg.min.js" ></script>
+          
+<script src = "js/custom.min.js" ></script>      
+<script src = "js/pdfGenerator.min.js" ></script>
 
-<script src ="js/customJs/custom.js" ></script>
-<script src ="js/pdf/mypdf.js"></script>
-
-<script src ="js/pdf/jspdf.min.js" ></script>
-<script src ="js/pdf/html2canvas.min.js" ></script>
-<script src ="js/pdf/html2canvas.svg.js" ></script>
 <script type ="text/javascript" >
     google.load('visualization', '1', { packages: ['corechart'] });
     var $listQ; var $idPoll =1 ;
     $(function() {
-            sendAjaxRequest($idPoll,"12BB1374A9E04977AB04C99E2BC1DA59");
+            sendAjaxRequest($idPoll,"Dashboard_12BB1374A9E04977AB04C99E2BC1DA59.aspx/getQuestions");
+    });
+    $(function () {
+        sendDataAtelierQuestions($idPoll, 'workshop', "Dashboard_12BB1374A9E04977AB04C99E2BC1DA59.aspx/getAtelierQuestions")
     });
 </script>
                               </body></html>

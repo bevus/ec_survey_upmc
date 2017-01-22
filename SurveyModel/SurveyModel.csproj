@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Atelier.cs" />
     <Compile Include="AuthentificationType.cs" />
     <Compile Include="Choice.cs" />
     <Compile Include="EventActivity.cs" />

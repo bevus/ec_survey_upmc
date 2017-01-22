@@ -4,6 +4,7 @@ using SurveyModel;
 using System;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
 using Widgets;
 
 namespace SurveyFormGenerator
@@ -167,6 +168,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DataAccess;
 using SurveyModel;
+using System.Threading;
 using Widgets;
 
 namespace Survey.surveys
@@ -220,6 +222,7 @@ namespace Survey.surveys
                     return;
                 }}
             }}
+            catch (ThreadAbortException){{}}
             catch (Exception)
             {{
                 Response.Redirect(""{settings.UserPage404}"");

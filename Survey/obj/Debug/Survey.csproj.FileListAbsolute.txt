@@ -179,3 +179,5 @@ C:\Users\Hacene\Desktop\ec_survey_upmc\Survey\obj\Debug\Survey.Properties.Resour
 C:\Users\Hacene\Desktop\ec_survey_upmc\Survey\obj\Debug\Survey.csproj.GenerateResource.Cache
 C:\Users\Hacene\Desktop\ec_survey_upmc\Survey\obj\Debug\Survey.dll
 C:\Users\Hacene\Desktop\ec_survey_upmc\Survey\obj\Debug\Survey.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\Survey\bin\ZKWeb.System.Drawing.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\Survey\obj\Debug\Survey.csproj.ResolveComReference.cache

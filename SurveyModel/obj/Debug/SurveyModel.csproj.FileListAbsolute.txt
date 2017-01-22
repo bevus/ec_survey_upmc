@@ -20,6 +20,5 @@ C:\Users\acer\Desktop\pistl\Survey\SurveyModel\obj\Debug\SurveyModel.dll
 C:\Users\acer\Desktop\pistl\Survey\SurveyModel\obj\Debug\SurveyModel.pdb
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyModel\bin\Debug\SurveyModel.dll
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyModel\bin\Debug\SurveyModel.pdb
-C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyModel\obj\Debug\SurveyModel.csprojResolveAssemblyReference.cache
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyModel\obj\Debug\SurveyModel.dll
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyModel\obj\Debug\SurveyModel.pdb

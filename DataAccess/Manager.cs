@@ -93,7 +93,7 @@ namespace DataAccess
                 {
                     q.BlockNumber = Int32.Parse(result["QUE_id_block"].ToString());
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                     throw new Exception("QUE_id_block is not an int");
                 }
@@ -204,7 +204,7 @@ namespace DataAccess
                 {
                     mapQuestion(result, q);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
                 questions.Add(q);
@@ -224,7 +224,7 @@ namespace DataAccess
             {
                 q.Id = Int32.Parse(result["question_id"].ToString());
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new Exception("id_question invalide");
             }
@@ -234,7 +234,7 @@ namespace DataAccess
             {
                 q.Order = Int32.Parse(result["question_order"].ToString());
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new Exception("order question invalide");
             }
@@ -622,6 +622,101 @@ namespace DataAccess
             }
             dataBaseConnection.Close();
             return personId;
+        }
+
+
+        public List<Meeting> getMeetings(int id_poll, string table)
+        {
+            var meetings = new List<Meeting>();
+
+            SqlConnection conn;
+
+            conn = ConnexionClasse.getConnexion();
+            conn.Open();
+            SqlCommand getQuestions = new SqlCommand("sel_meetings", conn);
+            getQuestions.CommandType = CommandType.StoredProcedure;
+            getQuestions.Parameters.AddWithValue("@id_poll", id_poll);
+            getQuestions.Parameters.AddWithValue("@table", table);
+            var result = getQuestions.ExecuteReader();
+
+            while (result.Read())
+            {
+                Meeting m = new Meeting();
+
+                try
+                {
+                    m.id_meeting = Int32.Parse(result["MEE_id_meeting"].ToString());
+                }
+                catch (Exception) { }
+
+
+                meetings.Add(m);
+            }
+
+
+            conn.Close();
+            foreach (Meeting m in meetings)
+            {
+                m.guests = getPersons(m.id_meeting);
+                // m.owner = getPerson(getIdOwner(m.id_meeting));
+            }
+
+            return meetings;
+        }
+        public List<Person> getPersons(int id_metting)
+        {
+            var persons = new List<Person>();
+            SqlConnection conn;
+
+            conn = ConnexionClasse.getConnexion();
+            conn.Open();
+            SqlCommand getPersons = new SqlCommand("sel_persons", conn);
+            getPersons.CommandType = CommandType.StoredProcedure;
+            getPersons.Parameters.AddWithValue("@id_meeting", id_metting);
+            var result = getPersons.ExecuteReader();
+            while (result.Read())
+            {
+                Person person = new Person();
+                try
+                {
+                    person.Id = Int32.Parse(result["PER_id_person"].ToString());
+                }
+                catch (Exception) { }
+                try
+                {
+                    person.CompanyId = Int32.Parse(result["PER_id_company"].ToString());
+                }
+                catch (Exception) { throw new Exception(""); }
+
+                person.FirstName = result["PER_first_name"].ToString();
+                person.LastName = result["PER_last_name"].ToString();
+                persons.Add(person);
+            }
+            conn.Close();
+            foreach (Person p in persons)
+                p.CompanyName = getCompany(p.CompanyId);
+            return persons;
+        }
+        public string getCompany(int id_company)
+        {
+            string company_name = "";
+            SqlConnection conn;
+
+            conn = ConnexionClasse.getConnexion();
+            conn.Open();
+            SqlCommand getPersons = new SqlCommand("sel_getCompanyName", conn);
+            getPersons.CommandType = CommandType.StoredProcedure;
+            getPersons.Parameters.AddWithValue("@id_company", id_company);
+            var result = getPersons.ExecuteReader();
+            while (result.Read())
+            {
+
+                company_name = result["COM_company"].ToString();
+
+
+            }
+            conn.Close();
+            return company_name;
         }
     }
 }

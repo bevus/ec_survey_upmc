@@ -14,7 +14,6 @@ namespace SurveyDashboardGenerator
         {
         }
 
-
         //Général
         public object GetGeneralResponse(Question q, String tableName)
         {
@@ -37,7 +36,6 @@ namespace SurveyDashboardGenerator
                     foreach (Choice c in q.Choices)
                     {
                         d.Add(new object[] { c.Label, NumberResponseMultipleChoice(q.Column, c.Label, tableName) });
-                        // d.Add(new { label = c.Label, data = new int[]   { 10, NumberResponseMultipleChoice(q.Column, c.Label) } } );
                     }
                     return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
 
@@ -128,23 +126,23 @@ namespace SurveyDashboardGenerator
         }
 
         //WorkShop     
-        public object GetWSsubQuestion(Question q, String table_name)
+        public object GetWSsubQuestion(int id_poll,Question q, String table_name)
         {
             var d = new List<object>();
             foreach (Question sq in q.SubQuestions)
             {
-                d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = GetWSsubQResponse(sq, table_name) });
+                d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = GetWSsubQResponse(id_poll, sq, table_name) });
             }
             return new { ques = q.Label.ToString(), qCategory = q.Category.ToString(), idq = q.Id, rep = d }; ;
         }
-        public object GetWSsubQResponse(Question q, String table_name)
+        public object GetWSsubQResponse(int id_poll,Question q, String table_name)
         {
             var atelier = new List<object>();
-            var listAtelier = Get_list_ws_atelier(table_name);
+            var listAtelier = Get_list_ws_atelier(id_poll ,table_name);
             switch (q.ControlType.ToString())
             {
                 case "DropDownList":
-                    foreach (int num_atelier in listAtelier)
+                    foreach (int num_atelier in listAtelier.Keys)
                     {
                         var d = new List<object>();
                         d.Add(new List<object> { "label", "data" });
@@ -156,17 +154,17 @@ namespace SurveyDashboardGenerator
                             x += att;
                             d.Add(new List<object> { c.Label, att });
                         }
-                        if (x != 0) { atelier.Add(new { idevent = num_atelier, idq = q.Id, rep = d }); }
+                        if (x != 0) { atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
                     }
                     break;
                 case "RadioButtonList":
-                    foreach (int num_atelier in listAtelier)
+                    foreach (int num_atelier in listAtelier.Keys)
                     {
                         var d = new List<object>();
                         d.Add(new List<object> { "label", "data" });
                         foreach (Choice c in q.Choices)
                         { d.Add(new List<object> { c.Label, NumberResponseWS(q.Column, c.Label, num_atelier, table_name) }); }
-                        if (d.Count != 0) { atelier.Add(new { idevent = num_atelier, idq = q.Id, rep = d }); }
+                        if (d.Count != 0) { atelier.Add(new {theme= listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
                     }
                     break;
                 case "CheckBoxList":
@@ -213,20 +211,21 @@ namespace SurveyDashboardGenerator
             return nb;
 
         }
-        public List<int> Get_list_ws_atelier(String table_name)
+        public Dictionary<int,String> Get_list_ws_atelier(int id_poll, String table_name)
         {
             SqlConnection dataBaseConnection = ConnexionClasse.getConnexion();
             dataBaseConnection.Open();
-            SqlCommand getNumberResponse = new SqlCommand("selWS", dataBaseConnection);
+            SqlCommand getNumberResponse = new SqlCommand("sel_ws_atelier", dataBaseConnection);
             getNumberResponse.CommandType = CommandType.StoredProcedure;
+            getNumberResponse.Parameters.AddWithValue("@id_poll", id_poll);
             getNumberResponse.Parameters.AddWithValue("@table", table_name);
             var result = getNumberResponse.ExecuteReader();
-            var atelier_Event = new List<int>();
+            var atelier_Event = new Dictionary<int,String>();
             while (result.Read())
             {
                 try
                 {
-                    atelier_Event.Add(int.Parse(result["listevent"].ToString()));
+                    atelier_Event.Add(int.Parse(result["id_atelier"].ToString()),result["theme"].ToString());
                 }
                 catch (Exception) { dataBaseConnection.Close(); }
             }
@@ -235,23 +234,23 @@ namespace SurveyDashboardGenerator
         }
 
         //Session
-        public object GetSessionsubQuestion(Question q, String table_name)
+        public object GetSessionsubQuestion(int id_poll,Question q, String table_name)
         {
             var d = new List<object>();
             foreach (Question sq in q.SubQuestions)
             {
-                d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = GetSessionsubQResponse(sq, table_name) });
+                d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = GetSessionsubQResponse(id_poll, sq, table_name) });
             }
             return new { ques = q.Label.ToString(), qCategory = q.Category.ToString(), idq = q.Id, rep = d }; ;
         }
-        public object GetSessionsubQResponse(Question q, String table_name)
+        public object GetSessionsubQResponse(int id_poll,Question q, String table_name)
         {
             var atelier = new List<object>();
-            var listAtelier = Get_list_session_atelier(table_name);
+            var listAtelier = Get_list_session_atelier(id_poll,table_name);
             switch (q.ControlType.ToString())
             {
                 case "DropDownList":
-                    foreach (int num_atelier in listAtelier)
+                    foreach (int num_atelier in listAtelier.Keys)
                     {
                         var d = new List<object>();
                         d.Add(new List<object> { "label", "data" });
@@ -263,17 +262,17 @@ namespace SurveyDashboardGenerator
                             x += att;
                             d.Add(new List<object> { c.Label, att });
                         }
-                        if (x != 0) { atelier.Add(new { idevent = num_atelier, idq = q.Id, rep = d }); }
+                        if (x != 0) { atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
                     }
                     break;
                 case "RadioButtonList":
-                    foreach (int num_atelier in listAtelier)
+                    foreach (int num_atelier in listAtelier.Keys)
                     {
                         var d = new List<object>();
                         d.Add(new List<object> { "label", "data" });
                         foreach (Choice c in q.Choices)
                         { d.Add(new List<object> { c.Label, NumberResponseSession(q.Column, c.Label, num_atelier, table_name) }); }
-                        if (d.Count != 0) { atelier.Add(new { idevent = num_atelier, idq = q.Id, rep = d }); }
+                        if (d.Count != 0) { atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
                     }
                     break;
                 case "CheckBoxList":
@@ -320,20 +319,21 @@ namespace SurveyDashboardGenerator
             return nb;
 
         }
-        public List<int> Get_list_session_atelier(String table_name)
+        public Dictionary<int, String> Get_list_session_atelier(int id_poll,String table_name)
         {
             SqlConnection dataBaseConnection = ConnexionClasse.getConnexion();
             dataBaseConnection.Open();
-            SqlCommand getNumberResponse = new SqlCommand("selSESSION", dataBaseConnection);
+            SqlCommand getNumberResponse = new SqlCommand("sel_session_atelier", dataBaseConnection);
             getNumberResponse.CommandType = CommandType.StoredProcedure;
+            getNumberResponse.Parameters.AddWithValue("@id_poll", id_poll);
             getNumberResponse.Parameters.AddWithValue("@table", table_name);
             var result = getNumberResponse.ExecuteReader();
-            var atelier_session = new List<int>();
+            var atelier_session = new Dictionary<int, String>();
             while (result.Read())
             {
                 try
                 {
-                    atelier_session.Add(int.Parse(result["listevent"].ToString()));
+                    atelier_session.Add(int.Parse(result["id_atelier"].ToString()), result["theme"].ToString());
                 }
                 catch (Exception) { dataBaseConnection.Close(); }
             }
@@ -429,12 +429,39 @@ namespace SurveyDashboardGenerator
             dataBaseConnection.Close();
             return nb;
         }
+        public object GetMeetingDataResponse(Question sq, String tableName)
+        {
+            var d = new List<object>();
+            { d.Add(new List<object> { "label", "data" }); }
+            switch (sq.ControlType.ToString())
+            {
+                case "DropDownList":
+                    foreach (Choice c in sq.Choices)
+                    { d.Add(new List<object> { c.Label, NumberResponseMeeting(sq.Column, c.Label, tableName) }); }
+                    return new { ctr = sq.ControlType, rep = d };
 
+                case "RadioButtonList":
+                    foreach (Choice c in sq.Choices)
+                    { d.Add(new List<object> { c.Label, NumberResponseMeeting(sq.Column, c.Label, tableName) }); }
+                    return new { ctr = sq.ControlType, rep = d };
+
+                case "CheckBoxList":
+                    d = new List<object>();
+                    foreach (Choice c in sq.Choices)
+                    {
+                        d.Add(new object[] { c.Label, NumberResponseMultipleChoiceMeeting(sq.Column, c.Label, tableName) });
+          
+                    }
+                    return new { ctr = sq.ControlType, rep = d };
+
+                default:
+                    return null;
+            }
+        }
         // Draw Conteners for Data
         public String getPieContener(String titre, String idContenerChart)
         {
-            return $@"<div class=""row gutter"">
-                        <div class="" col-md-6 col-sm-12 "">
+            return $@"<div class="" col-md-6 col-sm-12 "">
                             <div class=""widget"">
                                 <div class=""widget-header"">
                                     <div >{ titre} <a id=""q{idContenerChart} ""></a></div>
@@ -443,15 +470,12 @@ namespace SurveyDashboardGenerator
                                     <div id=""{idContenerChart} "" class=""gnrlques""></div>
                                 </div>
                             </div>
-                        </div>
-                    </div";
+                        </div>";
         }
         public String getCheckBoxContener(String titre, String idContenerChart)
         {
 
-            return $@"
-                      <div class=""row gutter"">
-                        <div class=""col-md-6 col-sm-12 "">
+            return $@"<div class=""col-md-6 col-sm-12 "">
                             <div class=""widget"">
                                 <div class=""widget-header"">
                                     <div > {titre} <a id=""q{idContenerChart}"" ></a></div>
@@ -460,8 +484,7 @@ namespace SurveyDashboardGenerator
                                     <div id=""{idContenerChart}"" class=""gnrlques""></div>
                                 </div>
                             </div>
-                        </div>
-                    </div>";
+                      </div>";
         }
         public String getWSQContener(String ques, List<object> rep)
         {
@@ -484,7 +507,7 @@ namespace SurveyDashboardGenerator
             //    }
             //}
 
-            str += "</div> </div></div>";
+            str += "</div></div></div>";
             return str;
         }
         public String GetGeneralQuestionContener(int poll_id)
@@ -495,20 +518,11 @@ namespace SurveyDashboardGenerator
                        <div class=""General Question's""></div>
                        <div class=""row"" id=""questions"">";
 
-
-            var workshopContener =
-                 $@"<!-- Contener Workshop Questions -->
-                   <div class=""container"">
-                       <div class=""col-lg-12 col-md-12"" id=""workshop"">
-                       </div>
-                   </div>";
-
             var meetingContener =
                 $@"<!-- Contener Meetings Questions -->
-                   <div class=""container"">
-                       <div class=""col-lg-12 col-md-12"" id=""meeting"">
-                       </div>
-                   </div>";
+                    <div class=""container"">
+                       <div class=""General Question's""></div>
+                       <div class=""row"" id=""meeting"">";
 
             var question = new List<object>();
             var manager = new Manager();
@@ -531,46 +545,33 @@ namespace SurveyDashboardGenerator
                     }
                     else { }
                 }
-                else if (q.Category.Equals("Workshop"))
-                {
-                    workshopContener +=
-                        $@"<div class='row'>
-                             <div class='widget'>
-                                <div class='widget-header'>
-                                    <div > {q.Label}</div>
-                        </div><div class='row'>";
-
-                }
                 else if (q.Category.Equals("Meeting"))
                 {
                     foreach (Question sq in q.SubQuestions)
                     {
                         if (sq.ControlType.Equals("DropDownList"))
                         {
-                            grlQuestionContener += getPieContener(sq.Label, sq.Id.ToString());
+                            meetingContener += getPieContener(sq.Label, "m"+sq.Id.ToString());
                         }
                         else if (sq.ControlType.Equals("RadioButtonList"))
                         {
-                            grlQuestionContener += getPieContener(sq.Label, sq.Id.ToString());
+                            meetingContener += getPieContener(sq.Label, "m"+sq.Id.ToString());
                         }
                         else if (sq.ControlType.Equals("CheckBoxList"))
                         {
-                            grlQuestionContener += getCheckBoxContener(sq.Label, sq.Id.ToString());
+                            meetingContener += getCheckBoxContener(sq.Label, "m"+sq.Id.ToString());
                         }
                         else { }
                     }
                 }
             }
-            return grlQuestionContener + "</div></div>";
+            return grlQuestionContener + "</div></div>"+meetingContener+"</div></div>";
 
             //    public String getWSQColapseContener(String ques, String rep)
             //    {
-
             //        var $str = "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>" +
             //                   "<a data-toggle='collapse' data-parent='#accordion' href='#collapseTwo'>" + $ques + "</a></h4>" +
             //                   "</div>" + "<div id='collapseTwo' class='panel-collapse collapse'><div class='panel-body'>";
-
-
             //        for (var j = 0; j < $rep.length; j++) {
             //            if ($rep[j] != null) {
             //        $str += "<div id=ws" +$rep[j]["idq"] + "></div>";

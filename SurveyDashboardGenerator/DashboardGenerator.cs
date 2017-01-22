@@ -12,7 +12,7 @@ namespace SurveyDashboardGenerator
         public Boolean AllowDataExtraction { get; set; }
         public DashboardUtils utils = new DashboardUtils();
 
-        public DashboardGenerator(string directory, Poll poll,String dashboard_name,Boolean allowDataExtraction )
+        public DashboardGenerator(string directory, Poll poll,String dashboard_name, Boolean doNotAllowDataExtraction )
         {
             if (poll.Equals(null))
             {
@@ -21,13 +21,90 @@ namespace SurveyDashboardGenerator
             this.Directory = directory;
             this.Poll = poll;
             this.Dashbord_name = dashboard_name;
-            this.AllowDataExtraction = allowDataExtraction;
+            this.AllowDataExtraction = !doNotAllowDataExtraction;
         }
       
         public string GenerateDashboard()
         {
             return GenerateDashboard_V1();
         }
+       
+        // version 0
+        public string GenerateDashboard_V0()
+        {
+            if (Poll.Equals(null)) { throw new Exception("Poll = null "); }
+            var utils = new DashboardUtils();
+
+            var aspxFileName = Dashbord_name + ".aspx";
+            var aspxcsFileName = Dashbord_name + ".aspx.cs";
+            var aspxdesinercsFileName = Dashbord_name + ".aspx.designer.cs";
+
+            String aspxCode = GetHeader(aspxcsFileName) +
+                              $@"<body class='jumbotron'>
+                                <div id = 'dashboard-container' class='dashboard-container'>
+                                    {GetNavHeader(Poll.Name)} 
+                                    {GetDashbordContener_V0(Poll.Id)} 
+                                </div>
+                                 {AddJScript_V0(Poll.Id)}
+                              </body></html>";
+
+            String aspxdesignercsCode = GetDesignerCSCode(aspxcsFileName);
+            String aspxcsCode = GetCSCode(aspxcsFileName);
+
+            //write file
+            System.IO.File.WriteAllText(Directory + aspxcsFileName, aspxcsCode, Encoding.UTF8);
+            System.IO.File.WriteAllText(Directory + aspxdesinercsFileName, aspxdesignercsCode, Encoding.UTF8);
+            System.IO.File.WriteAllText(Directory + aspxFileName, aspxCode.ToString(), Encoding.UTF8);
+            //GenerateProcedureStocke();
+            return aspxFileName; ;
+        }
+        public String GetDashbordContener_V0(int poll_id)
+        {
+            return
+                $@"<div class=""container-fluid"" id=""dashboard-content"">
+                       {utils.GetGeneralQuestionContener(poll_id)}
+                        <!-- Row Start workshop Questions -->
+                        <div class=""container"">
+                            <div class=""col-lg-12 col-md-12"" id=""atelier"">
+                        </div>
+                   </div>
+                </div>";
+        }
+        public String AddJScript_V0(int idPoll)
+        {
+            return
+$@"
+<script src = ""js/jquery-3.1.1.min.js""></script>
+<script src = ""js/bootstrap.min.js"" ></script> 
+<script src = ""js/google-api.js"" ></script>      
+<script src = ""js/jspdf.min.js"" ></script>     
+<script src = ""js/rgbcolor.js"" ></script>      
+<script src = ""js/StackBlur.js"" ></script>       
+<script src = ""js/html2canvas.svg.min.js"" ></script>        
+<script src = ""js/canvg.min.js"" ></script>
+          
+<script src = ""js/custom.min.js"" ></script>      
+<script src = ""js/pdfGenerator.min.js"" ></script>
+          
+    <script type =""text/javascript"" >
+        google.load('visualization', '1', {{ packages: ['corechart'] }});
+        var $listQ;
+        var $idPoll ={ idPoll } ;
+    $(function() {{
+            $(""#questions"").find(""div .gnrlques"").each(function () {{
+                        sendDataQAjaxRequest($(this).attr('id'),""{Dashbord_name}.aspx/GetGnrlQuestionData"");       
+            }});
+            $(""#meeting"").find(""div .gnrlques"").each(function () {{
+                        sendDataQAjaxRequest($(this).attr('id'),""{Dashbord_name}.aspx/GetQesMeetingData"");       
+            }});
+
+            sendDataAtelierQuestions($idPoll,'atelier',""{Dashbord_name}.aspx/getAtelierQuestions"");
+   }});
+</script>";
+        }
+
+
+
         // version 1
         public string GenerateDashboard_V1()
         {
@@ -64,12 +141,11 @@ namespace SurveyDashboardGenerator
                    <!-- contenue de Question -->
                    <div class=""container"">
                        <div class=""row"" id=""questions"">
-                        <div><h3>Général Question's</h3></div>
                        </div>
                    </div>
                    <!-- Row Start workshop Questions -->
                    <div class=""container"">
-                       <div class=""col-lg-12 col-md-12"" id=""accordion"">
+                       <div class=""col-lg-12 col-md-12"" id=""workshop"">
                        </div>
                    </div>
                 </div>";
@@ -77,100 +153,111 @@ namespace SurveyDashboardGenerator
         public String AddJScript(int idPoll)
         {
             return
-$@"<!--Google Visualization JS --> 
-<script src =""js/google-api.js"" ></script>
-<script src =""js/jquery.js"" ></script>
-<script src =""js/bootstrap.min.js"" ></script>
+$@"
+<script src = ""js/jquery-3.1.1.min.js""></script>
+<script src = ""js/bootstrap.min.js"" ></script> 
+<script src = ""js/google-api.js"" ></script>      
+<script src = ""js/jspdf.min.js"" ></script>     
+<script src = ""js/rgbcolor.js"" ></script>      
+<script src = ""js/StackBlur.js"" ></script>       
+<script src = ""js/html2canvas.svg.min.js"" ></script>        
+<script src = ""js/canvg.min.js"" ></script>
+          
+<script src = ""js/custom.min.js"" ></script>      
+<script src = ""js/pdfGenerator.min.js"" ></script>
 
-<script src =""js/customJs/custom.js"" ></script>
-<script src =""js/pdf/mypdf.js""></script>
-
-<script src =""js/pdf/jspdf.min.js"" ></script>
-<script src =""js/pdf/html2canvas.min.js"" ></script>
-<script src =""js/pdf/html2canvas.svg.js"" ></script>
 <script type =""text/javascript"" >
     google.load('visualization', '1', {{ packages: ['corechart'] }});
     var $listQ; var $idPoll ={ idPoll } ;
     $(function() {{
-            sendAjaxRequest($idPoll,""{Poll.ExternalId}"");
+            sendAjaxRequest($idPoll,""{Dashbord_name}.aspx/getQuestions"");
+    }});
+    $(function () {{
+        sendDataAtelierQuestions($idPoll, 'workshop', ""{Dashbord_name}.aspx/getAtelierQuestions"")
     }});
 </script>";
         }
 
 
-        // version 0
-        public string GenerateDashboard_V0()
-        {
-            if (Poll.Equals(null)) { throw new Exception("Poll = null "); }
-            var utils = new DashboardUtils();
-
-            var aspxFileName = "Dashboard_" + Poll.ExternalId + ".aspx";
-            var aspxcsFileName = "Dashboard_" + Poll.ExternalId + ".aspx.cs";
-            var aspxdesinercsFileName = "Dashboard_" + Poll.ExternalId + ".aspx.designer.cs";
-
-            String aspxCode = GetHeader(aspxcsFileName) +
-                              $@"<body class='jumbotron'>
-                                <div id = 'dashboard-container' class='dashboard-container'>
-                                    {GetNavHeader(Poll.Name)} 
-                                    {GetDashbordContener_V0(Poll.Id)} 
-                                </div>
-                                 {AddJScript_V0(Poll.Id)}
-                              </body></html>";
-
-            String aspxdesignercsCode = GetDesignerCSCode(aspxcsFileName);
-            String aspxcsCode = GetCSCode(aspxcsFileName);
-
-            //write file
-            System.IO.File.WriteAllText(Directory + aspxcsFileName, aspxcsCode, Encoding.UTF8);
-            System.IO.File.WriteAllText(Directory + aspxdesinercsFileName, aspxdesignercsCode, Encoding.UTF8);
-            System.IO.File.WriteAllText(Directory + aspxFileName, aspxCode.ToString(), Encoding.UTF8);
-            //GenerateProcedureStocke();
-            return Directory + aspxcsFileName; ;
-        }
-        public String GetDashbordContener_V0(int poll_id)
-        {
-            return
-                $@"<div class=""container-fluid"" id=""dashboard-content"">
-                       {utils.GetGeneralQuestionContener(poll_id)}
-                </div>";
-        }
-        public String AddJScript_V0(int idPoll)
-        {
-            return
-$@"<!--Google Visualization JS --> 
-<script src =""js/google-api.js"" ></script>
-<script src =""js/jquery.js"" ></script>
-<script src =""js/bootstrap.min.js"" ></script>
-
-<script src =""js/customJs/custom.js"" ></script>
-<script src =""js/customJs/customPdf.js""></script>
-
-<script src =""js/pdf/jspdf.min.js"" ></script>
-<script src =""js/pdf/html2canvas.min.js"" ></script>
-<script src =""js/pdf/html2canvas.svg.js"" ></script>
-<script type =""text/javascript"" >
-    google.load('visualization', '1', {{ packages: ['corechart'] }});
-    var $listQ; var $idPoll ={ idPoll } ;
-    $(function() {{
-            $(""#questions"").find(""div .gnrlques"").each(function () {{
-                        sendDataQAjaxRequest($(this).attr('id'),""{Poll.ExternalId}""); 
-                }});
-        }});
-</script>";
-        }
-
 
         //other methodes
         public String GetCSCode(String aspxcsFileName)
         {
+            var ButtonCode = "";
+
+            if (AllowDataExtraction)
+            {
+                ButtonCode = $@"
+        protected void ExtractDataWithDetails(object sender, EventArgs e)
+        {{
+            var manager = new Manager();
+
+            SurveyDataExtraction dataextraction = new SurveyDataExtraction();
+            var poll = manager.getPoll(1);
+            var questions = manager.getQuestions(poll.Id);
+
+
+            string surveytable = poll.TableName;
+            string meetingtable = poll.TableMeetingName;
+            string sessiontable = poll.TableSessionName;
+            string wstable = poll.TableWsName;
+            var meetings = manager.getMeetings(poll.Id, meetingtable);
+            //var attantedmeetings = dataextraction.getAttendedMeetings(poll.Id, meetingtable);
+            var sessionAtelier = dataextraction.getSessionAtelier(poll.Id, sessiontable);
+            var wsAtelier = dataextraction.getWsAtelier(poll.Id, wstable);
+
+            var wb = dataextraction.Print_into_excel_file2(questions, surveytable, meetingtable, sessiontable, wstable, meetings, sessionAtelier, wsAtelier);
+            string fullPath = ""~/surveys/DataWithStatistics.xlsx"";
+            try
+            {{
+                wb.SaveAs(Server.MapPath(fullPath));
+                wb.Close();
+            }}
+            catch (Exception) {{ }}
+
+            Response.Redirect(fullPath);
+            System.IO.File.Delete(Server.MapPath(fullPath));
+        }}
+
+        protected void ExtractDataWithStatistics(object sender, EventArgs e)
+        {{
+
+            SurveyDataExtraction dataextraction = new SurveyDataExtraction();
+            var manager = new Manager();
+            var poll = manager.getPoll(1);
+            var questions = poll.Questions;
+            string surveytable = poll.TableName;
+            string meetingtable = poll.TableMeetingName;
+            string sessiontable = poll.TableSessionName;
+            string wstable = poll.TableWsName;
+            var attantedmeetings = dataextraction.getAttendedMeetings(poll.Id, meetingtable);
+            var wb = dataextraction.Print_into_excel_file(questions, attantedmeetings, surveytable, meetingtable, sessiontable, wstable);
+            string fullPath = ""~/surveys/DataWithDetails.xlsx"";
+            try
+            {{
+                wb.SaveAs(Server.MapPath(fullPath));
+                wb.Close();
+            }}
+            catch (Exception) {{ }}
+
+            Response.Redirect(fullPath);
+            System.IO.File.Delete(Server.MapPath(fullPath));
+
+        }}";
+            }
+
             return
-$@"using System;
+$@"
+using System;
 using System.Collections.Generic;
 using System.Web.Services;
 using DataAccess;
 using SurveyModel;
 using SurveyDashboardGenerator;
 using System.Web.Script.Services;
+using SurveyDataExtractorGenerator;
+using Excel = Microsoft.Office.Interop.Excel;
+
 namespace {aspxcsFileName.Replace(".aspx.cs", "")}
 {{
     public partial class {aspxcsFileName.Replace(".aspx.cs", "")}  : System.Web.UI.Page
@@ -200,38 +287,79 @@ namespace {aspxcsFileName.Replace(".aspx.cs", "")}
         }}
 
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
+        public static object GetQesMeetingData(int idQuestion)
+        {{
+            var poll = manager.getPoll(id_poll);
+            var questionData = new object();
+            foreach (Question q in poll.Questions)
+            {{
+                if(q.Category==""Meeting""){{
+                     foreach (Question sq in q.SubQuestions){{
+                        if (idQuestion.Equals(sq.Id))
+                        {{
+                             var repMeet = u.GetMeetingDataResponse(sq,poll.TableMeetingName);
+                             if (repMeet != null) questionData=repMeet;
+                            break;
+                        }}
+                     }}
+                }}
+            }}
+            return questionData;
+        }}
+
+        [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
         public static List<object> getQuestions(int idPoll)
         {{
-            DashboardUtils u = new DashboardUtils();
             var question = new List<object>();
             var poll = manager.getPoll(idPoll);
                 
             foreach (Question q in poll.Questions)
             {{
-            switch (q.Category.ToString())
-            {{
-                case ""General"":
-                    var repGnrl = u.GetGeneralResponse(q, poll.TableName);
-                    if (repGnrl != null) question.Add(repGnrl);
-                    break;
-                case ""Activity"":
-                    var repSession = u.GetSessionsubQuestion(q, poll.TableSessionName);
-                    if (repSession != null) question.Add(repSession);
-                    break;
-                case ""Meeting"":
-                    var repMeet = u.GetMeetingsubQuestion(q,poll.TableMeetingName);
-                    if (repMeet != null) question.Add(repMeet);
-                    break;
-                case ""Workshop"":
-                    var repWS = u.GetWSsubQuestion(q, poll.TableWsName);
-                    if (repWS != null) question.Add(repWS);
-                    break;
-                default:
-                    break;
-            }}
+                switch (q.Category.ToString())
+                {{
+                    case ""General"":
+                        var repGnrl = u.GetGeneralResponse(q, poll.TableName);
+                        if (repGnrl != null) question.Add(repGnrl);
+                        break;
+                    case ""Meeting"":
+                        var repMeet = u.GetMeetingsubQuestion(q,poll.TableMeetingName);
+                        if (repMeet != null) question.Add(repMeet);
+                        break;
+                    default:
+                        break;
+                }}
             }}
             return question;
         }}
+        [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
+        public static List<object> getAtelierQuestions(int idPoll)
+        {{
+
+            var question = new List<object>();
+            var poll = manager.getPoll(idPoll);
+
+            foreach (Question q in poll.Questions)
+            {{
+                switch (q.Category.ToString())
+                {{
+                    case ""Activity"":
+                        var repSession = u.GetSessionsubQuestion(idPoll,q, poll.TableSessionName);
+                        if (repSession != null) question.Add(repSession);
+                        break;
+                    case ""Workshop"":
+                        var repWS = u.GetWSsubQuestion(idPoll,q, poll.TableWsName);
+                        if (repWS != null) question.Add(repWS);
+                        break;
+                    default:
+                        break;
+                }}
+            }}
+            return question;
+        }}
+         // Excel
+
+        {ButtonCode}
+
     }}
 }}";
 
@@ -255,7 +383,7 @@ $@"namespace {aspxcsFileName.Replace(".aspx.cs", "") } {{
                 <head runat=""server"" >
                     <meta charset=""UTF-8"" />
                     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />
-                    <link href='css/bootstrap.css'  rel='stylesheet' />
+                    <link href='css/bootstrap.min.css'  rel='stylesheet' />
                     <link href='css/new.css'  rel='stylesheet' />
                     <link href='css/nav.css'  rel='stylesheet' />
                     <title> Dashboard </title>
@@ -263,6 +391,15 @@ $@"namespace {aspxcsFileName.Replace(".aspx.cs", "") } {{
         }
         public String GetNavHeader(String surveyName)
         {
+            var ButtonExtraction = "";
+            if (AllowDataExtraction)
+            {
+                ButtonExtraction = $@" 
+                                        <asp:Button ID = ""button1"" runat=""server"" class='btn btn-primary' OnClick=""ExtractDataWithDetails"" Text=""Excel"" />
+                                        <asp:Button ID = ""button2"" runat=""server"" class='btn btn-primary' OnClick=""ExtractDataWithStatistics"" Text=""ExcelStat"" />
+                                        <button id = 'toPdf' type='button' class='btn btn-primary'>Pdf</button>";
+            }
+
             return
            $@"<nav class='navbar  navbar-fixed-top'>
                <div class=""container-fluid"" id=""navdiv"">
@@ -277,12 +414,13 @@ $@"namespace {aspxcsFileName.Replace(".aspx.cs", "") } {{
                         <ul class='nav navbar-nav navbar-left'>
                             <li>
                                 <div class='btn-group' id='btn-group'>
-                                    <button type = 'button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>
-                                        { surveyName} 
-                                       
-                                   </button>
-                                    <button type = 'button' class='btn btn-primary'>Excel</button>
-                                    <button id = 'toPdf' type='button' class='btn btn-primary'>Pdf</button>
+                                    <form id=""form"" runat=""server"">
+                                        <button type = 'button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>
+                                            { surveyName} 
+                                       </button>
+                                        <button id = 'refresh' type='button' class='btn btn-primary'>Refresh</button>
+                                       {ButtonExtraction}
+                                    </form>                             
                                 </div>
                             </li>
                         </ul>
