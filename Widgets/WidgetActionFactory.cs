@@ -29,6 +29,7 @@ namespace Widgets
         string GetValueAction(QuestionWebControl qwc);
         WebControl QuestionWebControlAction(Question q);
         string MandatoryQuestionErrorMessage(FormGenerationSettings settings);
+        void SetQuestionAnswer(Question q, string userValue);
     }
 
     public class TextBoxAction : IWidgetAction
@@ -52,6 +53,11 @@ namespace Widgets
         public string MandatoryQuestionErrorMessage(FormGenerationSettings settings)
         {
             return settings.UserTextQuestionErrorMessage;
+        }
+
+        public void SetQuestionAnswer(Question q, string userValue)
+        {
+            q.Answer = userValue;
         }
     }
 
@@ -86,6 +92,18 @@ namespace Widgets
         public string MandatoryQuestionErrorMessage(FormGenerationSettings settings)
         {
             return settings.UserOptionQuestionErrorMessage;
+        }
+
+        public void SetQuestionAnswer(Question q, string userValue)
+        {
+            foreach (var choice in q.Choices)
+            {
+                if (userValue.Equals(choice.Value))
+                {
+                    q.Answer = choice.Label;
+                    break;
+                }
+            }
         }
     }
 
@@ -124,6 +142,17 @@ namespace Widgets
         {
             return settings.UserOptionQuestionErrorMessage;
         }
+
+        public void SetQuestionAnswer(Question q, string userValue)
+        {
+            foreach (var choice in q.Choices)
+            {
+                if (userValue.Equals(choice.Value))
+                {
+                    q.Answer = choice.Label;
+                }
+            }
+        }
     }
 
     public class CommentsBoxAction : IWidgetAction
@@ -151,6 +180,11 @@ namespace Widgets
         public string MandatoryQuestionErrorMessage(FormGenerationSettings settings)
         {
             return settings.UserTextQuestionErrorMessage;
+        }
+
+        public void SetQuestionAnswer(Question q, string userValue)
+        {
+            q.Answer = userValue;
         }
     }
     public class CheckBoxListAction : IWidgetAction
@@ -193,6 +227,22 @@ namespace Widgets
         {
             return settings.UserOptionQuestionErrorMessage;
         }
+
+        public void SetQuestionAnswer(Question q, string userValue)
+        {
+            var selectedLabels = new List<string>();
+            foreach (var value in userValue.Split(';'))
+            {
+                foreach (var choice in q.Choices)
+                {
+                    if (value.Equals(choice.Value))
+                    {
+                        selectedLabels.Add(choice.Value);
+                    }
+                }
+            }
+            q.Answer = string.Join(";", selectedLabels);
+        }
     }
 
     public class DateTimeAction : IWidgetAction
@@ -217,6 +267,11 @@ namespace Widgets
         public string MandatoryQuestionErrorMessage(FormGenerationSettings settings)
         {
             return settings.UserDateTimeQuestionErrorMessage;
+        }
+
+        public void SetQuestionAnswer(Question q, string userValue)
+        {
+            q.Answer = userValue;
         }
     }
 }

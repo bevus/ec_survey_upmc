@@ -118,12 +118,14 @@ namespace survey
             authType.SelectedIndex = (int)FormGenerationSettings.DefaultAuthType;
             page404.Text = FormGenerationSettings.Page404;
             optoinQuestionErrorMessage.Text = FormGenerationSettings.OptionQuestionErrorMessage;
+            checkboxQuestionErrorMessage.Text = FormGenerationSettings.CheckboxesQuestionErrorMessage;
             textQuestionErrorMessage.Text = FormGenerationSettings.TextQuestionErrorMessage;
             dateTimeQuestionErrorMessage.Text = FormGenerationSettings.DateTimeQuestionErrorMessage;
             answerLengthErrorMessage.Text = FormGenerationSettings.AnswerLengthErrorMessage;
             submissionButtonText.Text = FormGenerationSettings.SurveyFormSubmitButtonText;
             saveButtonText.Text = FormGenerationSettings.SurveyFormSaveButtonText;
             personIdArg.Text = FormGenerationSettings.PersonIdArg;
+            cssFileName.Text = FormGenerationSettings.CssFile;
         }
 
         public FormGenerationSettings GetSettings()
@@ -135,6 +137,7 @@ namespace survey
                 UserAuthType = (AuthentificationType)authType.SelectedIndex,
                 UserPage404 = page404.Text,
                 UserOptionQuestionErrorMessage = optoinQuestionErrorMessage.Text,
+                UserCheckboxQuestionErrorMessage = checkboxQuestionErrorMessage.Text,
                 UserTextQuestionErrorMessage = textQuestionErrorMessage.Text,
                 UserDateTimeQuestionErrorMessage = dateTimeQuestionErrorMessage.Text,
                 UserAnswerLengthErrorMessage = answerLengthErrorMessage.Text,
@@ -142,7 +145,8 @@ namespace survey
                 UserSurveyFormSaveButtonText = saveButtonText.Text,
                 UserDisableDataExtraction = noDataExtarction.Checked,
                 UserNotGenerateDashboard = noDashboard.Checked,
-                UserPersonIdArg = personIdArg.Text
+                UserPersonIdArg = personIdArg.Text,
+                UserCssFile = cssFileName.Text
             };
         }
     }

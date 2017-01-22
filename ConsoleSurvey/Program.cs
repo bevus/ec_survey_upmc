@@ -13,6 +13,8 @@ namespace ConsoleSurvey
         private static void Main(string[] args)
         {
             var manager = new Manager();
+            var poll = manager.getPoll(1);
+            Console.WriteLine();
         }
 
         private static void TestGetHashedId(Poll poll)

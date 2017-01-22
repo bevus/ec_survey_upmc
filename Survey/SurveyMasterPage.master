@@ -5,12 +5,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
     <asp:ContentPlaceHolder id="scripts" runat="server">
         </asp:ContentPlaceHolder>
-    <link href="Content/bootstrap.css" rel="stylesheet" />
-    <link href="Content/surveyStyle.css" rel="stylesheet" />
+    
 </head>
-<body>
+<body>      
 <div class="container">
     <asp:ContentPlaceHolder id="surveyFormPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>

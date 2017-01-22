@@ -119,14 +119,26 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
+                            <label class="control-label" for="">Checkbox question error message</label>
+                            <asp:TextBox ID="checkboxQuestionErrorMessage" CssClass="form-control" runat="server"></asp:TextBox>
+                            <asp:Label ID="_checkboxQuestionErrorMessage" runat="server" Visible="false" CssClass="has-error"></asp:Label>
+                        </div>
+                        <div class="form-group col-md-5 col-md-offset-2">
                             <label class="control-label" for="">Date time question error message</label>
                             <asp:TextBox ID="dateTimeQuestionErrorMessage" CssClass="form-control" runat="server"></asp:TextBox>
                             <asp:Label ID="_dateTimeQuestionErrorMessage" runat="server" Visible="false" CssClass="has-error"></asp:Label>
                         </div>
-                        <div class="form-group col-md-5 col-md-offset-2">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
                             <label class="control-label" for="">Answer length error message</label>
                             <asp:TextBox ID="answerLengthErrorMessage" CssClass="form-control" runat="server"></asp:TextBox>
                             <asp:Label ID="_answerLengthErrorMessage" runat="server" Visible="false" CssClass="has-error"></asp:Label>
+                        </div>
+                        <div class="form-group col-md-5 col-md-offset-2">
+                            <label class="control-label" for="">Css file name</label>
+                            <asp:TextBox ID="cssFileName" CssClass="form-control" runat="server"></asp:TextBox>
+                            <asp:Label ID="_cssFileName" runat="server" Visible="false" CssClass="has-error"></asp:Label>
                         </div>
                     </div>
                     <div class="row">

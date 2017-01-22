@@ -166,7 +166,7 @@ namespace survey {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label _noDashboard;
-        
+
         /// <summary>
         /// optoinQuestionErrorMessage control.
         /// </summary>
@@ -175,7 +175,7 @@ namespace survey {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox optoinQuestionErrorMessage;
-        
+
         /// <summary>
         /// _optoinQuestionErrorMessage control.
         /// </summary>
@@ -184,7 +184,12 @@ namespace survey {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label _optoinQuestionErrorMessage;
-        
+        protected global::System.Web.UI.WebControls.TextBox checkboxQuestionErrorMessage;
+        protected global::System.Web.UI.WebControls.Label _checkboxQuestionErrorMessage;
+
+        protected global::System.Web.UI.WebControls.TextBox cssFileName;
+        protected global::System.Web.UI.WebControls.Label _cssFileName;
+
         /// <summary>
         /// textQuestionErrorMessage control.
         /// </summary>

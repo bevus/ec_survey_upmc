@@ -244,9 +244,9 @@
     <Content Include="scripts\bluemoon\js\custom-index4.js" />
     <Content Include="scripts\bluemoon\js\custom-maps.js" />
     <Content Include="scripts\customJs\custom.js" />
+    <Content Include="scripts\jquery.validation_1.15.0_additional-methods.js" />
     <Content Include="scripts\pdf\canvg.js" />
     <Content Include="scripts\pdf\canvg.min.js" />
-    <Content Include="surveys\EndSurvey.aspx" />
     <Content Include="surveys\js\customJs\custom.min.js" />
     <Content Include="scripts\customJs\customPdf.js" />
     <Content Include="scripts\customJs\verticalChart.js" />
@@ -429,7 +429,6 @@
     <Content Include="surveys\css\bootstrap.css" />
     <Content Include="surveys\css\nav.css" />
     <Content Include="surveys\css\new.css" />
-    <Content Include="surveys\Dashboard_DFF183EFD77E46868537F45923EAD693.aspx" />
     <Content Include="surveys\js\bootstrap.min.js" />
     <Content Include="surveys\js\customJs\custom.js" />
     <Content Include="surveys\js\customJs\customPdf.js" />
@@ -454,8 +453,6 @@
     <Content Include="surveys\js\pdf\rgbcolor.js" />
     <Content Include="surveys\js\pdf\script.js" />
     <Content Include="surveys\js\pdf\StackBlur.js" />
-    <Content Include="surveys\Page404.aspx" />
-    <Content Include="surveys\saved.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -488,13 +485,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="surveys\Dashboard_DFF183EFD77E46868537F45923EAD693.aspx.cs">
-      <DependentUpon>Dashboard_DFF183EFD77E46868537F45923EAD693.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="surveys\Dashboard_DFF183EFD77E46868537F45923EAD693.aspx.designer.cs">
-      <DependentUpon>Dashboard_DFF183EFD77E46868537F45923EAD693.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

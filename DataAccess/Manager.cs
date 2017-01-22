@@ -146,8 +146,7 @@ namespace DataAccess
             var choices = new List<Choice>();
             var dataBaseConnection = ConnexionClasse.getConnexion();
             dataBaseConnection.Open();
-            SqlDataReader result = null;
-            SqlCommand getQuestionsChoices;
+            SqlDataReader result;
             if (q.GetType() == typeof(SubQuestion))
             {
                 result = ExecuteStoredProcedure(dataBaseConnection, "sel_sub_questions_choices",
@@ -170,12 +169,13 @@ namespace DataAccess
                 var r = new Choice();
                 try
                 {
-                    r.Id = Int32.Parse(result["choice_id"].ToString());
+                    r.Id = int.Parse(result["choice_id"].ToString());
                     r.Label = result["choice_label"].ToString();
-                    r.Id = Int32.Parse(result["choice_order"].ToString());
+                    r.Id = int.Parse(result["choice_order"].ToString());
+                    //r.Value = result["choice_label"].ToString();
                     r.Value = result["choice_value"].ToString();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
                 choices.Add(r);

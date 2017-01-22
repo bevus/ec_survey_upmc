@@ -20,46 +20,46 @@ namespace Survey.surveys
             UserSurveyFileName = "Survey_12BB1374A9E04977AB04C99E2BC1DA59",
             UserDashboardFileName = "Dashboard_12BB1374A9E04977AB04C99E2BC1DA59",
             UserAuthType = AuthentificationType.IdInUrl,
-            UserPage404 = "Page404.aspx",
+            UserPage404 = "pages/Page404.aspx",
             UserOptionQuestionErrorMessage = "Please choose a value",
             UserTextQuestionErrorMessage = "Please write some text",
             UserDateTimeQuestionErrorMessage = "Please choose a value",
             UserAnswerLengthErrorMessage = "Answer too long",
-            UserSurveyFormSubmitButtonText = "Submit !",
-            UserSurveyFormSaveButtonText = "save !",
+            UserSurveyFormSubmitButtonText = "Submit",
+            UserSurveyFormSaveButtonText = "Save",
             UserDisableDataExtraction = false,
             UserNotGenerateDashboard = false
         };
         private Button saveButton = new Button
         {
-            Text = "save !",
+            Text = "Save",
             CssClass = "saveButton btn btn-success",
         };
         private Button submitButton = new Button
         {
-            Text = "Submit !",
+            Text = "Submit",
             CssClass = "saveButton btn btn-primary",
         };
         protected override void OnInit(EventArgs e)
         {
             try
             {
-                _personId = int.Parse(Request.QueryString["hash"]);
+                _personId = int.Parse(Request.QueryString["id"]);
                 if (!Manager.ExistPerson(_personId))
                 {
-                    Response.Redirect("Page404.aspx");
+                    Response.Redirect("pages/Page404.aspx");
                     return;
                 }
 
                 if (Manager.AlreadyAnswerd(PollId, _personId))
                 {
-                    Response.Redirect("EndSurvey.aspx");
+                    Response.Redirect("pages/EndSurvey.aspx");
                     return;
                 }
             }
             catch (Exception)
             {
-                Response.Redirect("Page404.aspx");
+                Response.Redirect("pages/Page404.aspx");
             }
             var manager = new Manager();
             _poll = manager.getPoll(PollId, _personId);
@@ -81,7 +81,7 @@ namespace Survey.surveys
         {
             var time = DateTime.Now;
             Manager.SaveAnswer(SurveyUtils.QuestionsWebControlToQuestions(_questionControls), _poll, ExternalId, _personId, time);
-            Response.Redirect("saved.aspx");
+            Response.Redirect("pages/saved.aspx");
         }
         protected void submitAnswers(object sender, EventArgs e)
 		{
@@ -89,7 +89,7 @@ namespace Survey.surveys
             var time = DateTime.Now;
             Manager.SaveAnswer(SurveyUtils.QuestionsWebControlToQuestions(_questionControls), _poll, ExternalId, _personId, time);
             Manager.SaveInPollSurvey(PollId, _personId, time);
-            Response.Redirect("EndSurvey.aspx");
+            Response.Redirect("pages/EndSurvey.aspx");
 		}
     }
 }
