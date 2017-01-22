@@ -205,22 +205,16 @@ namespace SurveyDataExtractorGenerator
 
             conn = ConnexionClasse.getConnexion();
 
-            if (category.Equals("Activity"))
+            if (category.Equals("Activity") || category.Equals("Workshop"))
             {
                 clumnname = "SUB_" + nomC;
-                ps = "sel_sessionANDws_responses";
+                ps = "sel_session_ws_responses";
             }
             else
             if (category.Equals("Meeting"))
             {
                 clumnname = "SUM_" + nomC;
                 ps = "sel_meeting_responses";
-            }
-            else
-            if (category.Equals("Workshop"))
-            {
-                clumnname = "SUB_" + nomC;
-                ps = "sel_sessionANDws_responses";
             }
 
             conn.Open();

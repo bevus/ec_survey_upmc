@@ -153,7 +153,7 @@ namespace Dashboard_12BB1374A9E04977AB04C99E2BC1DA59
             string sessiontable = poll.TableSessionName;
             string wstable = poll.TableWsName;
             var attantedmeetings = dataextraction.getAttendedMeetings(poll.Id, meetingtable);
-            Excel.Workbook wb = dataextraction.Print_into_excel_file(questions, attantedmeetings, surveytable, meetingtable, sessiontable, wstable);
+            var wb = dataextraction.Print_into_excel_file(questions, attantedmeetings, surveytable, meetingtable, sessiontable, wstable);
             string fullPath = "~/surveys/DataWithDetails.xlsx";
             try
             {

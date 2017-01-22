@@ -1,6 +1,5 @@
 ﻿using DataAccess;
 using System;
-using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 using SurveyDashboardGenerator;
@@ -49,7 +48,7 @@ namespace survey
             }
             else
             {
-                initConfigurationForm();
+                InitConfigurationForm();
             }
         }
 
@@ -117,10 +116,10 @@ namespace survey
             return valid;
         }
 
-        public void initConfigurationForm()
+        public void InitConfigurationForm()
         {
-            surveyFileName.Text = "Survey_XXX";
-            dashboardFileName.Text = "Dashboard_XXX";
+            surveyFileName.Text = "";
+            dashboardFileName.Text = "";
             authType.SelectedIndex = (int)FormGenerationSettings.DefaultAuthType;
             page404.Text = FormGenerationSettings.Page404;
             optoinQuestionErrorMessage.Text = FormGenerationSettings.OptionQuestionErrorMessage;

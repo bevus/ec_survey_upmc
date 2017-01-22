@@ -633,7 +633,7 @@ namespace DataAccess
 
             conn = ConnexionClasse.getConnexion();
             conn.Open();
-            SqlCommand getQuestions = new SqlCommand("sel_meetings", conn);
+            SqlCommand getQuestions = new SqlCommand("sel_all_meetings", conn);
             getQuestions.CommandType = CommandType.StoredProcedure;
             getQuestions.Parameters.AddWithValue("@id_poll", id_poll);
             getQuestions.Parameters.AddWithValue("@table", table);
