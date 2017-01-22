@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DataAccess;
@@ -48,16 +49,15 @@ namespace Survey.surveys
                 if (!Manager.ExistPerson(_personId))
                 {
                     Response.Redirect("pages/Page404.aspx");
-                    return;
                 }
 
                 if (Manager.AlreadyAnswerd(PollId, _personId))
                 {
                     Response.Redirect("pages/EndSurvey.aspx");
-                    return;
                 }
             }
-            catch (Exception)
+            catch (ThreadAbortException){}
+            catch (Exception ex)
             {
                 Response.Redirect("pages/Page404.aspx");
             }

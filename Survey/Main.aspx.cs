@@ -27,18 +27,24 @@ namespace survey
                     var poll = manager.getPoll(int.Parse(pollId.Value));
                     var formGenerator = new FormGenerator(Page.MapPath("~" + FormGenerationSettings.SurveyPath), poll,
                         settings);
-                    var dashboardGenerator = new DashboardGenerator(Page.MapPath("~" + FormGenerationSettings.SurveyPath), poll,settings.UserDashboardFileName,
-                        true);
                     var sUrl = formGenerator.GenerateWebForm();
-                    var dUrl = (!settings.UserNotGenerateDashboard)? dashboardGenerator.GenerateDashboard() : "";
+                    var dUrl = "";
                     sUrl = FormGenerationSettings.SurveyPath + sUrl;
-                    dUrl = FormGenerationSettings.SurveyPath + dUrl;
+                    if (!settings.UserNotGenerateDashboard)
+                    {
+                        var dashboardGenerator = new DashboardGenerator(
+                            Page.MapPath("~" + FormGenerationSettings.SurveyPath),
+                            poll, settings.UserDashboardFileName,
+                            settings.UserDisableDataExtraction
+                        );
+                        dUrl = FormGenerationSettings.SurveyPath + dashboardGenerator.GenerateDashboard();
+                    }
                     if (settings.UserAuthType == AuthentificationType.IdInUrl ||
                         settings.UserAuthType == AuthentificationType.HashedIdinUrl)
                     {
                         sUrl += "?" + settings.UserPersonIdArg + "=";
                     }
-                    Response.Redirect($@"/EndGeneration.aspx?pollName={poll.Name}&dUrl={dUrl}&sUrl={sUrl}&authMod={(int)settings.UserAuthType}&argName={settings.UserPersonIdArg}");
+                    Response.Redirect($@"{FormGenerationSettings.EndGenerationUrl}?pollName={poll.Name}&dUrl={dUrl}&sUrl={sUrl}&authMod={(int)settings.UserAuthType}&argName={settings.UserPersonIdArg}");
                 }
             }
             else
@@ -126,6 +132,7 @@ namespace survey
             saveButtonText.Text = FormGenerationSettings.SurveyFormSaveButtonText;
             personIdArg.Text = FormGenerationSettings.PersonIdArg;
             cssFileName.Text = FormGenerationSettings.CssFile;
+            characterCounterText.Text = FormGenerationSettings.CharacterCounterText;
         }
 
         public FormGenerationSettings GetSettings()
@@ -146,7 +153,8 @@ namespace survey
                 UserDisableDataExtraction = noDataExtarction.Checked,
                 UserNotGenerateDashboard = noDashboard.Checked,
                 UserPersonIdArg = personIdArg.Text,
-                UserCssFile = cssFileName.Text
+                UserCssFile = cssFileName.Text,
+                UserCharacterCounterText = characterCounterText.Text
             };
         }
     }

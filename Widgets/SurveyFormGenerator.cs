@@ -70,6 +70,7 @@ MasterPageFile=""../SurveyMasterPage.master""%>
         <script src=""../scripts/jquery.validate.min.js""></script>
         <script src=""../scripts/bootstrap.js""></script>
         <script src=""../scripts/jquery.validation_1.15.0_additional-methods.js""></script>
+        <script src=""../scripts/textcounter.min.js""></script>
     </asp:Content>
     <asp:Content runat=""server"" contentplaceholderid=""surveyFormPlaceHolder"">
         <h1 class=""page-header"">{Poll.Name}</h1>
@@ -79,6 +80,15 @@ MasterPageFile=""../SurveyMasterPage.master""%>
         </form>
         <script>
         $(function () {{
+            $.each($(""textarea.QuestionControl.CommentsBox""),
+            function(i, e) {{
+                $(e)
+                    .textcounter({{
+                        max: parseInt($(e).attr(""data-max"")),
+                        countDown: true,
+                        countDownText: ""{settings.UserCharacterCounterText}""//**********
+                    }});
+            }});
             var rules = {{}};
             var messages = {{}};
             var checkboxClassCount = 0;
@@ -105,7 +115,7 @@ MasterPageFile=""../SurveyMasterPage.master""%>
                     rules[$(c).attr('name')] = {{ require_from_group: [parseInt($(e).attr(""data-nbchoices"")), ""."" + currentGroupClass] }};
                     if (!isSet) {{
                         var str = ""{settings.UserCheckboxQuestionErrorMessage}""
-                        messages[$(c).attr('name')] = {{ require_from_group: str.replace(""#"", $(e).attr(""data-nbchoices"")) }};
+                        messages[$(c).attr('name')] = {{ require_from_group: str.replace(""%d"", $(e).attr(""data-nbchoices"")) }};
                         isSet = true;
                     }} else {{
                         messages[$(c).attr('name')] = {{ require_from_group: """" }};

@@ -5,6 +5,7 @@ namespace Widgets
 {
     public class FormGenerationSettings
     {
+        public static string EndGenerationUrl = ConfigurationManager.AppSettings["endGenerationPage"];
         public static string SurveyPrefix = ConfigurationManager.AppSettings["SurveyPrefix"];
         public static string PersonIdArg = ConfigurationManager.AppSettings["PersonIdArgName"];
         public static string Page404 = ConfigurationManager.AppSettings["404Page"];
@@ -17,6 +18,7 @@ namespace Widgets
         public static string TextQuestionErrorMessage = ConfigurationManager.AppSettings["textQuestionErrorMessage"];
         public static string DateTimeQuestionErrorMessage = ConfigurationManager.AppSettings["dateTimeQuestionErrorMessage"];
         public static string AnswerLengthErrorMessage = ConfigurationManager.AppSettings["answerLengthErrorMessage"];
+        public static string CharacterCounterText = ConfigurationManager.AppSettings["characterCounterText"];
         public static string SurveyFormSubmitButtonText = ConfigurationManager.AppSettings["surveyFormSubmitButtonText"];
         public static string SurveyFormId = ConfigurationManager.AppSettings["surveyFormId"];
         public static string QuestionContainerId = ConfigurationManager.AppSettings["questionContainerId"];
@@ -33,6 +35,7 @@ namespace Widgets
         public string UserTextQuestionErrorMessage { get; set; }
         public string UserDateTimeQuestionErrorMessage { get; set; }
         public string UserAnswerLengthErrorMessage { get; set; }
+        public string UserCharacterCounterText { get; set; }
         public string UserSurveyFormSubmitButtonText { get; set; }
         public string UserSurveyFormSaveButtonText { get; set; }
         public AuthentificationType UserAuthType { get; set; }

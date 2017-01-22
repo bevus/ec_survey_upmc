@@ -143,6 +143,18 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
+                            <label class="control-label" for="">Character counter text</label>
+                            <asp:TextBox ID="characterCounterText" CssClass="form-control" runat="server"></asp:TextBox>
+                            <asp:Label ID="_characterCounterText" runat="server" Visible="false" CssClass="has-error"></asp:Label>
+                        </div>
+                        <%--<div class="form-group col-md-5 col-md-offset-2">
+                            <label class="control-label" for="">Css file name</label>
+                            <asp:TextBox ID="TextBox2" CssClass="form-control" runat="server"></asp:TextBox>
+                            <asp:Label ID="Label2" runat="server" Visible="false" CssClass="has-error"></asp:Label>
+                        </div>--%>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-5">
                             <label class="control-label" for="">Submission button text</label>
                             <asp:TextBox ID="submissionButtonText" CssClass="form-control" runat="server"></asp:TextBox>
                             <asp:Label ID="_submissionButtonText" runat="server" Visible="false" CssClass="has-error"></asp:Label>

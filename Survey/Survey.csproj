@@ -247,6 +247,7 @@
     <Content Include="scripts\jquery.validation_1.15.0_additional-methods.js" />
     <Content Include="scripts\pdf\canvg.js" />
     <Content Include="scripts\pdf\canvg.min.js" />
+    <Content Include="scripts\textcounter.min.js" />
     <Content Include="surveys\js\customJs\custom.min.js" />
     <Content Include="scripts\customJs\customPdf.js" />
     <Content Include="scripts\customJs\verticalChart.js" />
@@ -453,6 +454,7 @@
     <Content Include="surveys\js\pdf\rgbcolor.js" />
     <Content Include="surveys\js\pdf\script.js" />
     <Content Include="surveys\js\pdf\StackBlur.js" />
+    <Content Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -485,6 +487,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx.cs">
+      <DependentUpon>Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="surveys\Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx.designer.cs">
+      <DependentUpon>Survey_12BB1374A9E04977AB04C99E2BC1DA59.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

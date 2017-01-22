@@ -190,6 +190,9 @@ namespace survey {
         protected global::System.Web.UI.WebControls.TextBox cssFileName;
         protected global::System.Web.UI.WebControls.Label _cssFileName;
 
+        protected global::System.Web.UI.WebControls.TextBox characterCounterText;
+        protected global::System.Web.UI.WebControls.Label _characterCounterText;
+
         /// <summary>
         /// textQuestionErrorMessage control.
         /// </summary>

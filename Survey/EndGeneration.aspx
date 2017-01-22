@@ -5,7 +5,13 @@
     private void viewSurveyAction(object sender, EventArgs e)
     {
         var url = Request.QueryString["sUrl"];
-        switch ((AuthentificationType)int.Parse(Request.QueryString["authMod"]))
+        var authMod = -1;
+        try
+        {
+            authMod = int.Parse(Request.QueryString["authMod"]);
+        }
+        catch (Exception){}
+        switch ((AuthentificationType)authMod)
         {
             case AuthentificationType.IdInUrl:
                 url += personId.Text;
@@ -27,12 +33,15 @@
         if (!string.IsNullOrEmpty(Request.QueryString["dUrl"]))
         {
             dashboardLink.NavigateUrl = Request.QueryString["dUrl"];
+            dashboardLink.Visible = true;
         }
-        else
+        var authMod = -1;
+        try
         {
-            dashboardLink.Visible = false;
+            authMod = int.Parse(Request.QueryString["authMod"]);
         }
-        switch ((AuthentificationType)int.Parse(Request.QueryString["authMod"]))
+        catch (Exception){}
+        switch ((AuthentificationType)authMod)
         {
             case AuthentificationType.IdInUrl:
                 idLabel.Text = Request.QueryString["argName"] + " (id in url)";
@@ -57,7 +66,7 @@
 <asp:Content runat="server" ID="SurveyForm" ContentPlaceHolderID="surveyFormPlaceHolder">
     <h1 class="page-header">Generation completed</h1>
     <h3>Poll "<%= Request.QueryString["pollName"] %>" is generated</h3>
-    <h4><asp:HyperLink runat="server" ID="dashboardLink">view dashboard</asp:HyperLink></h4>
+    <h4><asp:HyperLink Visible="False" runat="server" ID="dashboardLink">view dashboard</asp:HyperLink></h4>
     <form runat="server" class="container">
         <div class="form-group">
             <asp:Label runat="server" ID="idLabel"></asp:Label>
