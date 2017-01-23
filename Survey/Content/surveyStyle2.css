@@ -15,7 +15,7 @@
 
 .question-number, .question-text {
     font-size: 1.3em;
-    color: #FF8800;
+    color: #99cf16;
     font-weight: 700;
 }
 .sub-block-title {
@@ -24,15 +24,29 @@
     font-weight: 700;
     color: #FF8800;
 }
-.question input {
+.question label  {
     margin: 0 5px 0 10px;
+    color: #e1f1b9;
 }
-
+.text-count-wrapper {
+    color: #e1f1b9;
+}
 .question-block{
+    padding: 10px;
+    box-shadow: 0 0 10px 0 #eee;
+    margin: 20px 0 20px 0;
+    border-radius: 2px;
+    background: #555;
 
 }
 .question-block .question-block-title{
-
+    margin-top: 0; 
+    color: #e1f1b9;
+    font-weight: 400;
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    background: #99cf16;
 }
 .has-error {
     color: #ff0000;

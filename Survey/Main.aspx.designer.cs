@@ -190,6 +190,9 @@ namespace survey {
         protected global::System.Web.UI.WebControls.TextBox cssFileName;
         protected global::System.Web.UI.WebControls.Label _cssFileName;
 
+        protected global::System.Web.UI.WebControls.TextBox jsFileName;
+        protected global::System.Web.UI.WebControls.Label _jsFileName;
+
         protected global::System.Web.UI.WebControls.TextBox characterCounterText;
         protected global::System.Web.UI.WebControls.Label _characterCounterText;
 

@@ -1,6 +1,7 @@
 ﻿using SurveyModel;
 using System;
 using System.Text;
+using Widgets;
 
 namespace SurveyDashboardGenerator
 {
@@ -12,7 +13,7 @@ namespace SurveyDashboardGenerator
         public Boolean AllowDataExtraction { get; set; }
         public DashboardUtils utils = new DashboardUtils();
 
-        public DashboardGenerator(string directory, Poll poll,String dashboard_name, Boolean doNotAllowDataExtraction )
+        public DashboardGenerator(string directory, Poll poll, String dashboard_name, Boolean doNotAllowDataExtraction)
         {
             if (poll.Equals(null))
             {
@@ -23,12 +24,12 @@ namespace SurveyDashboardGenerator
             this.Dashbord_name = dashboard_name;
             this.AllowDataExtraction = !doNotAllowDataExtraction;
         }
-      
+
         public string GenerateDashboard()
         {
             return GenerateDashboard_V1();
         }
-       
+
         // version 0
         public string GenerateDashboard_V0()
         {
@@ -97,7 +98,6 @@ $@"
             $(""#meeting"").find(""div .gnrlques"").each(function () {{
                         sendDataQAjaxRequest($(this).attr('id'),""{Dashbord_name}.aspx/GetQesMeetingData"");       
             }});
-
             sendDataAtelierQuestions($idPoll,'atelier',""{Dashbord_name}.aspx/getAtelierQuestions"");
    }});
 </script>";
@@ -165,7 +165,6 @@ $@"
           
 <script src = ""js/custom.min.js"" ></script>      
 <script src = ""js/pdfGenerator.min.js"" ></script>
-
 <script type =""text/javascript"" >
     google.load('visualization', '1', {{ packages: ['corechart'] }});
     var $listQ; var $idPoll ={ idPoll } ;
@@ -192,60 +191,83 @@ $@"
         {{
             var manager = new Manager();
 
-            SurveyDataExtraction dataextraction = new SurveyDataExtraction();
-            var poll = manager.getPoll(1);
+            var dataextraction = new SurveyDataExtractor{{
+                PollId = id_poll
+            }};
+            var poll = manager.getPoll(id_poll);
             var questions = manager.getQuestions(poll.Id);
-
-
             string surveytable = poll.TableName;
             string meetingtable = poll.TableMeetingName;
             string sessiontable = poll.TableSessionName;
             string wstable = poll.TableWsName;
-            var meetings = manager.getMeetings(poll.Id, meetingtable);
+
+            var meetings = (meetingQuestionCount > 0) ? manager.getMeetings(poll.Id, meetingtable) : new List<Meeting>();
             //var attantedmeetings = dataextraction.getAttendedMeetings(poll.Id, meetingtable);
-            var sessionAtelier = dataextraction.getSessionAtelier(poll.Id, sessiontable);
-            var wsAtelier = dataextraction.getWsAtelier(poll.Id, wstable);
+            var sessionAtelier = (sessionQuestionCount > 0) ? DataExtractionUtils.getSessionAtelier(poll.Id, sessiontable) : new List<Atelier>();
+            var wsAtelier = (workshopQuestionCount > 0) ? DataExtractionUtils.getWsAtelier(poll.Id, wstable): new List<Atelier>();
 
             var wb = dataextraction.Print_into_excel_file2(questions, surveytable, meetingtable, sessiontable, wstable, meetings, sessionAtelier, wsAtelier);
-            string fullPath = ""~/surveys/DataWithStatistics.xlsx"";
+            string fullPath = ""~{FormGenerationSettings.SurveyPath}DataWithStatistics_{Poll.ExternalId} "" + DateTime.Now.Millisecond + "".xlsx"";
             try
             {{
                 wb.SaveAs(Server.MapPath(fullPath));
                 wb.Close();
             }}
             catch (Exception) {{ }}
-
+            DataExtractionUtils.DeleteGeneratedFile(fullPath, 2000);
             Response.Redirect(fullPath);
-            System.IO.File.Delete(Server.MapPath(fullPath));
         }}
-
         protected void ExtractDataWithStatistics(object sender, EventArgs e)
         {{
 
-            SurveyDataExtraction dataextraction = new SurveyDataExtraction();
+            var dataextraction = new SurveyDataExtractor{{
+                PollId = id_poll
+            }};
             var manager = new Manager();
-            var poll = manager.getPoll(1);
+            var poll = manager.getPoll(id_poll);
             var questions = poll.Questions;
             string surveytable = poll.TableName;
             string meetingtable = poll.TableMeetingName;
             string sessiontable = poll.TableSessionName;
             string wstable = poll.TableWsName;
-            var attantedmeetings = dataextraction.getAttendedMeetings(poll.Id, meetingtable);
+
+            var attantedmeetings = (meetingQuestionCount > 0) ? DataExtractionUtils.getAttendedMeetings(poll.Id, meetingtable) : new List<Meeting>();
+
             var wb = dataextraction.Print_into_excel_file(questions, attantedmeetings, surveytable, meetingtable, sessiontable, wstable);
-            string fullPath = ""~/surveys/DataWithDetails.xlsx"";
+            string fullPath = ""~{FormGenerationSettings.SurveyPath}DataWithDetails_{Poll.ExternalId} "" + DateTime.Now.Millisecond + "".xlsx"";
             try
             {{
                 wb.SaveAs(Server.MapPath(fullPath));
                 wb.Close();
             }}
             catch (Exception) {{ }}
-
+            DataExtractionUtils.DeleteGeneratedFile(Page.MapPath(fullPath), {FormGenerationSettings.DeletionWaitTime});
             Response.Redirect(fullPath);
-            System.IO.File.Delete(Server.MapPath(fullPath));
-
         }}";
             }
+            var generalQuestionCount = 0;
+            var sessionQuestionCount = 0;
+            var workshopQuestionCount = 0;
+            var meetingQuestionCount = 0;
 
+            foreach (var question in Poll.Questions)
+            {
+                switch (question.Category)
+                {
+                    case QuestionType.General:
+                        generalQuestionCount++;
+                        break;
+                    case QuestionType.Session:
+                        sessionQuestionCount++;
+                        break;
+                    case QuestionType.Meeting:
+                        meetingQuestionCount++;
+                        break;
+                    case QuestionType.Workshop:
+                        workshopQuestionCount++;
+                        break;
+                }
+            }
             return
 $@"
 using System;
@@ -255,7 +277,7 @@ using DataAccess;
 using SurveyModel;
 using SurveyDashboardGenerator;
 using System.Web.Script.Services;
-using SurveyDataExtractorGenerator;
+using SurveyDataExtraction;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace {aspxcsFileName.Replace(".aspx.cs", "")}
@@ -265,11 +287,15 @@ namespace {aspxcsFileName.Replace(".aspx.cs", "")}
         protected static Manager manager = new Manager();
         protected static DashboardUtils u = new DashboardUtils();
         protected static int id_poll = {Poll.Id} ;
+        int generalQuestionCount = {generalQuestionCount};
+        int sessionQuestionCount = {sessionQuestionCount};
+        int workshopQuestionCount = {workshopQuestionCount};
+        int meetingQuestionCount = {meetingQuestionCount};
+
         protected void Page_Load(object sender, EventArgs e)
         {{
             var manager = new Manager();
         }}
-
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
         public static object GetGnrlQuestionData(int idQuestion)
         {{
@@ -285,7 +311,6 @@ namespace {aspxcsFileName.Replace(".aspx.cs", "")}
             }}
             return questionData;
         }}
-
         [WebMethod, ScriptMethod(ResponseFormat = ResponseFormat.Json, UseHttpGet = false)]
         public static object GetQesMeetingData(int idQuestion)
         {{
@@ -357,9 +382,7 @@ namespace {aspxcsFileName.Replace(".aspx.cs", "")}
             return question;
         }}
          // Excel
-
         {ButtonCode}
-
     }}
 }}";
 
@@ -369,7 +392,6 @@ namespace {aspxcsFileName.Replace(".aspx.cs", "")}
             return
 $@"namespace {aspxcsFileName.Replace(".aspx.cs", "") } {{
         public partial class {aspxcsFileName.Replace(".aspx.cs", "")} {{
-
         }}
 }}";
 

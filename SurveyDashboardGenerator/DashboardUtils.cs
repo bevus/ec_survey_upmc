@@ -19,26 +19,52 @@ namespace SurveyDashboardGenerator
         {
             var d = new List<object>();
             { d.Add(new List<object> { "label", "data" }); }
+            var nb = 0;
+            var sum = 0;
             switch (q.ControlType.ToString())
             {
                 case "DropDownList":
                     foreach (Choice c in q.Choices)
-                    { d.Add(new List<object> { c.Label, NumberResponseGeneral(q.Column, c.Label, tableName) }); }
-                    return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
-
+                    {
+                        nb = NumberResponseGeneral(q.Column, c.Label, tableName);
+                        sum += nb;
+                        d.Add(new List<object> { c.Label, nb });
+                    }
+                    if (sum == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
+                    }
                 case "RadioButtonList":
                     foreach (Choice c in q.Choices)
-                    { d.Add(new List<object> { c.Label, NumberResponseGeneral(q.Column, c.Label, tableName) }); }
-                    return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
-
+                    {
+                        nb = NumberResponseGeneral(q.Column, c.Label, tableName);
+                        sum += nb;
+                        d.Add(new List<object> { c.Label, nb });
+                    }
+                    if (sum == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
+                    }
                 case "CheckBoxList":
                     d = new List<object>();
                     foreach (Choice c in q.Choices)
                     {
-                        d.Add(new object[] { c.Label, NumberResponseMultipleChoice(q.Column, c.Label, tableName) });
+                        nb = NumberResponseMultipleChoice(q.Column, c.Label, tableName);
+                        d.Add(new object[] { c.Label,nb });
                     }
-                    return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
-
+                    if (nb == 0) { return null; }
+                    else
+                    {
+                        return new { ques = q.Label.ToString(), qCategory = "General", type = q.ControlType, idq = q.Id, rep = d };
+                    }
                 default:
                     return null;
             }
@@ -52,7 +78,14 @@ namespace SurveyDashboardGenerator
                 case "DropDownList":
                     foreach (Choice c in q.Choices)
                     { d.Add(new List<object> { c.Label, NumberResponseGeneral(q.Column, c.Label, tableName) }); }
-                    return new { ctr = q.ControlType, rep = d };
+                    if (d.Count == 1)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return new { ctr = q.ControlType, rep = d };
+                    }
 
                 case "RadioButtonList":
                     foreach (Choice c in q.Choices)
@@ -131,9 +164,20 @@ namespace SurveyDashboardGenerator
             var d = new List<object>();
             foreach (Question sq in q.SubQuestions)
             {
-                d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = GetWSsubQResponse(id_poll, sq, table_name) });
+                var wsrep = GetWSsubQResponse(id_poll, sq, table_name);
+                if (wsrep != null)
+                {
+                    d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = wsrep });
+                }
             }
-            return new { ques = q.Label.ToString(), qCategory = q.Category.ToString(), idq = q.Id, rep = d }; ;
+            if (d.Count==0)
+            {
+                return null;
+            }
+            else
+            {
+                return new { ques = q.Label.ToString(), qCategory = q.Category.ToString(), idq = q.Id, rep = d };
+            }
         }
         public object GetWSsubQResponse(int id_poll,Question q, String table_name)
         {
@@ -154,7 +198,10 @@ namespace SurveyDashboardGenerator
                             x += att;
                             d.Add(new List<object> { c.Label, att });
                         }
-                        if (x != 0) { atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
+                        if (x != 0)
+                        { 
+                            atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d });
+                        }
                     }
                     break;
                 case "RadioButtonList":
@@ -162,9 +209,18 @@ namespace SurveyDashboardGenerator
                     {
                         var d = new List<object>();
                         d.Add(new List<object> { "label", "data" });
+                        var x = 0;
+                        var att = 0;
                         foreach (Choice c in q.Choices)
-                        { d.Add(new List<object> { c.Label, NumberResponseWS(q.Column, c.Label, num_atelier, table_name) }); }
-                        if (d.Count != 0) { atelier.Add(new {theme= listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
+                        {
+                            att = NumberResponseWS(q.Column, c.Label, num_atelier, table_name);
+                            x += att;
+                            d.Add(new List<object> { c.Label, att });
+                        }
+                        if (x != 0)
+                        {
+                            atelier.Add(new {theme= listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d });
+                        }
                     }
                     break;
                 case "CheckBoxList":
@@ -180,8 +236,14 @@ namespace SurveyDashboardGenerator
                 default:
                     break;
             }
-
-            return atelier;
+            if (atelier.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return atelier;
+            }
         }
         public int NumberResponseWS(String nomC, String label, int id_atelier, String table_name)
         {
@@ -239,9 +301,20 @@ namespace SurveyDashboardGenerator
             var d = new List<object>();
             foreach (Question sq in q.SubQuestions)
             {
-                d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = GetSessionsubQResponse(id_poll, sq, table_name) });
+                var wsrep = GetSessionsubQResponse(id_poll, sq, table_name);
+                if (wsrep != null) { 
+               
+                    d.Add(new { sq = sq.Label, sqid = sq.Id, contrl = sq.ControlType, wsrep = wsrep });
+                }
             }
-            return new { ques = q.Label.ToString(), qCategory = q.Category.ToString(), idq = q.Id, rep = d }; ;
+            if (d.Count==0)
+            {
+                return null;
+            }
+            else
+            {
+                return new { ques = q.Label.ToString(), qCategory = q.Category.ToString(), idq = q.Id, rep = d };
+            }
         }
         public object GetSessionsubQResponse(int id_poll,Question q, String table_name)
         {
@@ -262,17 +335,31 @@ namespace SurveyDashboardGenerator
                             x += att;
                             d.Add(new List<object> { c.Label, att });
                         }
-                        if (x != 0) { atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
+                        if (x != 0)
+                        {
+                        atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d });
+                        }
                     }
                     break;
                 case "RadioButtonList":
+
                     foreach (int num_atelier in listAtelier.Keys)
                     {
                         var d = new List<object>();
                         d.Add(new List<object> { "label", "data" });
+                        var x = 0;
+                        var att = 0;    
                         foreach (Choice c in q.Choices)
-                        { d.Add(new List<object> { c.Label, NumberResponseSession(q.Column, c.Label, num_atelier, table_name) }); }
-                        if (d.Count != 0) { atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d }); }
+                        {
+                            att = NumberResponseSession(q.Column, c.Label, num_atelier, table_name);
+                            x += att;
+                            d.Add(new List<object> { c.Label, att });
+                        }
+                        if (x != 0)
+                        {
+                          
+                            atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d });
+                        }
                     }
                     break;
                 case "CheckBoxList":
@@ -289,7 +376,14 @@ namespace SurveyDashboardGenerator
                     break;
             }
 
-            return atelier;
+            if (atelier.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return atelier;
+            }
         }
         public int NumberResponseSession(String nomC, String label, int id_atelier, String table_name)
         {
@@ -355,23 +449,58 @@ namespace SurveyDashboardGenerator
         {
             var d = new List<object>();
             { d.Add(new List<object> { "label", "data" }); }
+            var nb = 0;
+            var sum = 0;
             switch (q.ControlType.ToString())
             {
                 case "DropDownList":
+
                     foreach (Choice c in q.Choices)
-                    { d.Add(new List<object> { c.Label, NumberResponseMeeting(q.Column, c.Label, tableName) }); }
-                    return new { ctr = q.ControlType, rep = d };
+                    {
+                        nb = NumberResponseMeeting(q.Column, c.Label, tableName);
+                        sum += nb;
+                        d.Add(new List<object> { c.Label,nb });
+                    }
+                    if (sum == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return new { ctr = q.ControlType, rep = d };
+                    }
                 case "RadioButtonList":
                     foreach (Choice c in q.Choices)
-                    { d.Add(new List<object> { c.Label, NumberResponseMeeting(q.Column, c.Label, tableName) }); }
-                    return new { ctr = q.ControlType, rep = d };
+                    {
+                        nb = NumberResponseMeeting(q.Column, c.Label, tableName);
+                        sum += nb;
+                        d.Add(new List<object> { c.Label, nb });
+                    }
+                    if (sum == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return new { ctr = q.ControlType, rep = d };
+                    }
                 case "CheckBoxList":
                     d = new List<object>();
                     foreach (Choice c in q.Choices)
                     {
-                        d.Add(new object[] { c.Label, NumberResponseMultipleChoiceMeeting(q.Column, c.Label, tableName) });
+                        nb = NumberResponseMultipleChoiceMeeting(q.Column, c.Label, tableName);
+                        sum += nb;
+                        d.Add(new List<object> { c.Label, nb });
+                        d.Add(new object[] { c.Label,  });
                     }
-                    return new { ctr = q.ControlType, rep = d };
+                    if (sum == 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return new { ctr = q.ControlType, rep = d };
+                    }
                 default:
                     return null;
             }

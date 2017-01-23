@@ -249,11 +249,12 @@
     <Content Include="scripts\bluemoon\js\custom-index4.js" />
     <Content Include="scripts\bluemoon\js\custom-maps.js" />
     <Content Include="scripts\customJs\custom.js" />
+    <Content Include="scripts\customScript.js" />
     <Content Include="scripts\jquery.validation_1.15.0_additional-methods.js" />
     <Content Include="scripts\pdf\canvg.js" />
     <Content Include="scripts\pdf\canvg.min.js" />
     <Content Include="scripts\textcounter.min.js" />
-    <Content Include="surveys\js\customJs\custom.min.js" />
+    <Content Include="surveys\Dashboard_B1AB75ED32D74914B015B05C2EB3081E.aspx" />
     <Content Include="scripts\customJs\customPdf.js" />
     <Content Include="scripts\customJs\verticalChart.js" />
     <Content Include="scripts\bluemoon\js\d3.v3.min.js" />
@@ -435,29 +436,17 @@
     <Content Include="surveys\css\nav.css" />
     <Content Include="surveys\css\new.css" />
     <Content Include="surveys\js\bootstrap.min.js" />
-    <Content Include="surveys\js\customJs\custom.js" />
-    <Content Include="surveys\js\customJs\customPdf.js" />
-    <Content Include="surveys\js\customJs\verticalChart.js" />
+    <Content Include="surveys\js\canvg.min.js" />
+    <Content Include="surveys\js\custom.js" />
+    <Content Include="surveys\js\custom.min.js" />
     <Content Include="surveys\js\google-api.js" />
-    <Content Include="surveys\js\jquery.js" />
-    <Content Include="surveys\js\customJs\custmPdf.js" />
-    <Content Include="surveys\js\pdf\canvg.js" />
-    <Content Include="surveys\js\pdf\canvg.min.js" />
-    <Content Include="surveys\js\pdf\customPdf.js" />
-    <Content Include="surveys\js\pdf\html2canvas.js" />
-    <Content Include="surveys\js\pdf\html2canvas.min.js" />
-    <Content Include="surveys\js\pdf\html2canvas.svg.js" />
-    <Content Include="surveys\js\pdf\html2canvas.svg.min.js" />
-    <Content Include="surveys\js\pdf\imagesloaded.js" />
-    <Content Include="surveys\js\pdf\imagesloaded.pkgd.min.js" />
-    <Content Include="surveys\js\pdf\jquery-3.1.1.min.js" />
-    <Content Include="surveys\js\pdf\jspdf.debug.js" />
-    <Content Include="surveys\js\pdf\jspdf.min.js" />
-    <Content Include="surveys\js\pdf\mypdf.js" />
-    <Content Include="surveys\js\pdf\pdfGen.js" />
-    <Content Include="surveys\js\pdf\rgbcolor.js" />
-    <Content Include="surveys\js\pdf\script.js" />
-    <Content Include="surveys\js\pdf\StackBlur.js" />
+    <Content Include="surveys\js\html2canvas.svg.min.js" />
+    <Content Include="surveys\js\jquery-3.1.1.min.js" />
+    <Content Include="surveys\js\jspdf.min.js" />
+    <Content Include="surveys\js\pdfGenerator.js" />
+    <Content Include="surveys\js\pdfGenerator.min.js" />
+    <Content Include="surveys\js\rgbcolor.js" />
+    <Content Include="surveys\js\StackBlur.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -476,6 +465,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="surveys\Dashboard_B1AB75ED32D74914B015B05C2EB3081E.aspx.cs">
+      <DependentUpon>Dashboard_B1AB75ED32D74914B015B05C2EB3081E.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="surveys\Dashboard_B1AB75ED32D74914B015B05C2EB3081E.aspx.designer.cs">
+      <DependentUpon>Dashboard_B1AB75ED32D74914B015B05C2EB3081E.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

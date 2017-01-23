@@ -78,3 +78,13 @@ C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Micros
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\obj\Debug\SurveyDashboardGenerator.csprojResolveAssemblyReference.cache
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\obj\Debug\SurveyDashboardGenerator.dll
 C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\obj\Debug\SurveyDashboardGenerator.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Widgets.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Microsoft.SqlServer.Smo.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Microsoft.SqlServer.ConnectionInfo.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Microsoft.SqlServer.Management.Sdk.Sfc.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Microsoft.SqlServer.SqlEnum.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Microsoft.SqlServer.Dmf.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Microsoft.SqlServer.ServiceBrokerEnum.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\Widgets.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\fr\Microsoft.SqlServer.Management.Sdk.Sfc.resources.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGenerator\bin\Debug\fr\Microsoft.SqlServer.Dmf.resources.dll

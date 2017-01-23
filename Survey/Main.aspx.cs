@@ -131,6 +131,7 @@ namespace survey
             saveButtonText.Text = FormGenerationSettings.SurveyFormSaveButtonText;
             personIdArg.Text = FormGenerationSettings.PersonIdArg;
             cssFileName.Text = FormGenerationSettings.CssFile;
+            jsFileName.Text = FormGenerationSettings.JsFile;
             characterCounterText.Text = FormGenerationSettings.CharacterCounterText;
         }
 
@@ -153,6 +154,7 @@ namespace survey
                 UserNotGenerateDashboard = noDashboard.Checked,
                 UserPersonIdArg = personIdArg.Text,
                 UserCssFile = cssFileName.Text,
+                UserJsFile = jsFileName.Text,
                 UserCharacterCounterText = characterCounterText.Text
             };
         }

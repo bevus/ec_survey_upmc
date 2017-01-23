@@ -13,7 +13,7 @@ namespace ConsoleSurvey
         private static void Main(string[] args)
         {
             var manager = new Manager();
-            var poll = manager.getPoll(1);
+            var poll = manager.getPoll(6, 2302);
             Console.WriteLine();
         }
 

@@ -5,7 +5,7 @@ var $repAtelier = new Object();
 
 $('#refresh').click(function () {
     location.reload();
-})
+});
 
 function ajaxCallBack(returV) {
     $listQ = returV;
@@ -68,7 +68,7 @@ function sendDataAtelierQuestions($idPoll, $idAtelierContener, $methodCall) {
 
 $(window).resize(function () {
     if ($listQ !== null) {
-        drawQuestionsContener($listQ, '#questions');
+         drawQuestionsVisualisation($listQ, '#questions');
     }
     if ($repAtelier !== null) {
         drawQuestionsVisualisation($repAtelier, '#questions');
@@ -88,16 +88,16 @@ function drawQuestionsContener(data, idElement) {
                 drawVerticalvisChart(data[i]["rep"], data[i]["idq"]);
             }
         } else if (data[i]["qCategory"] == "Workshop") {
-            str = getWSQContener(data[i]["ques"], data[i]["rep"]);
+            str = getWSQContener(data[i]["ques"], data[i]["idq"], data[i]["rep"]);
             $("#workshop").append(str);
         } else if (data[i]["qCategory"] == "Activity") {
-            str = getSSQContener(data[i]["ques"], data[i]["rep"]);
+            str = getSSQContener(data[i]["ques"], data[i]["idq"], data[i]["rep"]);
             $("#workshop").append(str);
 
         } else if (data[i]["qCategory"] === "Meeting") {
             var dataMet = data[i]["rep"];
             for (var j = 0; j < dataMet.length; j++) {
-                if (data[i]["rep"][k]["wsrep"]["rep"].length !== 0) {
+                if (data[i]["rep"][j]["wsrep"] !== null) {
                     if (dataMet[j]["contrl"] === "RadioButtonList" || dataMet[j]["contrl"] === "DropDownList") {
                         $(idElement).append(getPieContener(dataMet[j]["sq"], "m" + dataMet[j]["sqid"]));
                     } else if (data[i]["type"] === "CheckBoxList") {
@@ -107,7 +107,7 @@ function drawQuestionsContener(data, idElement) {
             }
             for (var k = 0; k < data[i]["rep"].length; k++) {
                 if (data[i]["rep"][k]["contrl"] === "RadioButtonList" || data[i]["rep"][k]["contrl"] === "DropDownList") {
-                    if (data[i]["rep"][k]["wsrep"]["rep"].length !== 0) {
+                    if (data[i]["rep"][k]["wsrep"] !== null) {
                         console.log("m" + data[i]["rep"][k]["sqid"]);
                         drawChart(data[i]["rep"][k]["wsrep"]["rep"], "m" + data[i]["rep"][k]["sqid"]);
                     }
@@ -120,23 +120,36 @@ function drawQuestionsContener(data, idElement) {
 function drawAtelierContener(data, idElement) {
     for (var i = 0 ; i < data.length; i++) {
         if (data[i]["qCategory"] === "Workshop") {
-            str = getWSQContener(data[i]["ques"], data[i]["rep"]);
-            $("#" + idElement + "").append(str);
             for (var k = 0; k < data[i]["rep"].length; k++) {
+                
+               
                 if (data[i]["rep"][k]["wsrep"].length !== 0) {
-
                     for (var kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                        str = getWSQContener(data[i]["rep"][k]["sq"], data[i]["rep"][k]["sqid"], data[i]["rep"]);
+                        $("#" + idElement + "").append(str);
+                        if (data[i]["rep"][k]["wsrep"].length !== 0) {
+                            for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                                if (data[i]["rep"][k]["sqid"] === data[i]["rep"][k]["wsrep"][kk]["idq"]) {
+                                    drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"],
+                                        "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"],
+                                        data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                                }
+                            }
+                        }
                     }
                 }
             }
         } else if (data[i]["qCategory"] === "Activity") {
-            str = getSSQContener(data[i]["ques"], data[i]["rep"]);
-            $("#" + idElement + "").append(str);
             for (k = 0; k < data[i]["rep"].length; k++) {
+                str = getSSQContener(data[i]["rep"][k]["sq"], data[i]["rep"][k]["sqid"], data[i]["rep"]);
+                $("#" + idElement + "").append(str);
                 if (data[i]["rep"][k]["wsrep"].length !== 0) {
-                    for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                    for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {    
+                        if (data[i]["rep"][k]["sqid"] === data[i]["rep"][k]["wsrep"][kk]["idq"]) {
+                            drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"],
+                                "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"],
+                                data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                        }
                     }
                 }
             }
@@ -159,7 +172,7 @@ function drawQuestionsVisualisation(data, idElement) {
             for (k = 0; k < data[i]["rep"].length; k++) {
                 if (data[i]["rep"][k]["wsrep"].length !== 0) {
                     for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
                     }
                 }
             }
@@ -167,15 +180,14 @@ function drawQuestionsVisualisation(data, idElement) {
             for (k = 0; k < data[i]["rep"].length; k++) {
                 if (data[i]["rep"][k]["wsrep"].length !== 0) {
                     for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
                     }
                 }
             }
         } else if (data[i]["qCategory"] === "Meeting") {
             for (k = 0; k < data[i]["rep"].length; k++) {
                 if (data[i]["rep"][k]["contrl"] === "RadioButtonList" || data[i]["rep"][k]["contrl"] === "DropDownList") {
-                    if (data[i]["rep"][k]["wsrep"]["rep"].length !== 0) {
-                        console.log("m" + data[i]["rep"][k]["sqid"]);
+                    if (data[i]["rep"][k]["wsrep"] !== null) {
                         drawChart(data[i]["rep"][k]["wsrep"]["rep"], "m" + data[i]["rep"][k]["sqid"]);
                     }
                 }
@@ -227,7 +239,7 @@ function getWSQColapseContener($ques, $rep) {
     $str += "</div></div></div>";
     return $str;
 }
-function getWSQContener($ques, $rep) {
+function getWSQContener($ques,$idq, $rep) {
 
     var $str = "<div class='row'>" +
                     "<div class='widget'>" +
@@ -238,8 +250,8 @@ function getWSQContener($ques, $rep) {
     for (j = 0 ; j < $rep.length; j++) {
         if ($rep[j]["wsrep"].length !== 0) {
             for (var kk = 0; kk < $rep[j]["wsrep"].length; kk++) {
-                if ($rep[j]["wsrep"] !== null) {
-                    $str += "<div class='col-md-3 nopadding'><div class='widget-body' id=ws" + $rep[j]["wsrep"][kk]["idevent"] + "></div></div>";
+                if ($rep[j]["wsrep"] !== null && $idq === $rep[j]["sqid"]) {
+                    $str += "<div class='col-md-3 nopadding'><div class='widget-body' id=ws" + $rep[j]["wsrep"][kk]["idevent"] + $rep[j]["sqid"] + "></div></div>";
                 }
             }
         }
@@ -248,19 +260,20 @@ function getWSQContener($ques, $rep) {
     $str += "</div></div></div>";
     return $str;
 }
-function getSSQContener($ques, $rep) {
+function getSSQContener($ques,$idq, $rep) {
 
     var $str = "<div class='row'>" +
                     "<div class='widget'>" +
                         "<div class='widget-header'>" +
                             "<div >" + $ques + "</div>" +
-                        "</div><div class='row'>";
+                        "</div><div class='row' >";
 
     for (var j = 0 ; j < $rep.length; j++) {
         if ($rep[j]["wsrep"].length !== 0) {
             for (var kk = 0; kk < $rep[j]["wsrep"].length; kk++) {
-                if ($rep[j]["wsrep"] !== null) {
-                    $str += "<div class='col-md-3 nopadding'><div class='widget-body' id=ss" + $rep[j]["wsrep"][kk]["idevent"] + "></div></div>";
+                if ($rep[j]["wsrep"] !== null && $idq === $rep[j]["sqid"]) {
+                    $str += "<div class='col-md-3 nopadding'><div class='widget-body' id=ss" + $rep[j]["wsrep"][kk]["idevent"] + $rep[j]["sqid"] + "></div></div>";
+                    console.log($rep[j]["wsrep"][kk]["idevent"] + $rep[j]["sqid"]);
                 }
             }
         }
@@ -290,7 +303,7 @@ function drawDonutChart(data, idElement, title) {
 function drawVerticalvisChart(dataV, idq) {
     var data = new google.visualization.DataTable();
     data.addColumn('string', '');
-    data.addColumn('number', 'Score');
+    data.addColumn('number', '');
     data.addRows(dataV);
 
     barsVisualization = new google.visualization.ColumnChart(document.getElementById(idq));

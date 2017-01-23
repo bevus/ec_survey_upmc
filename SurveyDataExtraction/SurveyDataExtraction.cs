@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Data;
 using System.Data.SqlClient;
-using SurveyModel;
-using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using SurveyModel;
+using Excel = Microsoft.Office.Interop.Excel;
 
-namespace SurveyDataExtractorGenerator
+namespace SurveyDataExtraction
 {
-    public class SurveyDataExtraction
+    public class SurveyDataExtractor
     {
+        private int position = 3;
+        private int meetingpos = 1;
+        private int sessionpos = 1;
+        private int wspos = 1;
 
+        public int PollId { get; set; }
         public  int getNbParticipants(int poll_id, string table)
         {
             SqlConnection conn;
@@ -127,186 +132,6 @@ namespace SurveyDataExtractorGenerator
             return ds;
         }
       
-
-        public List<Atelier> getSessionAtelier(int poll_id, string table)
-        {
-            var atelier = new List<Atelier>();
-            SqlConnection conn;
-
-            conn = ConnexionClasse.getConnexion();
-            conn.Open();
-            SqlCommand getSession_Atelier = new SqlCommand("sel_session_Atelier", conn);
-            getSession_Atelier.CommandType = CommandType.StoredProcedure;
-            getSession_Atelier.Parameters.AddWithValue("@id_poll", poll_id);
-            getSession_Atelier.Parameters.AddWithValue("@table", table);
-            var result = getSession_Atelier.ExecuteReader();
-            while (result.Read())
-            {
-                Atelier ate = new Atelier();
-                try
-                {
-                    ate.id_event = Int32.Parse(result["id_event"].ToString());
-                }
-                catch (Exception) { }
-                try
-                {
-                    ate.id_atelier = Int32.Parse(result["id_atelier"].ToString());
-                }
-                catch (Exception) { throw new Exception("id atelier not found"); }
-
-                ate.theme = result["theme"].ToString();
-                ate.description = result["description"].ToString();
-                atelier.Add(ate);
-            }
-            conn.Close();
-            return atelier;
-        }
-        public List<Atelier> getWsAtelier(int poll_id, string table)
-        {
-            var atelier = new List<Atelier>();
-            SqlConnection conn;
-
-            conn = ConnexionClasse.getConnexion();
-            conn.Open();
-            SqlCommand getWs_Atelier = new SqlCommand("sel_ws_Atelier", conn);
-            getWs_Atelier.CommandType = CommandType.StoredProcedure;
-            getWs_Atelier.Parameters.AddWithValue("@id_poll", poll_id);
-            getWs_Atelier.Parameters.AddWithValue("@table", table);
-            var result = getWs_Atelier.ExecuteReader();
-            while (result.Read())
-            {
-                Atelier ate = new Atelier();
-                try
-                {
-                    ate.id_event = Int32.Parse(result["id_event"].ToString());
-                }
-                catch (Exception) { }
-                try
-                {
-                    ate.id_atelier = Int32.Parse(result["id_atelier"].ToString());
-                }
-                catch (Exception) { throw new Exception("id atelier not found"); }
-
-                ate.theme = result["theme"].ToString();
-                ate.description = result["description"].ToString();
-                atelier.Add(ate);
-            }
-            conn.Close();
-            return atelier;
-        }
-
-       
-
-        public static string clumnname;
-        public static string ps;
-        public int NumberResponse(string table, string nomC, string label, string category, int id_atelier, int id_person)
-        {
-            SqlConnection conn;
-
-            conn = ConnexionClasse.getConnexion();
-
-            if (category.Equals("Activity") || category.Equals("Workshop"))
-            {
-                clumnname = "SUB_" + nomC;
-                ps = "sel_session_ws_responses";
-            }
-            else
-            if (category.Equals("Meeting"))
-            {
-                clumnname = "SUM_" + nomC;
-                ps = "sel_meeting_responses";
-            }
-
-            conn.Open();
-            SqlCommand getNumberResponse = new SqlCommand(ps, conn);
-            getNumberResponse.CommandType = CommandType.StoredProcedure;
-            getNumberResponse.Parameters.AddWithValue("@column", clumnname);
-            getNumberResponse.Parameters.AddWithValue("@label", label);
-            getNumberResponse.Parameters.AddWithValue("@table", table);
-            getNumberResponse.Parameters.AddWithValue("@id_atelier", id_atelier);
-            getNumberResponse.Parameters.AddWithValue("@id_person", id_person);
-            var result = getNumberResponse.ExecuteReader();
-            var nb = 0;
-            while (result.Read())
-            {
-                try
-                {
-                    nb = Int32.Parse(result["nb"].ToString());
-
-                }
-                catch (Exception e) { }
-            }
-            conn.Close();
-
-
-            return nb;
-        }
-
-        public int NumberResponse_GeneralQuestion(string table, string nomC, string label)
-        {
-            SqlConnection conn;
-
-            conn = ConnexionClasse.getConnexion();
-            conn.Open();
-
-
-            SqlCommand getNumberResponse = new SqlCommand("selReponse", conn);
-            getNumberResponse.CommandType = CommandType.StoredProcedure;
-            getNumberResponse.Parameters.AddWithValue("@table", table);
-            getNumberResponse.Parameters.AddWithValue("@column", nomC);
-            getNumberResponse.Parameters.AddWithValue("@label", label);
-
-            var result = getNumberResponse.ExecuteReader();
-            var nb = 0;
-            while (result.Read())
-            {
-                try
-                {
-                    nb = Int32.Parse(result["nb"].ToString());
-
-                }
-                catch (Exception e) { }
-            }
-            conn.Close();
-
-
-            return nb;
-        }
-        public List<Meeting> getAttendedMeetings(int id_poll, string tablename)
-        {
-            var meetings = new List<Meeting>();
-
-            SqlConnection conn;
-
-            conn = ConnexionClasse.getConnexion();
-            conn.Open();
-            SqlCommand getMeetings = new SqlCommand("sel_attended_meetings", conn);
-            getMeetings.CommandType = CommandType.StoredProcedure;
-            getMeetings.Parameters.AddWithValue("@id_poll", id_poll);
-            getMeetings.Parameters.AddWithValue("@table", tablename);
-            var result = getMeetings.ExecuteReader();
-
-            while (result.Read())
-            {
-                Meeting m = new Meeting();
-
-                try
-                {
-                    m.id_meeting = Int32.Parse(result["SUM_id_meeting"].ToString());
-                }
-                catch (Exception) { }
-                try
-                {
-                    m.id_company = Int32.Parse(result["SUM_id_company"].ToString());
-                }
-                catch (Exception) { }
-                meetings.Add(m);
-            }
-            conn.Close();
-
-            return meetings;
-        }
-
         public  Excel.Workbook Print_into_excel_file(List<Question> Questions, List<Meeting> attendedmeetings, string surveytable, string meetingtable,
             string sessiontable, string wstable)
         {
@@ -343,8 +168,8 @@ namespace SurveyDataExtractorGenerator
 
                 xl_General_Sheet.Cells[1, 1] = "Nombre de participants";
                 xl_General_Sheet.Cells[1, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
-                xl_General_Sheet.Cells[2, 1] = getNbParticipants(1, surveytable);
-                DataSet dsAnswers = getGeneralAnswers(1, surveytable);
+                xl_General_Sheet.Cells[2, 1] = getNbParticipants(PollId, surveytable);
+                DataSet dsAnswers = getGeneralAnswers(PollId, surveytable);
                 for (int j = 0; j <= Questions.Count - 1; j++)
                 {
                     Question q = Questions[j];
@@ -516,11 +341,6 @@ namespace SurveyDataExtractorGenerator
         public Excel.Workbook Print_into_excel_file2(List<Question> Questions, string surveytable, string meetingtable, string sessiontable, string wstable,
             List<Meeting> Meetings, List<Atelier> sessionAtelier, List<Atelier> wsAtelier)
         {
-            int position = 3;
-            int meetingpos = 1;
-            int sessionpos = 1;
-            int wspos = 1;
-
             var _excel = new Excel.Application();
             var wb = _excel.Workbooks.Add();
             try
@@ -549,13 +369,13 @@ namespace SurveyDataExtractorGenerator
 
                 xl_General_Sheet.Cells[1, 1] = "Nombre de participants";
                 xl_General_Sheet.Cells[1, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
-                xl_General_Sheet.Cells[2, 1] = getNbParticipants(1, surveytable);
+                xl_General_Sheet.Cells[2, 1] = getNbParticipants(PollId, surveytable);
 
                 for (int j = 0; j < Questions.Count; j++)
                 {
 
                     Question q = Questions[j];
-                    if (q.ChoiceCount > 0)
+                    if (isPredifinedChoices(q))
                     {
                         xl_General_Sheet.Cells[position, 1] = q.Label;
                         xl_General_Sheet.Cells[position, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
@@ -569,7 +389,7 @@ namespace SurveyDataExtractorGenerator
                         for (i = 0; i <= Choices.Count - 1; i++)
                         {
 
-                            int nbreponse = NumberResponse_GeneralQuestion(surveytable, q.Column, Choices[i].Label);
+                            int nbreponse = DataExtractionUtils.NumberResponse_GeneralQuestion(surveytable, q.Column, Choices[i].Label);
                             xl_General_Sheet.Cells[position, i + 2] = Choices[i].Label;
                             xl_General_Sheet.Cells[position, i + 2].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
                             xl_General_Sheet.Columns.AutoFit();
@@ -595,13 +415,18 @@ namespace SurveyDataExtractorGenerator
                     xl_Meeting_Sheet.Cells[meetingpos, 1] = guests;
                     xl_Meeting_Sheet.Cells[meetingpos, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
                     xl_Meeting_Sheet.Columns.AutoFit();
+                    int nbquestion = 0;
                     for (int j = 0; j < Questions.Count; j++)
                     {
                         Question q = Questions[j];
+                        
                         if (q.Category.Equals("Meeting"))
+                        {
                             drawQuestions(q, meetingpos + 1, xl_Meeting_Sheet, meeting.guests, 0, meetingtable, "", "");
+                            nbquestion++;
+                        }
                     }
-                    meetingpos = meetingpos + 4;
+                    meetingpos = meetingpos + 4* nbquestion;
                 }
 
                 for (int d = 0; d <= sessionAtelier.Count - 1; d++)
@@ -610,13 +435,19 @@ namespace SurveyDataExtractorGenerator
                     xl_Session_Sheet.Cells[sessionpos, 1] = session.theme;
                     xl_Session_Sheet.Cells[sessionpos, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
                     xl_Session_Sheet.Columns.AutoFit();
+                    int nbquestion = 0;
                     for (int j = 0; j < Questions.Count; j++)
                     {
                         Question q = Questions[j];
+                        
                         if (q.Category.Equals("Activity"))
-                            drawQuestions(q, sessionpos + 1, xl_Session_Sheet, null, session.id_atelier, "", sessiontable, "");
+                        {
+                            drawQuestions(q, sessionpos + 1, xl_Session_Sheet, null, session.id_atelier, "",
+                                sessiontable, "");
+                            nbquestion++;
+                        }
                     }
-                    sessionpos = sessionpos + 4;
+                    sessionpos = sessionpos + 4 * nbquestion;
                 }
 
                 for (int d = 0; d <= wsAtelier.Count - 1; d++)
@@ -625,23 +456,32 @@ namespace SurveyDataExtractorGenerator
                     xl_Workshop_Sheet.Cells[wspos, 1] = workshop.theme;
                     xl_Workshop_Sheet.Cells[wspos, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
                     xl_Workshop_Sheet.Columns.AutoFit();
+                    int nbquestion = 0;
                     for (int j = 0; j < Questions.Count; j++)
                     {
                         Question q = Questions[j];
                         if (q.Category.Equals("Workshop"))
+                        {
                             drawQuestions(q, wspos + 1, xl_Workshop_Sheet, null, workshop.id_atelier, "", "", wstable);
+                            nbquestion++;
+                        }
                     }
-                    wspos = wspos + 4;
+                    wspos = wspos + 4* nbquestion;
                 }
                 wb.Worksheets[5].delete();
-               
             }
-
             finally
             {
                 Marshal.ReleaseComObject(_excel);
             }
             return wb;
+        }
+
+        private bool isPredifinedChoices(Question question)
+        {
+            return question.ControlType.Equals("DropDownList") ||
+                   question.ControlType.Equals("RadioButtonList") ||
+                   question.ControlType.Equals("CheckBoxList");
         }
 
         private void drawQuestions(Question q, int position, Excel.Worksheet xlWorkSheet, List<Person> guests, int id_atelier
@@ -654,7 +494,7 @@ namespace SurveyDataExtractorGenerator
             for (int s = 0; s <= subQuestions.Count - 1; s++)
             {
                 Question qq = subQuestions[s];
-                if (qq.ChoiceCount > 0)
+                if (isPredifinedChoices(qq))
                 {
 
                     xlWorkSheet.Cells[position, 1] = qq.Label;
@@ -672,13 +512,13 @@ namespace SurveyDataExtractorGenerator
                         int nbreponse = 0;
                         if (qq.Category.Equals("Meeting"))
                             foreach (Person p in guests)
-                                nbreponse += NumberResponse(meetingtable, qq.Column, Choices2[i].Label, qq.Category, 0, p.Id);
+                                nbreponse += DataExtractionUtils.NumberResponse(meetingtable, qq.Column, Choices2[i].Label, qq.Category, 0, p.Id);
                         else
                           if (qq.Category.Equals("Activity"))
-                            nbreponse += NumberResponse(sessiontable, qq.Column, Choices2[i].Label, qq.Category, id_atelier, 0);
+                            nbreponse += DataExtractionUtils.NumberResponse(sessiontable, qq.Column, Choices2[i].Label, qq.Category, id_atelier, 0);
                         else
                               if (qq.Category.Equals("Workshop"))
-                            nbreponse += NumberResponse(wstable, qq.Column, Choices2[i].Label, qq.Category, id_atelier, 0);
+                            nbreponse += DataExtractionUtils.NumberResponse(wstable, qq.Column, Choices2[i].Label, qq.Category, id_atelier, 0);
 
                         xlWorkSheet.Cells[position, i + 2] = Choices2[i].Label;
                         xlWorkSheet.Cells[position, i + 2].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
@@ -694,7 +534,7 @@ namespace SurveyDataExtractorGenerator
                     xlWorkSheet.Columns.AutoFit();
                     xlWorkSheet.Cells[position + 1, i + 1] = cpt;
                     cpt = 0;
-
+                    position += 4;
                 }
             }
         }

@@ -25,7 +25,9 @@ namespace Widgets
         public static string SurveyFormSaveButtonText = ConfigurationManager.AppSettings["saveButtonText"];
         public static string SurveyPath = ConfigurationManager.AppSettings["surveyPath"];
         public static string CssFile = ConfigurationManager.AppSettings["cssFile"];
+        public static string JsFile = ConfigurationManager.AppSettings["jsFile"];
         public static AuthentificationType DefaultAuthType = (AuthentificationType)int.Parse(ConfigurationManager.AppSettings["authType"]);
+        public static int DeletionWaitTime = int.Parse(ConfigurationManager.AppSettings["fileDeletionSleepTime"]);
 
         public string UserSurveyFileName { get; set; }
         public string UserDashboardFileName { get; set; }
@@ -43,5 +45,6 @@ namespace Widgets
         public bool UserNotGenerateDashboard { get; set; }
         public bool UserDisableDataExtraction { get; set; }
         public string UserCssFile { get; set; }
+        public string UserJsFile { get; set; }
     }
 }

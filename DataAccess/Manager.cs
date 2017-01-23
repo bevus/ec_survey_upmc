@@ -70,9 +70,9 @@ namespace DataAccess
             dataBaseConnection.Close();
             poll.Questions = this.getQuestions(poll.Id);
             poll.Questions.Sort((q1, q2) => q1.Order.CompareTo(q2.Order));
-            poll.Meetings = getMeetings(poll.Id, idPerson);
-            poll.Sessions = getSessions(poll.Id, idPerson);
-            poll.Workshops = getWorkshops(poll.Id, idPerson);
+            poll.Meetings = getMeetings(poll.EventId, idPerson);
+            poll.Sessions = getSessions(poll.EventId, idPerson);
+            poll.Workshops = getWorkshops(poll.EventId, idPerson);
             poll.Blocks = getBlocks(poll.Id);
             return poll;
         }

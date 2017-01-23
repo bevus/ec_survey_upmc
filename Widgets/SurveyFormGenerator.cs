@@ -22,6 +22,7 @@ namespace SurveyFormGenerator
         public FormGenerator(string surveysDirectory, Poll poll, FormGenerationSettings settings)
         {
             if(poll == null) { throw new Exception("poll is null");}
+            if(poll.Questions.Count == 0) { throw new Exception("no quetions in poll");}
             SurveysDirectory = surveysDirectory;
             Poll = poll;
             this.settings = settings;
@@ -72,6 +73,7 @@ MasterPageFile=""../SurveyMasterPage.master""%>
         <script src=""../scripts/bootstrap.js""></script>
         <script src=""../scripts/jquery.validation_1.15.0_additional-methods.js""></script>
         <script src=""../scripts/textcounter.min.js""></script>
+        <script src=""{settings.UserJsFile}""></script>
     </asp:Content>
     <asp:Content runat=""server"" contentplaceholderid=""surveyFormPlaceHolder"">
         <h1 class=""page-header"">{Poll.Name}</h1>

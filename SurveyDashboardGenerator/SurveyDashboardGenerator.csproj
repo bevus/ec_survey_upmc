@@ -69,6 +69,10 @@
       <Project>{00b2eee1-70cd-464d-8716-7aedca736d17}</Project>
       <Name>SurveyModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Widgets\SurveyFormGenerator.csproj">
+      <Project>{2f18b714-5f01-46b2-aac4-f3b9095c8a0e}</Project>
+      <Name>SurveyFormGenerator</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

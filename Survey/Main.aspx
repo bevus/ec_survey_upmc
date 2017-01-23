@@ -147,11 +147,11 @@
                             <asp:TextBox ID="characterCounterText" CssClass="form-control" runat="server"></asp:TextBox>
                             <asp:Label ID="_characterCounterText" runat="server" Visible="false" CssClass="has-error"></asp:Label>
                         </div>
-                        <%--<div class="form-group col-md-5 col-md-offset-2">
-                            <label class="control-label" for="">Css file name</label>
-                            <asp:TextBox ID="TextBox2" CssClass="form-control" runat="server"></asp:TextBox>
-                            <asp:Label ID="Label2" runat="server" Visible="false" CssClass="has-error"></asp:Label>
-                        </div>--%>
+                        <div class="form-group col-md-5 col-md-offset-2">
+                            <label class="control-label" for="">Custom Javascrip file name</label>
+                            <asp:TextBox ID="jsFileName" CssClass="form-control" runat="server"></asp:TextBox>
+                            <asp:Label ID="_jsFileName" runat="server" Visible="false" CssClass="has-error"></asp:Label>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-5">
