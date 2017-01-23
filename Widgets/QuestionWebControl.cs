@@ -53,7 +53,7 @@ $@"<div class=""row question"">
             </span>
             <br/>
         </Label>
-            <div class=""col-md-10"">");
+            <div class=""col-md-12"">");
             Control.CssClass = "QuestionControl " + Question.ControlType + " " + (Question.IsMandatory ? "Mandatory" : "");
             Control.Attributes.Add("data-max", Question.MaxSize.ToString());
             Control.Attributes.Add("data-nbChoices", Question.ChoiceCount.ToString());

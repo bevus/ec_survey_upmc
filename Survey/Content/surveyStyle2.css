@@ -3,7 +3,7 @@
 
 .question {
     padding: 0;
-    margin: 5px 0;
+    margin: 5px 0 20px 0;
     /*box-shadow: 0 0 2px 0;*/
 }
 .question-number {
@@ -15,22 +15,24 @@
 
 .question-number, .question-text {
     font-size: 1.3em;
-    color: #99cf16;
+    color: #FF8800;
     font-weight: 700;
 }
 .sub-block-title {
     margin-left: 20px;
     font-size: 1em;
     font-weight: 700;
-    color: #99cf16;
+    color: #FF8800;
 }
 .question input {
     margin: 0 5px 0 10px;
 }
 
 .question-block{
+
 }
 .question-block .question-block-title{
+
 }
 .has-error {
     color: #ff0000;
@@ -42,6 +44,7 @@ label.has-error, .server-control {
 .saveButton {
     margin-left: 15px;
 }
+
 .selectablePoll {
     color: #fff;
     background: #99CF16;
