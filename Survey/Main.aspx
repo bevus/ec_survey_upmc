@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link rel="stylesheet" href="Content/bootstrap.min.css"/>
-    <link rel="stylesheet" href="Content/surveyStyle.css"/>
+    <link rel="stylesheet" href="Content/mainStyle.css"/>
     <script src="scripts/jquery-3.1.1.js"></script>
     <script src="scripts/bootstrap.js"></script>
     <style type="text/css">
@@ -79,7 +79,7 @@
                             <label class="control-label" for="">Authentification Type</label>
                             <asp:DropDownList ID="authType" CssClass="form-control" runat="server">
                                 <asp:ListItem value='<% = (int)AuthentificationType.IdInUrl %>'> id in url </asp:ListItem>
-                                <asp:ListItem value='<% = (int)AuthentificationType.HashedIdinUrl %>'> hashed id in url </asp:ListItem>
+                                <asp:ListItem value='<% = (int)AuthentificationType.HachedIdinUrl %>'> hached id in url </asp:ListItem>
                                 <asp:ListItem value='<% = (int)AuthentificationType.IdInSession %>'> id in session </asp:ListItem>
                             </asp:DropDownList>
                             <asp:Label ID="_authType" runat="server" Visible="false" CssClass="has-error"></asp:Label>

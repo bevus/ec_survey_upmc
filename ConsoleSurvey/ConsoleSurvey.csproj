@@ -55,6 +55,10 @@
       <Project>{2d95c973-2805-4484-90d7-06cd490adee6}</Project>
       <Name>DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SurveyDataExtraction\SurveyDataExtraction.csproj">
+      <Project>{dc866598-a99c-43ce-be65-38fd2e60ec9f}</Project>
+      <Name>SurveyDataExtraction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SurveyModel\SurveyModel.csproj">
       <Project>{00b2eee1-70cd-464d-8716-7aedca736d17}</Project>
       <Name>SurveyModel</Name>

@@ -1,5 +1,6 @@
 ﻿using DataAccess;
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
 using SurveyDashboardGenerator;
@@ -39,11 +40,11 @@ namespace survey
                         dUrl = FormGenerationSettings.SurveyPath + dashboardGenerator.GenerateDashboard();
                     }
                     if (settings.UserAuthType == AuthentificationType.IdInUrl ||
-                        settings.UserAuthType == AuthentificationType.HashedIdinUrl)
+                        settings.UserAuthType == AuthentificationType.HachedIdInUrl)
                     {
                         sUrl += "?" + settings.UserPersonIdArg + "=";
                     }
-                    Response.Redirect($@"{FormGenerationSettings.EndGenerationUrl}?pollName={poll.Name}&dUrl={dUrl}&sUrl={sUrl}&authMod={(int)settings.UserAuthType}&argName={settings.UserPersonIdArg}");
+                    Response.Redirect($@"{FormGenerationSettings.EndGenerationUrl}?pollId={poll.Id}&pollName={poll.Name}&dUrl={dUrl}&sUrl={sUrl}&authMod={(int)settings.UserAuthType}&argName={settings.UserPersonIdArg}");
                 }
             }
             else
@@ -57,49 +58,73 @@ namespace survey
 
         }
 
+        private bool check(Label errorLabel, Func<bool> cond, string errorMessage)
+        {
+            if (cond())
+            {
+                errorLabel.Text = errorMessage;
+                errorLabel.Visible = true;
+                return false;
+            }
+            else
+            {
+                errorLabel.Text = string.Empty;
+                errorLabel.Visible = true;
+                return true;
+            }
+        }
         protected bool isValid()
         {
             var identifierErrorText = "invalide file name : must contain only alphabetic characters or digits, must start with an alphabetic character and less than 50 characters";
+            var noPollSelected = "no poll selected";
+            var fileExists = "there is already a file with the same name, please choose a different name";
+            var authTypeError = "invalide authentification type";
+            var sameNameError = "survey form and dashboard can not have the same name";
+
             var valid = true;
-            if (!Regex.IsMatch(surveyFileName.Text, "^[_a-zA-Z][_a-zA-Z0-9]{0,50}$"))
+            
+            valid = check(_surveyFileName,
+            () => !Regex.IsMatch(surveyFileName.Text, "^[_a-zA-Z][_a-zA-Z0-9]{0,50}$"),
+            identifierErrorText);
+
+            if (valid)
             {
-                _surveyFileName.Text = identifierErrorText;
-                _surveyFileName.Visible = true;
-                valid = false;
+                valid = check(_surveyFileName, 
+                () => surveyFileName.Text.Equals(dashboardFileName.Text),
+                sameNameError);
             }
-            else
+
+            if (valid)
             {
-                _surveyFileName.Visible = false;
+                valid = check(_surveyFileName,
+                () => File.Exists(Page.MapPath(FormGenerationSettings.SurveyPath + surveyFileName.Text + ".aspx")),
+                fileExists);
             }
-            if (!Regex.IsMatch(dashboardFileName.Text, @"^[_a-zA-Z][_a-zA-Z0-9]{0,50}$"))
+
+            if (valid)
             {
-                _dashboardFileName.Text = identifierErrorText;
-                _dashboardFileName.Visible = true;
-                valid = false;
+                valid = check(_dashboardFileName,
+                () => File.Exists(Page.MapPath(FormGenerationSettings.SurveyPath + dashboardFileName.Text + ".aspx")),
+                fileExists);
             }
-            else
+
+            if (valid)
             {
-                _dashboardFileName.Visible = false;
+                valid = check(_dashboardFileName,
+                () => !Regex.IsMatch(dashboardFileName.Text, @"^[_a-zA-Z][_a-zA-Z0-9]{0,50}$"),
+                identifierErrorText);
             }
-            if (authType.SelectedIndex < 0 || authType.SelectedIndex > 2)
+            if (valid)
             {
-                _authType.Text = "invalide authentification type";
-                _authType.Visible = true;
-                valid = false;
+                valid = check(_authType,
+                () => authType.SelectedIndex < 0 || authType.SelectedIndex > 2,
+                authTypeError);
             }
-            else
+            if (valid)
             {
-                _authType.Visible = false;
-            }
-            if (!Regex.IsMatch(personIdArg.Text, @"^[_a-zA-Z][_a-zA-Z0-9]{0,20}$"))
-            {
-                _personIdArg.Text = identifierErrorText;
-                _personIdArg.Visible = true;
-                valid = false;
-            }
-            else
-            {
-                _personIdArg.Visible = false;
+                valid = check(_personIdArg,
+                () => !Regex.IsMatch(personIdArg.Text, @"^[_a-zA-Z][_a-zA-Z0-9]{0,20}$"),
+                identifierErrorText);
             }
             try
             {
@@ -108,7 +133,7 @@ namespace survey
             }
             catch (Exception)
             {
-                _pollId.Text = "no poll selected";
+                _pollId.Text = noPollSelected;
                 _pollId.Visible = true;
                 valid = false;
             }

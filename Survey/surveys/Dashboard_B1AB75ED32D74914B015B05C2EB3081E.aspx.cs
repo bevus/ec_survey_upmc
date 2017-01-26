@@ -112,7 +112,7 @@ namespace Dashboard_B1AB75ED32D74914B015B05C2EB3081E
         }
          // Excel
         
-        protected void ExtractDataWithDetails(object sender, EventArgs e)
+        protected void ExtractDataStatistics(object sender, EventArgs e)
         {
             var manager = new Manager();
 
@@ -142,7 +142,7 @@ namespace Dashboard_B1AB75ED32D74914B015B05C2EB3081E
             DataExtractionUtils.DeleteGeneratedFile(fullPath, 2000);
             Response.Redirect(fullPath);
         }
-        protected void ExtractDataWithStatistics(object sender, EventArgs e)
+        protected void ExtractRawData(object sender, EventArgs e)
         {
 
             var dataextraction = new SurveyDataExtractor{

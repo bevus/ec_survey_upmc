@@ -53,9 +53,9 @@ namespace SurveyFormGenerator
                 Server server = new Server(new ServerConnection(connexion));
                 server.ConnectionContext.ExecuteNonQuery(script);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                throw e;
             }
             connexion.Close();
         }
@@ -74,15 +74,53 @@ MasterPageFile=""../SurveyMasterPage.master""%>
         <script src=""../scripts/jquery.validation_1.15.0_additional-methods.js""></script>
         <script src=""../scripts/textcounter.min.js""></script>
         <script src=""{settings.UserJsFile}""></script>
+        <style>
+            #toast {{
+                margin-left: -100px; 
+                background-color: #999; 
+                color: #fff; 
+                width: 200px;
+                text-align: center; 
+                border-radius: 2px; 
+                padding: 20px 0px; 
+                position: fixed; 
+                z-index: 1; 
+                left: 50%; 
+                bottom: 30px; 
+                box-shadow: 0 0px 5px 0 #eee;
+            }}
+        </style>
     </asp:Content>
     <asp:Content runat=""server"" contentplaceholderid=""surveyFormPlaceHolder"">
-        <h1 class=""page-header"">{Poll.Name}</h1>
-        <form id=""{FormGenerationSettings.SurveyFormId}"" runat=""server"">
+        <h1 class=""page-header surveyName"">{Poll.Name}</h1>
+        <form class=""surveyForm"" id=""{FormGenerationSettings.SurveyFormId}"" runat=""server"">
             <div id=""{FormGenerationSettings.QuestionContainerId}"" runat=""server"">
             </div>
         </form>
+        <% if (showTaost){{ %>
+        <div id=""toast"">
+            <i class=""glyphicon glyphicon-saved""></i> {FormGenerationSettings.ToastSaveText}
+        </div>
+        <% }} %>
         <script>
-        $(function () {{
+            function showToast() {{
+                $(""#toast"").fadeIn(200);
+            }}
+
+            function hideToast(parameters) {{
+                $(""#toast"").fadeOut(200);
+            }}
+            $(function () {{
+                <% if (showTaost){{ %>
+                setTimeout(hideToast, 1500);
+            <% }} %>
+            $(""textarea"").addClass(""form-control"");
+            $(""select, input[type=text], input[type=datetime], input[type=date], input[type=email], input[type=telephone], input[type=password], input[type=number]"").addClass(""form-control"");
+            $(""form input[type=submit]"").wrapAll('<div class=""col-md-12"" id=""buttons""/>');
+            $(""#buttons"").wrapAll('<div class=""row""/>')
+            $.each($(""input[type=radio], input[type=checkbox]""), function (i, e) {{
+                $(e).add($(""label[for='"" + e.id + ""']"")).wrapAll('<div class=""choice""/>');
+            }});
             $.each($(""textarea.QuestionControl.CommentsBox""),
             function(i, e) {{
                 $(e)
@@ -156,7 +194,7 @@ MasterPageFile=""../SurveyMasterPage.master""%>
                 case AuthentificationType.IdInUrl:
                     getPersonId += $@"int.Parse(Request.QueryString[""{settings.UserPersonIdArg}""]);";
                     break;
-                case AuthentificationType.HashedIdinUrl:
+                case AuthentificationType.HachedIdInUrl:
                     getPersonId += $@"Manager.GetHashedId(Request.QueryString[""{settings.UserPersonIdArg}""], PollId);";
                     break;
                 case AuthentificationType.IdInSession:
@@ -182,6 +220,7 @@ namespace Survey.surveys
         private Poll _poll;
         private int _personId;
         private const string ExternalId = ""{Poll.ExternalId}"";
+        public bool showTaost = false;
         private readonly FormGenerationSettings settings = new FormGenerationSettings
         {{
             UserSurveyFileName = ""{settings.UserSurveyFileName}"",
@@ -243,13 +282,14 @@ namespace Survey.surveys
 
         protected void Page_Load(object sender, EventArgs e)
         {{
-            
+            showTaost = false;
         }}
         protected void saveAnswers(object sender, EventArgs e)
         {{
             var time = DateTime.Now;
             Manager.SaveAnswer(SurveyUtils.QuestionsWebControlToQuestions(_questionControls), _poll, ExternalId, _personId, time);
-            Response.Redirect(""{FormGenerationSettings.SavedPage}"");
+            //Response.Redirect(""pages/saved.aspx"");
+            showTaost = true;
         }}
         protected void submitAnswers(object sender, EventArgs e)
 		{{
@@ -344,6 +384,22 @@ namespace Survey.surveys {{
             }
             
             var i_general = $@"
+IF OBJECT_ID('empty_survey_{Poll.ExternalId}', 'P') IS NOT NULL
+DROP PROC empty_survey_{Poll.ExternalId}
+GO
+CREATE PROCEDURE empty_survey_{Poll.ExternalId}
+as
+begin
+	delete from POLL_SURVEY WHERE POLL_SURVEY.SUR_id_poll = {Poll.Id};
+	truncate table {Poll.TableName};
+	truncate table {Poll.TableMeetingName};
+	truncate table {Poll.TableSessionName};
+	truncate table {Poll.TableWsName};
+end
+GO
+IF OBJECT_ID('I{Poll.ExternalId}', 'P') IS NOT NULL
+DROP PROC I{Poll.ExternalId}
+GO
 CREATE PROCEDURE I{Poll.ExternalId}
 (
     @person_id int,
@@ -361,6 +417,9 @@ WHERE id_person = @person_id
 ";
 
             var i_session = $@"
+IF OBJECT_ID('I_SESSION_{Poll.ExternalId}', 'P') IS NOT NULL
+DROP PROC I_SESSION_{Poll.ExternalId}
+GO
 CREATE PROCEDURE I_SESSION_{Poll.ExternalId}
 (
 	@id_survey int,
@@ -403,6 +462,9 @@ WHERE
 	SUB_id_atelier = @id_atelier
 ";
             var i_meeting = $@"
+IF OBJECT_ID('I_MEETING_{Poll.ExternalId}', 'P') IS NOT NULL
+DROP PROC I_MEETING_{Poll.ExternalId}
+GO
 CREATE PROCEDURE I_MEETING_{Poll.ExternalId}
 (
     @id_survey int,
@@ -449,6 +511,9 @@ WHERE
 ";
 
             var i_ws = $@"
+IF OBJECT_ID('I_WS_{Poll.ExternalId}', 'P') IS NOT NULL
+DROP PROC I_WS_{Poll.ExternalId}
+GO
 CREATE PROCEDURE I_WS_{Poll.ExternalId}
 (
     @id_survey int,

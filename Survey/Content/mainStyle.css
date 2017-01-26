@@ -1,0 +1,21 @@
+﻿body {
+
+}
+
+.selectablePoll {
+    color: #fff;
+    background: #555;
+}
+.selectablePoll:hover {
+    color: #e1f1b9;
+    background: #76AC00;
+    cursor: pointer;
+}
+table thead {
+    background: #00ac15;
+    color: #e1f1b9;
+    font-weight: 800;
+}
+.has-error {
+    color: #b22222;
+}

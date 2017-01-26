@@ -16,6 +16,7 @@ namespace Survey.surveys
         private Poll _poll;
         private int _personId;
         private const string ExternalId = "B1AB75ED32D74914B015B05C2EB3081E";
+        public bool showTaost = false;
         private readonly FormGenerationSettings settings = new FormGenerationSettings
         {
             UserSurveyFileName = "Survey_B1AB75ED32D74914B015B05C2EB3081E",
@@ -77,13 +78,14 @@ namespace Survey.surveys
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            showTaost = false;
         }
         protected void saveAnswers(object sender, EventArgs e)
         {
             var time = DateTime.Now;
             Manager.SaveAnswer(SurveyUtils.QuestionsWebControlToQuestions(_questionControls), _poll, ExternalId, _personId, time);
-            Response.Redirect("pages/saved.aspx");
+            //Response.Redirect("pages/saved.aspx");
+            showTaost = true;
         }
         protected void submitAnswers(object sender, EventArgs e)
 		{

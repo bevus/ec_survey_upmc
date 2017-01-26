@@ -8,7 +8,6 @@ namespace Widgets
     [ToolboxData("<{0}:QuestionWebControl runat=server></{0}:QuestionWebControl>")]
     public class QuestionWebControl : CompositeControl
     {
-        private static int _questionCount = 0;
         public Question Question { get; }
 
         public QuestionWebControl(Question q)
@@ -53,7 +52,7 @@ $@"<div class=""row question"">
             </span>
             <br/>
         </Label>
-            <div class=""col-md-12"">");
+            <div class=""col-md-12 questionControl"">");
             Control.CssClass = "QuestionControl " + Question.ControlType + " " + (Question.IsMandatory ? "Mandatory" : "");
             Control.Attributes.Add("data-max", Question.MaxSize.ToString());
             Control.Attributes.Add("data-nbChoices", Question.ChoiceCount.ToString());

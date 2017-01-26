@@ -169,18 +169,44 @@ function drawQuestionsVisualisation(data, idElement) {
             }
         }
         else if (data[i]["qCategory"] === "Workshop") {
-            for (k = 0; k < data[i]["rep"].length; k++) {
-                if (data[i]["rep"][k]["wsrep"].length !== 0) {
-                    for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
+            if (data[i]["type"] === "RadioButtonList" || data[i]["type"] === "DropDownList") {
+                for (k = 0; k < data[i]["rep"].length; k++) {
+                    if (data[i]["rep"][k]["wsrep"].length !== 0) {
+                        for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                            drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"],
+                                "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"],
+                                data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                        }
                     }
                 }
+            } else if (data[i]["type"] === "CheckBoxList") {
+                for (k = 0; k < data[i]["rep"].length; k++) {
+                    if (data[i]["rep"][k]["wsrep"].length !== 0) {
+                        for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                            drawVerticalvisChart(data[i]["rep"][k]["wsrep"][kk]["rep"],
+                                "ws" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"]);
+                        }
+                    }
+                }   
             }
         } else if (data[i]["qCategory"] === "Activity") {
-            for (k = 0; k < data[i]["rep"].length; k++) {
-                if (data[i]["rep"][k]["wsrep"].length !== 0) {
-                    for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
-                        drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"], "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"], data[i]["rep"][k]["wsrep"][kk]["theme"]);
+            if (data[i]["type"] === "RadioButtonList" || data[i]["type"] === "DropDownList") {
+                for (k = 0; k < data[i]["rep"].length; k++) {
+                    if (data[i]["rep"][k]["wsrep"].length !== 0) {
+                        for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                            drawDonutChart(data[i]["rep"][k]["wsrep"][kk]["rep"],
+                                "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"],
+                                data[i]["rep"][k]["wsrep"][kk]["theme"]);
+                        }
+                    }
+                }
+            }else if (data[i]["type"] === "CheckBoxList") {
+                for (k = 0; k < data[i]["rep"].length; k++) {
+                    if (data[i]["rep"][k]["wsrep"].length !== 0) {
+                        for (kk = 0; kk < data[i]["rep"][k]["wsrep"].length; kk++) {
+                            drawVerticalvisChart(data[i]["rep"][k]["wsrep"][kk]["rep"],
+                                "ss" + data[i]["rep"][k]["wsrep"][kk]["idevent"] + data[i]["rep"][k]["sqid"]);
+                        }
                     }
                 }
             }

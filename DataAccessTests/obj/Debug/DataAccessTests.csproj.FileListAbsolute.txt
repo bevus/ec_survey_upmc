@@ -1,0 +1,13 @@
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\DataAccessTests.dll.config
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\DataAccessTests.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\DataAccessTests.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\DataAccess.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\DataAccess.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\obj\Debug\DataAccessTests.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\obj\Debug\DataAccessTests.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\DataAccessTests\obj\Debug\DataAccessTests.pdb

@@ -1,9 +1,16 @@
-﻿body {
+﻿.saveButton {
+    margin-left: 15px;
 }
-
+body {
+}
+.surveyName {
+    color: #FF7900;
+    width: 100%;
+    padding: 10px;
+}
 .question {
     padding: 0;
-    margin: 5px 0 20px 0;
+    margin: 30px 0 30px 0;
     /*box-shadow: 0 0 2px 0;*/
 }
 .question-number {
@@ -15,42 +22,42 @@
 
 .question-number, .question-text {
     font-size: 1.3em;
-    color: #99cf16;
+    color: #FF7900;
     font-weight: 700;
 }
 .sub-block-title {
     margin-left: 20px;
     font-size: 1em;
     font-weight: 700;
-    color: #FF8800;
-}
-.question label  {
-    margin: 0 5px 0 10px;
-    color: #e1f1b9;
+    color: #FF7900;
 }
 .text-count-wrapper {
-    color: #e1f1b9;
+    color: #00A779;
 }
 .question-block{
     padding: 10px;
-    box-shadow: 0 0 10px 0 #eee;
+    box-shadow: 0 0 2px 0 #eee;
     margin: 20px 0 20px 0;
     border-radius: 2px;
-    background: #555;
+    background: #ffffff;
 
 }
 .question-block .question-block-title{
     margin-top: 0; 
-    color: #e1f1b9;
-    font-weight: 400;
+    color: #555;
+    font-weight: 600;
     display: inline-block;
     width: 100%;
     padding: 20px;
-    background: #99cf16;
+    background: #FF7100;
 }
-.has-error {
-    color: #ff0000;
-    font-weight: 600;
+.choice {
+    display: inline-block;
+    margin: 0 10px;
+}
+.choice label {
+    margin: 0 5px;
+    color: #00A779;
 }
 label.has-error, .server-control {
     display: block;
@@ -59,17 +66,18 @@ label.has-error, .server-control {
     margin-left: 15px;
 }
 
-.selectablePoll {
-    color: #fff;
-    background: #99CF16;
-    border-color: #76AC00;
+
+.btn {
+    border-radius: 0;
+    padding: 10px;
 }
-.selectablePoll:hover {
-    color: #fff;
-    background: #76AC00;
-    cursor: pointer;
+
+form.surveyForm {
+    background: #ffffff;
+    padding: 20px;
+    margin-bottom: 70px;
 }
-table thead {
-    background: #76AC00;
-    color: #fff;
+.has-error {
+    color: rgb(222, 22, 65);
+    font-weight: 600;
 }

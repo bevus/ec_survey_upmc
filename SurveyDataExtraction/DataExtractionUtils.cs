@@ -52,6 +52,19 @@ namespace SurveyDataExtraction
             return atelier;
         }
 
+        public static DataSet GetAnswersByColumn(string tableName, string columnName)
+        {
+            var conn = ConnexionClasse.getConnexion();
+            var commande = new SqlCommand("sel_answers", conn);
+            commande.CommandType = CommandType.StoredProcedure;
+            commande.Parameters.AddWithValue("@table", tableName);
+            commande.Parameters.AddWithValue("@column", columnName);
+            var sqlAdapter = new SqlDataAdapter(commande);
+            var dataSet = new DataSet();
+            sqlAdapter.Fill(dataSet);
+            return dataSet;
+        }
+
         public static List<Atelier> getWsAtelier(int poll_id, string table)
         {
             var atelier = new List<Atelier>();
@@ -128,7 +141,7 @@ namespace SurveyDataExtraction
                     nb = Int32.Parse(result["nb"].ToString());
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             }

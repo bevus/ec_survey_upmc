@@ -138,6 +138,14 @@ $@"
         {
             return
                 $@"<div class=""container-fluid"" id=""dashboard-content"">
+                    <div class=""container"" id=""dashboard-title"">
+                        <div class=""row"">
+                            <div class=""col-md-12"">
+                                <p class=""well"">{Poll.Name} version of <span id=""current-date""></span></p>
+                                <hr/>
+                            </div>
+                        </div>
+                    </div>
                    <!-- contenue de Question -->
                    <div class=""container"">
                        <div class=""row"" id=""questions"">
@@ -169,10 +177,9 @@ $@"
     google.load('visualization', '1', {{ packages: ['corechart'] }});
     var $listQ; var $idPoll ={ idPoll } ;
     $(function() {{
-            sendAjaxRequest($idPoll,""{Dashbord_name}.aspx/getQuestions"");
-    }});
-    $(function () {{
-        sendDataAtelierQuestions($idPoll, 'workshop', ""{Dashbord_name}.aspx/getAtelierQuestions"")
+        sendAjaxRequest($idPoll,""{Dashbord_name}.aspx/getQuestions"");
+        sendDataAtelierQuestions($idPoll, 'workshop', ""{Dashbord_name}.aspx/getAtelierQuestions"");
+        $(""#current-date"").text(new Date());
     }});
 </script>";
         }
@@ -187,7 +194,7 @@ $@"
             if (AllowDataExtraction)
             {
                 ButtonCode = $@"
-        protected void ExtractDataWithDetails(object sender, EventArgs e)
+        protected void ExtractDataStatistics(object sender, EventArgs e)
         {{
             var manager = new Manager();
 
@@ -217,7 +224,7 @@ $@"
             DataExtractionUtils.DeleteGeneratedFile(fullPath, 2000);
             Response.Redirect(fullPath);
         }}
-        protected void ExtractDataWithStatistics(object sender, EventArgs e)
+        protected void ExtractRawData(object sender, EventArgs e)
         {{
 
             var dataextraction = new SurveyDataExtractor{{
@@ -408,7 +415,12 @@ $@"namespace {aspxcsFileName.Replace(".aspx.cs", "") } {{
                     <link href='css/bootstrap.min.css'  rel='stylesheet' />
                     <link href='css/new.css'  rel='stylesheet' />
                     <link href='css/nav.css'  rel='stylesheet' />
-                    <title> Dashboard </title>
+                    <title> Dashboard - {Poll.Name}</title>
+                    <style>
+                        body{{
+                            margin-top : 25px;      
+                        }}
+                    </style>
                 </head>";
         }
         public String GetNavHeader(String surveyName)
@@ -417,8 +429,8 @@ $@"namespace {aspxcsFileName.Replace(".aspx.cs", "") } {{
             if (AllowDataExtraction)
             {
                 ButtonExtraction = $@" 
-                                        <asp:Button ID = ""button1"" runat=""server"" class='btn btn-primary' OnClick=""ExtractDataWithDetails"" Text=""Excel"" />
-                                        <asp:Button ID = ""button2"" runat=""server"" class='btn btn-primary' OnClick=""ExtractDataWithStatistics"" Text=""ExcelStat"" />
+                                        <asp:Button ID = ""button1"" runat=""server"" class='btn btn-primary' OnClick=""ExtractDataStatistics"" Text=""Statistics"" />
+                                        <asp:Button ID = ""button2"" runat=""server"" class='btn btn-primary' OnClick=""ExtractRawData"" Text=""Raw data"" />
                                         <button id = 'toPdf' type='button' class='btn btn-primary'>Pdf</button>";
             }
 

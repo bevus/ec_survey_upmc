@@ -4,6 +4,7 @@
         a4 = [500, 800]; var $dashbord = $("#dashboard-content");
 
         $('#toPdf').click(function () {
+            $("#current-date").text(new Date());
             $('body').scrollTop(10);
             $dashbord.find('svg').each(function () {
                 var canvas, xml;
@@ -43,8 +44,7 @@
             pdf.addImage(img, 'JPEG', 0, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
         }
-
-        pdf.save('html-to-pdf.pdf');
+        pdf.save('dashboard_' + new Date().getTime() + '.pdf');
         document.body.removeChild(canvasObj);
 
     }

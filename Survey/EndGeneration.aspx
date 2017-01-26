@@ -16,7 +16,7 @@
             case AuthentificationType.IdInUrl:
                 url += personId.Text;
                 break;
-            case AuthentificationType.HashedIdinUrl:
+            case AuthentificationType.HachedIdInUrl:
                 url += personId.Text;
                 break;
             case AuthentificationType.IdInSession:
@@ -46,8 +46,8 @@
             case AuthentificationType.IdInUrl:
                 idLabel.Text = Request.QueryString["argName"] + " (id in url)";
                 break;
-            case AuthentificationType.HashedIdinUrl:
-                idLabel.Text = Request.QueryString["argName"] + " (hashed id in url)";
+            case AuthentificationType.HachedIdInUrl:
+                idLabel.Text = Request.QueryString["argName"] + " (hached id in url)";
                 break;
             case AuthentificationType.IdInSession:
                 idLabel.Text = Request.QueryString["argName"] + " (id in session)";

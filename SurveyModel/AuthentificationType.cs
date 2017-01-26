@@ -2,6 +2,6 @@
 {
     public enum AuthentificationType
     {
-        IdInUrl = 0, HashedIdinUrl = 1, IdInSession = 2
+        IdInUrl = 0, HachedIdInUrl = 1, IdInSession = 2
     }
 }

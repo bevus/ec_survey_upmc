@@ -188,49 +188,51 @@ namespace SurveyDashboardGenerator
                 case "DropDownList":
                     foreach (int num_atelier in listAtelier.Keys)
                     {
-                        var d = new List<object>();
-                        d.Add(new List<object> { "label", "data" });
+                        var dd = new List<object>();
+                        dd.Add(new List<object> { "label", "data" });
                         var x = 0;
                         var att = 0;
                         foreach (Choice c in q.Choices)
                         {
                             att = NumberResponseWS(q.Column, c.Label, num_atelier, table_name);
                             x += att;
-                            d.Add(new List<object> { c.Label, att });
+                            dd.Add(new List<object> { c.Label, att });
                         }
                         if (x != 0)
                         { 
-                            atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d });
+                            atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = dd });
                         }
                     }
                     break;
                 case "RadioButtonList":
                     foreach (int num_atelier in listAtelier.Keys)
                     {
-                        var d = new List<object>();
-                        d.Add(new List<object> { "label", "data" });
+                        var da = new List<object>();
+                        da.Add(new List<object> { "label", "data" });
                         var x = 0;
                         var att = 0;
                         foreach (Choice c in q.Choices)
                         {
                             att = NumberResponseWS(q.Column, c.Label, num_atelier, table_name);
                             x += att;
-                            d.Add(new List<object> { c.Label, att });
+                            da.Add(new List<object> { c.Label, att });
                         }
                         if (x != 0)
                         {
-                            atelier.Add(new {theme= listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d });
+                            atelier.Add(new {theme= listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = da });
                         }
                     }
                     break;
                 case "CheckBoxList":
-                    //d = new List<object>();
-                    //foreach (Choice c in q.Choices)
-                    //{
-                    //    // d.Add(new object[] { c.Label, NumberResponseMultipleChoice(q.Column, c.Label) });
-                    //    // d.Add(new { label = c.Label, data = new int[]   { 10, NumberResponseMultipleChoice(q.Column, c.Label) } } );
-                    //}
-                    //atelier.Add( new { ques = q.Label.ToString(), type = q.ControlType, idq = q.Id, rep = d });
+                    foreach (int num_atelier in listAtelier.Keys)
+                    {
+                        var d = new List<object>();
+                        foreach (Choice c in q.Choices)
+                        {
+                            d.Add(new object[] { c.Label, NumberResponseMultipleChoiceWS(q.Column, c.Label, num_atelier, table_name) });
+                        }
+                        atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = d});
+                    }
                     break;
 
                 default:
@@ -273,6 +275,35 @@ namespace SurveyDashboardGenerator
             return nb;
 
         }
+
+        public int NumberResponseMultipleChoiceWS(String nomC, String label,int id_atelier, String table_name)
+        {
+            SqlConnection dataBaseConnection = ConnexionClasse.getConnexion();
+            dataBaseConnection.Open();
+            SqlCommand getNumberResponse = new SqlCommand("selReponseCheckBoxListWS", dataBaseConnection);
+            getNumberResponse.CommandType = CommandType.StoredProcedure;
+            getNumberResponse.Parameters.AddWithValue("@column", nomC);
+            getNumberResponse.Parameters.AddWithValue("@label", label);
+            getNumberResponse.Parameters.AddWithValue("@table_name", table_name);
+            getNumberResponse.Parameters.AddWithValue("@id_atelier", id_atelier);
+            var result = getNumberResponse.ExecuteReader();
+            var nb = 0;
+            while (result.Read())
+            {
+                try
+                {
+                    nb = Int32.Parse(result["nb"].ToString());
+                }
+                catch (Exception)
+                {
+                    dataBaseConnection.Close();
+                    throw new InvalidOperationException("invalide parse number !!");
+                }
+            }
+            dataBaseConnection.Close();
+            return nb;
+        }
+
         public Dictionary<int,String> Get_list_ws_atelier(int id_poll, String table_name)
         {
             SqlConnection dataBaseConnection = ConnexionClasse.getConnexion();
@@ -363,13 +394,15 @@ namespace SurveyDashboardGenerator
                     }
                     break;
                 case "CheckBoxList":
-                    //d = new List<object>();
-                    //foreach (Choice c in q.Choices)
-                    //{
-                    //    // d.Add(new object[] { c.Label, NumberResponseMultipleChoice(q.Column, c.Label) });
-                    //    // d.Add(new { label = c.Label, data = new int[]   { 10, NumberResponseMultipleChoice(q.Column, c.Label) } } );
-                    //}
-                    //atelier.Add( new { ques = q.Label.ToString(), type = q.ControlType, idq = q.Id, rep = d });
+                    foreach (int num_atelier in listAtelier.Keys)
+                    {
+                        var dd = new List<object>();
+                        foreach (Choice c in q.Choices)
+                        {
+                            dd.Add(new object[] { c.Label, NumberResponseMultipleChoiceWS(q.Column, c.Label, num_atelier, table_name) });
+                        }
+                        atelier.Add(new { theme = listAtelier[num_atelier], idevent = num_atelier, idq = q.Id, rep = dd});
+                    }
                     break;
 
                 default:

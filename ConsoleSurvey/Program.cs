@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using DataAccess;
+using SurveyDataExtraction;
 using SurveyModel;
 using Widgets;
 
@@ -13,7 +14,20 @@ namespace ConsoleSurvey
         private static void Main(string[] args)
         {
             var manager = new Manager();
-            var poll = manager.getPoll(6, 2302);
+            var poll = manager.getPoll(6);
+            foreach (var q in poll.Questions)
+            {
+                Console.WriteLine(q.Label);
+                if (q.Category == QuestionType.General)
+                {
+                    var dataSet = DataExtractionUtils.GetAnswersByColumn(poll.TableName, q.Column);
+                    for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+                    {
+                        Console.WriteLine(dataSet.Tables[0].Rows[i][q.Column]);
+                    }
+                }
+                Console.WriteLine();
+            }
             Console.WriteLine();
         }
 

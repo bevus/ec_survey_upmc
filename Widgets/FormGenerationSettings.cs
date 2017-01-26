@@ -28,6 +28,7 @@ namespace Widgets
         public static string JsFile = ConfigurationManager.AppSettings["jsFile"];
         public static AuthentificationType DefaultAuthType = (AuthentificationType)int.Parse(ConfigurationManager.AppSettings["authType"]);
         public static int DeletionWaitTime = int.Parse(ConfigurationManager.AppSettings["fileDeletionSleepTime"]);
+        public static string ToastSaveText = ConfigurationManager.AppSettings["saveToast"];
 
         public string UserSurveyFileName { get; set; }
         public string UserDashboardFileName { get; set; }

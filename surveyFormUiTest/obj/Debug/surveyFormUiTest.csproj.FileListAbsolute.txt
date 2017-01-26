@@ -1,5 +1,0 @@
-C:\Users\Hacene\Desktop\ec_survey_upmc\surveyFormUiTest\bin\Debug\surveyFormUiTest.dll
-C:\Users\Hacene\Desktop\ec_survey_upmc\surveyFormUiTest\bin\Debug\surveyFormUiTest.pdb
-C:\Users\Hacene\Desktop\ec_survey_upmc\surveyFormUiTest\obj\Debug\surveyFormUiTest.csprojResolveAssemblyReference.cache
-C:\Users\Hacene\Desktop\ec_survey_upmc\surveyFormUiTest\obj\Debug\surveyFormUiTest.dll
-C:\Users\Hacene\Desktop\ec_survey_upmc\surveyFormUiTest\obj\Debug\surveyFormUiTest.pdb

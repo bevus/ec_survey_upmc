@@ -1,0 +1,90 @@
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csc.exe
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csc.exe.config
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csc.rsp
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csi.exe
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csi.rsp
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CSharp.Core.targets
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.VisualBasic.Core.targets
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.AppContext.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.Collections.Immutable.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.Diagnostics.StackTrace.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.IO.FileSystem.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.IO.FileSystem.Primitives.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.Reflection.Metadata.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\vbc.exe
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\vbc.exe.config
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\vbc.rsp
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\VBCSCompiler.exe
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\roslyn\VBCSCompiler.exe.config
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGeneratorTests.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGeneratorTests.pdb
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\DataAccess.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGenerator.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\SurveyModel.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\DataAccess.pdb
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\SurveyModel.pdb
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGenerator.pdb
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\obj\Debug\SurveyDashboardGeneratorTests.csprojResolveAssemblyReference.cache
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\obj\Debug\SurveyDashboardGeneratorTests.dll
+F:\M2 UPMC\Pistl\Survey\SurveyDashboardGeneratorTests\obj\Debug\SurveyDashboardGeneratorTests.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csc.exe
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csc.exe.config
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csc.rsp
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csi.exe
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\csi.rsp
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.AppContext.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.Collections.Immutable.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.IO.FileSystem.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\System.Reflection.Metadata.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\vbc.exe
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\vbc.exe.config
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\vbc.rsp
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\VBCSCompiler.exe
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\roslyn\VBCSCompiler.exe.config
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGeneratorTests.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGeneratorTests.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\DataAccess.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGenerator.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyModel.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Widgets.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.SqlServer.Smo.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.SqlServer.ConnectionInfo.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.SqlServer.Management.Sdk.Sfc.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.SqlServer.SqlEnum.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.SqlServer.Dmf.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.SqlServer.ServiceBrokerEnum.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\DataAccess.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyModel.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGenerator.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\Widgets.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\fr\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\fr\Microsoft.SqlServer.Management.Sdk.Sfc.resources.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\fr\Microsoft.SqlServer.Dmf.resources.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\obj\Debug\SurveyDashboardGeneratorTests.csprojResolveAssemblyReference.cache
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\obj\Debug\SurveyDashboardGeneratorTests.dll
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\obj\Debug\SurveyDashboardGeneratorTests.pdb
+C:\Users\Hacene\Desktop\ec_survey_upmc\SurveyDashboardGeneratorTests\bin\Debug\SurveyDashboardGeneratorTests.dll.config
